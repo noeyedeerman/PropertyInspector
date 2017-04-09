@@ -15,6 +15,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CreateActivity"
+            android:label="@string/title_activity_create_activtiy"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SavedActivity"
+            android:label="@string/title_activity_saved"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

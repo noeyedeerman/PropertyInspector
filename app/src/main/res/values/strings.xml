@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PropertyInspector</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_create_activtiy">CreateActivtiy</string>
+    <string name="title_activity_saved">SavedActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 </resources>
