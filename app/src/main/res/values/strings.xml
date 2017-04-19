@@ -16,4 +16,23 @@
     <string name="splash_text">Find property on the go.</string>
 
     <string name="splash_button">Get started</string>
+
+
+    // Login page
+    <string name="signIn">Sign in</string>
+    <string name="signInSocialMedia">Sign in with your social account</string>
+    <string name="or">Or</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="createAccount">Create an Account</string>
+
+    // Drawer menu
+    <string name="userAccounts">User Accounts</string>
+    <string name="calendar">Calendar</string>
+    <string name="privacySettings">Privacy Settings</string>
+    <string name="alert">Alert</string>
+    <string name="settings">Settings</string>
+    <string name="helpAndSupport">Help and Support</string>
+    <string name="logout">Logout</string>
+
 </resources>
