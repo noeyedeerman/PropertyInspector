@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
+    tools:context="sit374_team17.propertyinspector.Fragment_CreateProperty">
+
+    <EditText
+        android:id="@+id/editText_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/address" />
+
+    <EditText
+        android:id="@+id/editText_bedrooms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/bedrooms" />
+
+    <EditText
+        android:id="@+id/editText_bathrooms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/bathrooms" />
+
+    <EditText
+        android:id="@+id/editText_garages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/garages" />
+
+    <EditText
+        android:id="@+id/editText_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/price" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"/>
+
+</LinearLayout>

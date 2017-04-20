@@ -7,6 +7,8 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,18 +27,23 @@ public class Fragment_Home extends Fragment {
     private RecyclerView mRecyclerView;
     private DataAdapter propertyAdapter;
 
+    private static boolean m_iAmVisible;
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        populateList();
+      //  populateList();
 
         initViews();
 
         propertyAdapter = new DataAdapter(populateList());
         mRecyclerView.setAdapter(propertyAdapter);
+
+        Log.d("HOME", "VISABLE");
 
       //  loadJSON();
 
@@ -48,9 +55,12 @@ public class Fragment_Home extends Fragment {
 
         for (int i = 1; i < 11; i++)
         {
-            Property property = new Property(i, "Property " + i, "");
+            Property property = new Property(i, "Address " + i, "", 1, 1, 1, 1, "", "");
             propertyList.add(property);
         }
+
+     //   Property propertyTest = new Property(20, "Test", "");
+       // propertyList.add(propertyTest);
         return propertyList;
     }
 
@@ -105,6 +115,7 @@ public class Fragment_Home extends Fragment {
             }
         });
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
