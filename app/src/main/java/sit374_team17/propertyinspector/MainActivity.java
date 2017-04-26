@@ -138,10 +138,10 @@ public class MainActivity extends AppCompatActivity
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-            if (fragment instanceof  Fragment_CreateProperty) {
+            /*if (fragment instanceof  Fragment_CreateProperty) {
                 ft.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
                 ft.addToBackStack(null);
-            }
+            }*/
 
             ft.replace(R.id.content_main, fragment);
             //
