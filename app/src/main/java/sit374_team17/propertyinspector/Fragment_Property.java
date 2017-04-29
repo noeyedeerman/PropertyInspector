@@ -21,8 +21,7 @@ public class Fragment_Property extends Fragment {
     private Property mProperty;
 
     View mView;
-    TextView mInfo;
-
+    TextView mAddress, mBedrooms, mBathrooms, mGarages, mPrice, mNotes;
 
     private PropertyListener mListener;
 
@@ -53,10 +52,17 @@ public class Fragment_Property extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_property, container, false);
 
-        mInfo = (TextView) mView.findViewById(R.id.textView_propertyInfo);
+        mAddress = (TextView) mView.findViewById(R.id.textView_address);
+        mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
+        mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
+        mGarages = (TextView) mView.findViewById(R.id.textView_garages);
+       // mPrice = (TextView) mView.findViewById(R.id.textView_price);
 
-        mInfo.setText(mProperty.get_address());
-
+        mAddress.setText(mProperty.get_address());
+        mBedrooms.setText(mProperty.get_bedrooms());
+        mBathrooms.setText(mProperty.get_bathrooms());
+        mGarages.setText(mProperty.get_garages());
+      //  mPrice.setText(mProperty.get_price());
 
         return mView;
 
@@ -88,6 +94,4 @@ public class Fragment_Property extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-
 }

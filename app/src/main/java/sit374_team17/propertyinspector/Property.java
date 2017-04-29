@@ -8,10 +8,10 @@ public class Property implements Parcelable {
     private int _id;
     private String _address;
     //private String _image;
-    private int _bedrooms;
-    private int _bathrooms;
-    private int _garages;
-    private int _price;
+    private String _bedrooms;
+    private String _bathrooms;
+    private String _garages;
+    private String _price;
     private String _status;
     private String _criteria;
 
@@ -33,23 +33,23 @@ public class Property implements Parcelable {
     //    return _image;
     //}
 
-    public void set_bedrooms(int _bathrooms) {this._bedrooms = _bedrooms;}
-    public int get_bedrooms() {
+    public void set_bedrooms(String _bedrooms) {this._bedrooms = _bedrooms;}
+    public String get_bedrooms() {
         return _bedrooms;
     }
 
-    public void set_bathrooms(int _bathrooms) {this._bathrooms = _bathrooms;}
-    public int get_bathrooms() {
+    public void set_bathrooms(String _bathrooms) {this._bathrooms = _bathrooms;}
+    public String get_bathrooms() {
         return _bathrooms;
     }
 
-    public void set_garages(int _garages) {this._garages = _garages;}
-    public int get_garages() {
+    public void set_garages(String _garages) {this._garages = _garages;}
+    public String get_garages() {
         return _garages;
     }
 
-    public void set_price(int _price) {this._price = _price;}
-    public int get_price() {
+    public void set_price(String _price) {this._price = _price;}
+    public String get_price() {
         return _price;
     }
 
@@ -67,7 +67,7 @@ public class Property implements Parcelable {
         _id = id;
       }
 
-    public Property(int id, String address, int bedrooms, int bathrooms, int garages, int price, String status, String criteria) {
+    public Property(int id, String address, String bedrooms, String bathrooms, String garages, String price, String status, String criteria) {
         _id = id;
         _address = address;
         //_image = image;
@@ -89,10 +89,10 @@ public class Property implements Parcelable {
         dest.writeInt(_id);
         dest.writeString(_address);
         //dest.writeString(_image);
-        dest.writeInt(_bedrooms);
-        dest.writeInt(_bathrooms);
-        dest.writeInt(_garages);
-        dest.writeInt(_price);
+        dest.writeString(_bedrooms);
+        dest.writeString(_bathrooms);
+        dest.writeString(_garages);
+        dest.writeString(_price);
         dest.writeString(_status);
         dest.writeString(_criteria);
     }
@@ -101,10 +101,10 @@ public class Property implements Parcelable {
         _id = in.readInt();
         _address = in.readString();
         //_image = in.readString();
-        _bedrooms = in.readInt();
-        _bathrooms = in.readInt();
-        _garages = in.readInt();
-        _price = in.readInt();
+        _bedrooms = in.readString();
+        _bathrooms = in.readString();
+        _garages = in.readString();
+        _price = in.readString();
         _status = in.readString();
         _criteria = in.readString();
     }

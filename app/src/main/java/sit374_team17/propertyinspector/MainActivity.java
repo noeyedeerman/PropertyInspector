@@ -29,6 +29,7 @@ import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -43,11 +44,12 @@ import static sit374_team17.propertyinspector.Adapter_Properties.*;
 import static sit374_team17.propertyinspector.Fragment_CreateProperty.*;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HomeListener, CreatePropertyListener {
+        implements NavigationView.OnNavigationItemSelectedListener, HomeListener, CreatePropertyListener{
 
     Property mProperty;
 
     FloatingActionButton mFab;
+    SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +141,31 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        MenuItem search = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+/*        MenuItem search = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(search);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String query) {
+                android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+                Fragment_Home fragment_home = (Fragment_Home) manager.findFragmentById(R.id.content_main);
+                fragment_home.searchResults(query);
+
+                return true;
+            }
+        });
+        */
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
 
     @Override
@@ -184,6 +207,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onSaveProperty() {
         onBackPressed();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     @Override
@@ -195,6 +219,25 @@ public class MainActivity extends AppCompatActivity
         return mFab;
     }
 
+    public SearchView getSearchView() {
+        return mSearchView;
+    }
+
+//    @Override
+//    public boolean onQueryTextSubmit(String query) {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean onQueryTextChange(String query) {
+//
+//
+//
+////        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+////        Fragment_Home fragment_home = (Fragment_Home) manager.findFragmentById(R.id.content_main);
+////        fragment_home.searchResults(filteredList);
+//        return true;
+//    }
 }
 
 

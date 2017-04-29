@@ -1,7 +1,6 @@
 package sit374_team17.propertyinspector;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,10 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Fragment_CreateProperty extends Fragment {
 
@@ -24,12 +21,12 @@ public class Fragment_CreateProperty extends Fragment {
     Button mButton_save;
     DB_PropertyHandler mDB_properties;
     List<Property> mPropertyList;
-    EditText mEditText_address, mEditText_bedrooms, mEditText_bathrooms, mEditText_garage, mEditText_price;
+    EditText mEditText_address, mEditText_bedrooms, mEditText_bathrooms, mEditText_garages, mEditText_price;
 
     private CreatePropertyListener mListener;
 
-    public Fragment_CreateProperty() {}
-
+    public Fragment_CreateProperty() {
+    }
 
     public interface CreatePropertyListener {
         void onSaveProperty();
@@ -61,7 +58,7 @@ public class Fragment_CreateProperty extends Fragment {
         mEditText_address = (EditText) mView.findViewById(R.id.editText_address);
         mEditText_bedrooms = (EditText) mView.findViewById(R.id.editText_bedrooms);
         mEditText_bathrooms = (EditText) mView.findViewById(R.id.editText_bathrooms);
-        mEditText_garage = (EditText) mView.findViewById(R.id.editText_garages);
+        mEditText_garages = (EditText) mView.findViewById(R.id.editText_garages);
         mEditText_price = (EditText) mView.findViewById(R.id.editText_price);
 
         mButton_save = (Button) mView.findViewById(R.id.button_save);
@@ -80,15 +77,27 @@ public class Fragment_CreateProperty extends Fragment {
 
     private void saveProperty() {
         String address = mEditText_address.getText().toString();
-        //int bedrooms = Integer.parseInt(mEditText_bedrooms.getText().toString());
-       // int bathrooms = Integer.parseInt(mEditText_bathrooms.getText().toString());
-       // int garage = Integer.parseInt(mEditText_garage.getText().toString());
-       // Long price = Long.parseLong(mEditText_price.getText().toString());
+        String bedrooms = mEditText_bedrooms.getText().toString();
+        String bathrooms = mEditText_bathrooms.getText().toString();
+        String garages = mEditText_garages.getText().toString();
+        String price = mEditText_price.getText().toString();
+
+        String empty = "--";
 
         if (mProperty != null) {
-            if (address != "") {
+            if (address != "" && !address.isEmpty()) {
                 if (mProperty.get_id() < 0) {
                     mProperty.set_address(address);
+
+                    if (bedrooms.isEmpty()) bedrooms = empty;
+                    if (bathrooms.isEmpty()) bathrooms = empty;
+                    if (garages.isEmpty()) garages = empty;
+                    if (price.isEmpty()) price = empty;
+
+                    mProperty.set_bedrooms(bedrooms);
+                    mProperty.set_bathrooms(bathrooms);
+                    mProperty.set_garages(garages);
+                    mProperty.set_price(price);
                     mDB_properties.addProperty(mProperty);
                 } else {
                     mProperty.set_address(address);
@@ -98,7 +107,6 @@ public class Fragment_CreateProperty extends Fragment {
             }
         }
     }
-
 
     @Override
     public void onAttach(Context context) {

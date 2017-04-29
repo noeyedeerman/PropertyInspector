@@ -11,9 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHolder> implements Filterable {
+class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHolder> {
     private List<Property> mPropertyList;
-    private List<Property> mFilteredList;
 
     private PropertyItemListener mListener;
 
@@ -21,10 +20,65 @@ class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHol
         void onItemClicked(Property property);
     }
 
-    Adapter_Properties(List<Property> propertyList, PropertyItemListener listener) {
-        mPropertyList = propertyList;
-        mFilteredList = propertyList;
+    Adapter_Properties(PropertyItemListener listener) {
+        mPropertyList = new ArrayList<>();
         mListener = listener;
+    }
+
+    public void setPropertyList(List<Property> propertiesList) {
+        mPropertyList.clear();
+        mPropertyList.addAll(propertiesList);
+        notifyDataSetChanged();
+    }
+
+    public Property removeItem(int position) {
+        final Property property = mPropertyList.remove(position);
+        notifyItemRemoved(position);
+        return property;
+    }
+
+    public void addItem(int position, Property property) {
+        mPropertyList.add(position, property);
+        notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        final Property property = mPropertyList.remove(fromPosition);
+        mPropertyList.add(toPosition, property);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public void animateTo(List<Property> property) {
+        applyAndAnimateRemovals(property);
+        applyAndAnimateAdditions(property);
+        applyAndAnimateMovedItems(property);
+    }
+
+    private void applyAndAnimateRemovals(List<Property> newModels) {
+        for (int i = mPropertyList.size() - 1; i >= 0; i--) {
+            final Property property = mPropertyList.get(i);
+            if (!newModels.contains(property)) {
+                removeItem(i);
+            }
+        }
+    }
+    private void applyAndAnimateAdditions(List<Property> newProperties) {
+        for (int i = 0, count = newProperties.size(); i < count; i++) {
+            final Property property = newProperties.get(i);
+            if (!mPropertyList.contains(property)) {
+                addItem(i, property);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Property> newProperties) {
+        for (int toPosition = newProperties.size() - 1; toPosition >= 0; toPosition--) {
+            final Property property = newProperties.get(toPosition);
+            final int fromPosition = mPropertyList.indexOf(property);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
     }
 
     @Override
@@ -35,20 +89,17 @@ class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHol
 
     @Override
     public int getItemCount() {
-        //return mPropertyList.size();
-        return mFilteredList.size();
+        return mPropertyList.size();
     }
-
 
     @Override
     public void onBindViewHolder(final Adapter_Properties.ViewHolder holder, int position) {
 
-        holder.name.setText(mFilteredList.get(position).get_address());
-        // viewHolder.name.setText(mFilteredList.get(i).get_bedrooms());
-        //  viewHolder.name.setText(mFilteredList.get(i).get_bathrooms());
-        // viewHolder.name.setText(mFilteredList.get(i).get_garages());
-        //  viewHolder.name.setText(mFilteredList.get(i).get_price());
-        // viewHolder.tv_api_level.setText(mFilteredList.get(i).getImage());
+        holder.address.setText(mPropertyList.get(position).get_address());
+        holder.bedrooms.setText(String.valueOf(mPropertyList.get(position).get_bedrooms()));
+        holder.bathrooms.setText(String.valueOf(mPropertyList.get(position).get_bathrooms()));
+        holder.garages.setText(String.valueOf(mPropertyList.get(position).get_garages()));
+        holder.price.setText(String.valueOf(mPropertyList.get(position).get_price()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,45 +111,17 @@ class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHol
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView name, image;
+        private TextView address, bedrooms, bathrooms, garages, price;
         private View mView;
 
         ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            name = (TextView) itemView.findViewById(R.id.textView_propertyName);
+            address = (TextView) itemView.findViewById(R.id.textView_address);
+            bedrooms = (TextView) itemView.findViewById(R.id.textView_bedrooms);
+            bathrooms = (TextView) itemView.findViewById(R.id.textView_bathrooms);
+            garages = (TextView) itemView.findViewById(R.id.textView_garages);
+            price = (TextView) itemView.findViewById(R.id.textView_price);
         }
     }
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    mFilteredList = mPropertyList;
-                } else {
-                    ArrayList<Property> filteredList = new ArrayList<>();
-                    for (Property property : mPropertyList) {
-                        if (property.get_address().toLowerCase().contains(charString)) {
-                            filteredList.add(property);
-                        }
-                    }
-                    mFilteredList = filteredList;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = mFilteredList;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mFilteredList = (ArrayList<Property>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
-    }
-
 }

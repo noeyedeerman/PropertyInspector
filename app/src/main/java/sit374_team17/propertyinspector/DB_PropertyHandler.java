@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.security.KeyStoreSpi;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,12 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_ADDRESS, property.get_address());
+        values.put(KEY_BEDROOMS, property.get_bedrooms());
+        values.put(KEY_BATHROOMS, property.get_bathrooms());
+        values.put(KEY_GARAGES, property.get_garages());
+        values.put(KEY_PRICE, property.get_price());
+        values.put(KEY_STATUS, property.get_status());
+        values.put(KEY_CRITERIA, property.get_criteria());
 
         db.insert(TABLE_PROPERTIES, null, values);
         db.close();
@@ -64,8 +71,8 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
 
 
         Property contact = new Property(Integer.parseInt(cursor.getString(0)) - 1, cursor.getString(1),
-                Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)), Integer.parseInt(cursor.getString(5)),
-                Integer.parseInt(cursor.getString(6)), cursor.getString(7), cursor.getString(8));
+                cursor.getString(2), cursor.getString(3), (cursor.getString(4)),
+                cursor.getString(5), cursor.getString(6), cursor.getString(7));
 
 
         return contact;
@@ -83,12 +90,12 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
                 Property property = new Property();
                 property.set_id(Integer.parseInt(cursor.getString(0)) - 1);
                 property.set_address(cursor.getString(1));
-                property.set_bedrooms(Integer.parseInt(cursor.getString(0)));
-                property.set_bathrooms(Integer.parseInt(cursor.getString(0)));
-                property.set_garages(Integer.parseInt(cursor.getString(0)));
-                property.set_price(Integer.parseInt(cursor.getString(0)));
-                property.set_status(cursor.getString(1));
-                property.set_criteria(cursor.getString(1));;
+                property.set_bedrooms(cursor.getString(2));
+                property.set_bathrooms(cursor.getString(3));
+                property.set_garages(cursor.getString(4));
+                property.set_price(cursor.getString(5));
+                property.set_status(cursor.getString(6));
+                property.set_criteria(cursor.getString(7));;
 
                 propertyList.add(property);
             } while (cursor.moveToNext());
