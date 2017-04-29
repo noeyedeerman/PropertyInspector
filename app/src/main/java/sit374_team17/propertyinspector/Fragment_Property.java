@@ -23,6 +23,7 @@ public class Fragment_Property extends Fragment {
     View mView;
     TextView mInfo;
 
+
     private PropertyListener mListener;
 
     public Fragment_Property() {}
@@ -58,6 +59,7 @@ public class Fragment_Property extends Fragment {
 
 
         return mView;
+
     }
 
     public void onButtonPressed(Uri uri) {
