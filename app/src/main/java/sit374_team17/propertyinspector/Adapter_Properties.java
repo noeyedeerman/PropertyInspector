@@ -94,12 +94,15 @@ class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHol
 
     @Override
     public void onBindViewHolder(final Adapter_Properties.ViewHolder holder, int position) {
-
-        holder.address.setText(mPropertyList.get(position).get_address());
-        holder.bedrooms.setText(String.valueOf(mPropertyList.get(position).get_bedrooms()));
-        holder.bathrooms.setText(String.valueOf(mPropertyList.get(position).get_bathrooms()));
-        holder.garages.setText(String.valueOf(mPropertyList.get(position).get_garages()));
-        holder.price.setText(String.valueOf(mPropertyList.get(position).get_price()));
+        holder.mStreetNumber.setText(mPropertyList.get(position).getStreetNumber());
+        holder.mStreetName.setText(mPropertyList.get(position).getStreetName());
+        holder.mCity.setText(mPropertyList.get(position).getCity());
+        holder.mState.setText(mPropertyList.get(position).getState());
+        holder.mPostCode.setText(mPropertyList.get(position).getPostCode());
+        holder.mBedrooms.setText(mPropertyList.get(position).getBedrooms());
+        holder.mBathrooms.setText(String.valueOf(mPropertyList.get(position).getBathrooms()));
+        holder.mCars.setText(String.valueOf(mPropertyList.get(position).getCars()));
+        holder.mPrice.setText(String.valueOf(mPropertyList.get(position).getPrice()));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,17 +114,21 @@ class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHol
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView address, bedrooms, bathrooms, garages, price;
+        private TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice;
         private View mView;
 
         ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            address = (TextView) itemView.findViewById(R.id.textView_address);
-            bedrooms = (TextView) itemView.findViewById(R.id.textView_bedrooms);
-            bathrooms = (TextView) itemView.findViewById(R.id.textView_bathrooms);
-            garages = (TextView) itemView.findViewById(R.id.textView_garages);
-            price = (TextView) itemView.findViewById(R.id.textView_price);
+            mStreetNumber = (TextView) itemView.findViewById(R.id.textView_streetNumber);
+            mStreetName = (TextView) itemView.findViewById(R.id.textView_streetName);
+            mCity = (TextView) itemView.findViewById(R.id.textView_city);
+            mState = (TextView) itemView.findViewById(R.id.textView_state);
+            mPostCode = (TextView) itemView.findViewById(R.id.textView_postCode);
+            mBedrooms = (TextView) itemView.findViewById(R.id.textView_bedrooms);
+            mBathrooms = (TextView) itemView.findViewById(R.id.textView_bathrooms);
+            mCars = (TextView) itemView.findViewById(R.id.textView_cars);
+            mPrice = (TextView) itemView.findViewById(R.id.textView_price);
         }
     }
 }

@@ -1,50 +1,31 @@
 package sit374_team17.propertyinspector;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.util.SortedList;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import sit374_team17.propertyinspector.Fragment_Home.HomeListener;
 
-
-import static sit374_team17.propertyinspector.Adapter_Properties.*;
-import static sit374_team17.propertyinspector.Fragment_CreateProperty.*;
+import static sit374_team17.propertyinspector.Fragment_CreateProperty.CreatePropertyListener;
+import static sit374_team17.propertyinspector.Fragment_CreateProperty.newInstance;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HomeListener, CreatePropertyListener{
+        implements NavigationView.OnNavigationItemSelectedListener, HomeListener, CreatePropertyListener {
 
     Property mProperty;
 
@@ -85,12 +66,12 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void gotTo_HomeFragment (View view) {
+    public void gotTo_HomeFragment(View view) {
         Fragment_Home fragment = Fragment_Home.newInstance("param1", "param2");
         replaceFragment(fragment, "Fragment_Home");
     }
 
-    public void goTo_CreatePropertyFragment (View view, Property property) {
+    public void goTo_CreatePropertyFragment(View view, Property property) {
         Fragment_CreateProperty fragment = newInstance(property);
         replaceFragment(fragment, "Fragment_CreateProperty");
     }
@@ -131,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
 
-        if (fm.getBackStackEntryCount() == 1){
+        if (fm.getBackStackEntryCount() == 1) {
             mFab.show();
         }
     }
@@ -140,25 +121,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-
-/*        MenuItem search = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(search);
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-                Fragment_Home fragment_home = (Fragment_Home) manager.findFragmentById(R.id.content_main);
-                fragment_home.searchResults(query);
-
-                return true;
-            }
-        });
-        */
         return true;
     }
 
@@ -223,23 +185,4 @@ public class MainActivity extends AppCompatActivity
         return mSearchView;
     }
 
-//    @Override
-//    public boolean onQueryTextSubmit(String query) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean onQueryTextChange(String query) {
-//
-//
-//
-////        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-////        Fragment_Home fragment_home = (Fragment_Home) manager.findFragmentById(R.id.content_main);
-////        fragment_home.searchResults(filteredList);
-//        return true;
-//    }
 }
-
-
-
-

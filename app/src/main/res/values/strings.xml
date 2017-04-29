@@ -36,15 +36,22 @@
     <string name="logout">Logout</string>
 
     // Create property
-    <string name="address">Address</string>
+    <string name="street_number">Street Number</string>
+    <string name="street_name">Street Name</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="post_code">Post</string>
+    <string name="type">Type</string>
     <string name="bedrooms">Bedrooms</string>
     <string name="bathrooms">Bathrooms</string>
-    <string name="garages">Garages</string>
+    <string name="cars">Car Parks</string>
     <string name="price">Price</string>
-    <string name="status">Status</string>
+    <string name="rent_buy">Rent or Buy</string>
+    <string name="description">Description</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

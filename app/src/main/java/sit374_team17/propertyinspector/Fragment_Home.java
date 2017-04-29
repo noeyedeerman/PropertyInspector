@@ -48,21 +48,6 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
     public Fragment_Home() {
     }
 
-    public void searchResults(String query) {
-
-//        query = query.toLowerCase();
-//        List<Property> filteredList = new ArrayList<>();
-//        for (Property property : mPropertiesList) {
-//            String address = property.get_address().toLowerCase();
-//            if (address.contains(query)) {
-//                filteredList.add(property);
-//            }
-//        }
-//        mPropertyAdapter.setFilter(filteredList);
-
-    }
-
-
     public interface HomeListener {
         void onHomeInteraction();
     }
@@ -124,7 +109,6 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
         mListener = null;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,7 +127,6 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
         setHasOptionsMenu(true);
         initViews();
 
-
         mPropertiesList = mDB_properties.getAllProperties();
 
 
@@ -151,31 +134,10 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
             mPropertyAdapter = new Adapter_Properties(this);
             mPropertyAdapter.setPropertyList(mPropertiesList);
             mRecyclerView.setAdapter(mPropertyAdapter);
-
         }
-
 
         mFab = ((MainActivity) getActivity()).getFab();
         return mView;
-    }
-
-    public void onButtonPressed() {
-        if (mListener != null) {
-            mListener.onHomeInteraction();
-        }
-    }
-
-    private ArrayList<Property> populateList() {
-        ArrayList<Property> propertyList = new ArrayList<>();
-
-        for (int i = 1; i < 11; i++) {
-            Property property = new Property(i, "Address " + i, "", "", "", "", "", "");
-            propertyList.add(property);
-        }
-
-        //   Property propertyTest = new Property(20, "Test", "");
-        // propertyList.add(propertyTest);
-        return propertyList;
     }
 
     private void initViews() {
@@ -183,8 +145,6 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
-
-
     }
 
     @Override
@@ -194,9 +154,7 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
-
     }
-
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -209,7 +167,7 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
 
         final List<Property> filteredModelList = new ArrayList<>();
         for (Property property : mPropertiesList) {
-            final String text = property.get_address().toLowerCase();
+            final String text = property.getText().toLowerCase();
             if (text.contains(query)) {
                 filteredModelList.add(property);
             }
@@ -218,115 +176,5 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
         mRecyclerView.scrollToPosition(0);
         return true;
     }
-
-
-
-/*
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count,             int after) {
-
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        mPropertyAdapter.setFilter(query);
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        mPropertyAdapter.setFilter(newText);
-        return true;
-    }
-*/
-
-
-    //    private void search(SearchView searchView) {
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//
-//                mPropertyAdapter.getFilter().filter(newText);
-//                return true;
-//            }
-//        });
-//    }
-
-//
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//
-//        inflater.inflate(R.menu.main, menu);
-//
-//       // MenuItem item = menu.findItem(R.id.action_search);
-//      //  SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-//     //  searchView.setOnQueryTextListener(this);
-//
-//    }
-//
-//    @Override
-//    public boolean onQueryTextSubmit(String query) {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean onQueryTextChange(String query) {
-//        query = query.toLowerCase();
-//        List<Property> filteredList = new ArrayList<>();
-//        for (Property property : mPropertiesList) {
-//            String address = property.get_address().toLowerCase();
-//            if (address.contains(query)) {
-//                filteredList.add(property);
-//            }
-//        }
-//        mPropertyAdapter.setFilter(filteredList);
-//        return true;
-//    }
 }
-
-
-//
-//
-//
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//        menu.clear();
-//        inflater.inflate(R.menu.main, menu);
-//        MenuItem item = menu.findItem(R.id.search);
-//        SearchView searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
-//        MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
-//        MenuItemCompat.setActionView(item, searchView);
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-//        searchView.setOnClickListener(new View.OnClickListener() {
-//                                          @Override
-//                                          public void onClick(View v) {
-//
-//                                          }
-//                                      }
-//        );
-//    }
-//
-
-
 

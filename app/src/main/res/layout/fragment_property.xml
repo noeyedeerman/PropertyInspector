@@ -63,7 +63,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1.2"
+        android:layout_weight="1.192"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -129,7 +129,7 @@
                     android:tint="@color/colorLightGrey" />
 
                 <TextView
-                    android:id="@+id/textView_garages"
+                    android:id="@+id/textView_cars"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -147,16 +147,71 @@
                 android:text="Address"
                 android:textSize="18dp" />
 
-            <TextView
-                android:id="@+id/textView_address"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="1 Street, Town"
-                android:textColor="@android:color/black"
-                android:textSize="15dp"/>
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/textView_streetNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:text="01"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/textView_streetName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Street"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="City"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/textView_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="State"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/textView_postCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center_vertical"
+                    android:text="Post"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -212,3 +267,4 @@
     </LinearLayout>
 
 </LinearLayout>
+

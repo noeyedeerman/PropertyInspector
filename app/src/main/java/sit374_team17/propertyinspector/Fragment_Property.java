@@ -21,7 +21,7 @@ public class Fragment_Property extends Fragment {
     private Property mProperty;
 
     View mView;
-    TextView mAddress, mBedrooms, mBathrooms, mGarages, mPrice, mNotes;
+    TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice, mDescription;
 
     private PropertyListener mListener;
 
@@ -52,27 +52,29 @@ public class Fragment_Property extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_property, container, false);
 
-        mAddress = (TextView) mView.findViewById(R.id.textView_address);
+        mStreetNumber = (TextView) mView.findViewById(R.id.textView_streetNumber);
+        mStreetName = (TextView) mView.findViewById(R.id.textView_streetName);
+        mCity = (TextView) mView.findViewById(R.id.textView_city);
+        mState = (TextView) mView.findViewById(R.id.textView_state);
+        mPostCode = (TextView) mView.findViewById(R.id.textView_postCode);
         mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
         mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
-        mGarages = (TextView) mView.findViewById(R.id.textView_garages);
+        mCars = (TextView) mView.findViewById(R.id.textView_cars);
        // mPrice = (TextView) mView.findViewById(R.id.textView_price);
 
-        mAddress.setText(mProperty.get_address());
-        mBedrooms.setText(mProperty.get_bedrooms());
-        mBathrooms.setText(mProperty.get_bathrooms());
-        mGarages.setText(mProperty.get_garages());
-      //  mPrice.setText(mProperty.get_price());
 
+        mStreetNumber.setText(mProperty.getStreetNumber());
+        mStreetName.setText(mProperty.getStreetName());
+        mCity.setText(mProperty.getCity());
+        mState.setText(mProperty.getState());
+        mPostCode.setText(mProperty.getPostCode());
+        mBedrooms.setText(mProperty.getBedrooms());
+        mBathrooms.setText(mProperty.getBathrooms());
+        mCars.setText(mProperty.getCars());
+      //  mPrice.setText(mProperty.getPrice());
         return mView;
-
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
 
 //

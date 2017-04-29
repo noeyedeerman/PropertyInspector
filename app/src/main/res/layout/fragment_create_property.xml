@@ -5,65 +5,137 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
-    tools:context="sit374_team17.propertyinspector.Fragment_CreateProperty"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="sit374_team17.propertyinspector.Fragment_CreateProperty">
 
-    <EditText
-        android:id="@+id/editText_address"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/address"
-        android:inputType="textPostalAddress"/>
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/editText_bedrooms"
+        <EditText
+            android:id="@+id/editText_streetNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.3"
+            android:hint="@string/street_number"
+            android:inputType="textPostalAddress" />
+
+        <EditText
+            android:id="@+id/editText_streetName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/street_name"
+            android:inputType="textPostalAddress" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/bedrooms"
-        android:inputType="number"/>
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/editText_bathrooms"
+        <EditText
+            android:id="@+id/editText_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/city"
+            android:inputType="textPostalAddress" />
+
+        <EditText
+            android:id="@+id/editText_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.7"
+            android:hint="@string/state"
+            android:inputType="textPostalAddress" />
+
+        <EditText
+            android:id="@+id/editText_postCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.7"
+            android:hint="@string/post_code"
+            android:inputType="textPostalAddress" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/bathrooms"
-        android:inputType="number"/>
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/editText_garages"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/garages"
-        android:inputType="number"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.1"
+            android:src="@drawable/ic_menu_manage"
+            android:tint="@color/colorLightGrey" />
+
+        <NumberPicker
+            android:id="@+id/editText_bedrooms"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/bedrooms"
+            android:inputType="number" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.1"
+            android:src="@drawable/ic_menu_manage"
+            android:tint="@color/colorLightGrey" />
+
+        <NumberPicker
+            android:id="@+id/editText_bathrooms"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/bathrooms"
+            android:inputType="number" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.1"
+            android:src="@drawable/ic_menu_manage"
+            android:tint="@color/colorLightGrey" />
+
+        <NumberPicker
+            android:id="@+id/editText_cars"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="@string/cars"
+            android:inputType="number" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/editText_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/price"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal" />
 
-
-<!--    <EditText
-        android:id="@+id/editText_auctionDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Auction Date"
-        android:ems="10"
-        android:inputType="date" />
 
     <EditText
-        android:id="@+id/editText_notes"
+        android:id="@+id/editText_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.50"
-        android:hint="Notes"
-        android:inputType="textMultiLine"/>-->
+        android:hint="@string/description"
+        android:inputType="textMultiLine" />
 
-    <Button android:id="@+id/button_save"
+    <Button
+        android:id="@+id/button_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"/>
+        android:text="Save" />
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -72,3 +144,24 @@
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
 </LinearLayout>
+
+
+
+    <!--    <EditText
+            android:id="@+id/editText_auctionDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Auction Date"
+            android:ems="10"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/editText_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:hint="Notes"
+            android:inputType="textMultiLine"/>-->
+
+
+

@@ -5,79 +5,125 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Property implements Parcelable {
-    private int _id;
-    private String _address;
-    //private String _image;
-    private String _bedrooms;
-    private String _bathrooms;
-    private String _garages;
-    private String _price;
-    private String _status;
-    private String _criteria;
+    private int id;
+    private String unitNumber;
+    private String streetNumber;
+    private String streetName;
+    private String city;
+    private String state;
+    private String postCode;
+    private String type;
+    private String bedrooms;
+    private String bathrooms;
+    private String cars;
+    private String price;
+    private String rentBuy;
+    private String leaseLength;
+    private String description;
 
     public Property(){};
 
-    public void set_id(int id) {this._id = id;}
-    public int get_id() {
-        return _id;
+    public void setId(int id) {this.id = id;}
+    public int getId() {
+        return id;
     }
 
-    public void set_address(String address) {this._address = address;}
-    public String get_address() {
-        return _address;
+    public void setUnitNumber(String unitNumber) {this.unitNumber = unitNumber;}
+    public String getUnitNumber() {
+        return unitNumber;
     }
 
-
-    //public void set_image(String _image) {this._image = _image;}
-    //public String get_image() {
-    //    return _image;
-    //}
-
-    public void set_bedrooms(String _bedrooms) {this._bedrooms = _bedrooms;}
-    public String get_bedrooms() {
-        return _bedrooms;
+    public void setStreetNumber(String streetNumber) {this.streetNumber = streetNumber;}
+    public String getStreetNumber() {
+        return streetNumber;
     }
 
-    public void set_bathrooms(String _bathrooms) {this._bathrooms = _bathrooms;}
-    public String get_bathrooms() {
-        return _bathrooms;
+    public void setStreetName(String streetName) {this.streetName = streetName;}
+    public String getStreetName() {
+        return streetName;
     }
 
-    public void set_garages(String _garages) {this._garages = _garages;}
-    public String get_garages() {
-        return _garages;
+    public void setCity(String city) {this.city = city;}
+    public String getCity() {
+        return city;
     }
 
-    public void set_price(String _price) {this._price = _price;}
-    public String get_price() {
-        return _price;
+    public void setState(String state) {this.state = state;}
+    public String getState() {
+        return state;
     }
 
-    public void set_status(String _status) {this._status = _status;}
-    public String get_status() {
-        return _status;
+    public void setPostCode(String postCode) {this.postCode = postCode;}
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void set_criteria(String _criteria) {this._criteria = _criteria;}
-    public String get_criteria() {
-        return _criteria;
+    public void setType(String state) {this.type = type;}
+    public String getType() {
+        return type;
     }
 
+    public void setBedrooms(String bedrooms) {this.bedrooms = bedrooms;}
+    public String getBedrooms() {
+        return bedrooms;
+    }
+
+    public void setBathrooms(String bathrooms) {this.bathrooms = bathrooms;}
+    public String getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setCars(String cars) {this.cars = cars;}
+    public String getCars() {
+        return cars;
+    }
+
+    public void setPrice(String price) {this.price = price;}
+    public String getPrice() {
+        return price;
+    }
+
+    public void setRentBuy(String rentBuy) {this.rentBuy = rentBuy;}
+    public String getRentBuy() {
+        return rentBuy;
+    }
+
+    public void setLeaseLength(String leaseLength) {this.leaseLength = leaseLength;}
+    public String getLeaseLength() {
+        return leaseLength;
+    }
+
+    public void setDescription(String description) {this.description = description;}
+    public String getDescription() {
+        return description;
+    }
+
+    public String getText() {
+        return unitNumber + streetNumber + streetName + city + state + postCode;
+    }
     public Property(int id) {
-        _id = id;
+        this.id = id;
       }
 
-    public Property(int id, String address, String bedrooms, String bathrooms, String garages, String price, String status, String criteria) {
-        _id = id;
-        _address = address;
-        //_image = image;
-        _bedrooms = bedrooms;
-        _bathrooms = bathrooms;
-        _garages = garages;
-        _price = price;
-        _status = status;
-        _criteria = criteria;
+    public Property(int id, String unitNumber, String streetNumber, String streetName, String city, String state, String postCode, String type, String bedrooms, String bathrooms, String cars, String price, String rentBuy, String leaseLength, String description) {
+        this.id = id;
+        this.unitNumber = unitNumber;
+        this.streetNumber = streetNumber;
+        this.streetName = streetName;
+        this.city = city;
+        this.state = state;
+        this.postCode = postCode;
+        this.type = type;
+        this.bedrooms = bedrooms;
+        this.bathrooms = bathrooms;
+        this.cars = cars;
+        this.cars = cars;
+        this.price = price;
+        this.rentBuy = rentBuy;
+        this.leaseLength = leaseLength;
+        this.description = description;
     }
+
 
     @Override
     public int describeContents() {
@@ -86,27 +132,40 @@ public class Property implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(_id);
-        dest.writeString(_address);
-        //dest.writeString(_image);
-        dest.writeString(_bedrooms);
-        dest.writeString(_bathrooms);
-        dest.writeString(_garages);
-        dest.writeString(_price);
-        dest.writeString(_status);
-        dest.writeString(_criteria);
+        dest.writeInt(id);
+        dest.writeString(unitNumber);
+        dest.writeString(streetNumber);
+        dest.writeString(streetName);
+        dest.writeString(city);
+        dest.writeString(state);
+        dest.writeString(postCode);
+        dest.writeString(type);
+        dest.writeString(bedrooms);
+        dest.writeString(bathrooms);
+        dest.writeString(cars);
+        dest.writeString(price);
+        dest.writeString(rentBuy);
+        dest.writeString(leaseLength);
+        dest.writeString(description);
     }
 
+
     protected Property(Parcel in) {
-        _id = in.readInt();
-        _address = in.readString();
-        //_image = in.readString();
-        _bedrooms = in.readString();
-        _bathrooms = in.readString();
-        _garages = in.readString();
-        _price = in.readString();
-        _status = in.readString();
-        _criteria = in.readString();
+        id = in.readInt();
+        unitNumber = in.readString();
+        streetNumber = in.readString();
+        streetName = in.readString();
+        city = in.readString();
+        state = in.readString();
+        postCode = in.readString();
+        type = in.readString();
+        bedrooms = in.readString();
+        bathrooms = in.readString();
+        cars = in.readString();
+        price = in.readString();
+        rentBuy = in.readString();
+        leaseLength = in.readString();
+        description = in.readString();
     }
 
     public static final Creator<Property> CREATOR = new Creator<Property>() {
@@ -120,5 +179,4 @@ public class Property implements Parcelable {
             return new Property[size];
         }
     };
-
 }

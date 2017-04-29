@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import java.util.List;
 
@@ -21,7 +22,11 @@ public class Fragment_CreateProperty extends Fragment {
     Button mButton_save;
     DB_PropertyHandler mDB_properties;
     List<Property> mPropertyList;
-    EditText mEditText_address, mEditText_bedrooms, mEditText_bathrooms, mEditText_garages, mEditText_price;
+    EditText mEditText_streetNumber, mEditText_streetName, mEditText_city, mEditText_state, mEditText_postCode, mEditText_price, mEditText_description;
+    NumberPicker mNumberPicker_bedrooms, mNumberPicker_bathrooms, mNumberPicker_cars;
+
+    int pickerMin = 0;
+    int pickerMax = 100;
 
     private CreatePropertyListener mListener;
 
@@ -55,11 +60,28 @@ public class Fragment_CreateProperty extends Fragment {
 
         mView = inflater.inflate(R.layout.fragment_create_property, container, false);
 
-        mEditText_address = (EditText) mView.findViewById(R.id.editText_address);
-        mEditText_bedrooms = (EditText) mView.findViewById(R.id.editText_bedrooms);
-        mEditText_bathrooms = (EditText) mView.findViewById(R.id.editText_bathrooms);
-        mEditText_garages = (EditText) mView.findViewById(R.id.editText_garages);
+        mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
+        mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
+        mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
+        mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
+        mEditText_postCode = (EditText) mView.findViewById(R.id.editText_postCode);
+        mNumberPicker_bedrooms = (NumberPicker) mView.findViewById(R.id.editText_bedrooms);
+        mNumberPicker_bathrooms = (NumberPicker) mView.findViewById(R.id.editText_bathrooms);
+        mNumberPicker_cars = (NumberPicker) mView.findViewById(R.id.editText_cars);
         mEditText_price = (EditText) mView.findViewById(R.id.editText_price);
+        mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
+
+        mNumberPicker_bedrooms.setMinValue(pickerMin);
+        mNumberPicker_bedrooms.setMaxValue(pickerMax);
+        mNumberPicker_bedrooms.setWrapSelectorWheel(false);
+
+        mNumberPicker_bathrooms.setMinValue(pickerMin);
+        mNumberPicker_bathrooms.setMaxValue(pickerMax);
+        mNumberPicker_bathrooms.setWrapSelectorWheel(false);
+
+        mNumberPicker_cars.setMinValue(pickerMin);
+        mNumberPicker_cars.setMaxValue(pickerMax);
+        mNumberPicker_cars.setWrapSelectorWheel(false);
 
         mButton_save = (Button) mView.findViewById(R.id.button_save);
 
@@ -76,32 +98,43 @@ public class Fragment_CreateProperty extends Fragment {
     }
 
     private void saveProperty() {
-        String address = mEditText_address.getText().toString();
-        String bedrooms = mEditText_bedrooms.getText().toString();
-        String bathrooms = mEditText_bathrooms.getText().toString();
-        String garages = mEditText_garages.getText().toString();
+        String streetNumber = mEditText_streetNumber.getText().toString();
+        String streetName = mEditText_streetName.getText().toString();
+        String city = mEditText_city.getText().toString();
+        String state = mEditText_state.getText().toString();
+        String postCode = mEditText_postCode.getText().toString();
+        String bedrooms = String.valueOf(mNumberPicker_bedrooms.getValue());
+        String bathrooms = String.valueOf(mNumberPicker_bathrooms.getValue());
+        String garages = String.valueOf(mNumberPicker_cars.getValue());
         String price = mEditText_price.getText().toString();
 
         String empty = "--";
 
         if (mProperty != null) {
-            if (address != "" && !address.isEmpty()) {
-                if (mProperty.get_id() < 0) {
-                    mProperty.set_address(address);
+            if (!streetNumber.isEmpty() && !streetName.isEmpty()) {
+                if (mProperty.getId() < 0) {
+                    mProperty.setStreetNumber(streetNumber);
+                    mProperty.setStreetName(streetName);
 
+                    if (city.isEmpty()) city = empty;
+                    if (state.isEmpty()) state = empty;
+                    if (postCode.isEmpty()) postCode = empty;
                     if (bedrooms.isEmpty()) bedrooms = empty;
                     if (bathrooms.isEmpty()) bathrooms = empty;
                     if (garages.isEmpty()) garages = empty;
                     if (price.isEmpty()) price = empty;
 
-                    mProperty.set_bedrooms(bedrooms);
-                    mProperty.set_bathrooms(bathrooms);
-                    mProperty.set_garages(garages);
-                    mProperty.set_price(price);
+                    mProperty.setCity(city);
+                    mProperty.setState(state);
+                    mProperty.setPostCode(postCode);
+                    mProperty.setBedrooms(bedrooms);
+                    mProperty.setBathrooms(bathrooms);
+                    mProperty.setCars(garages);
+                    mProperty.setPrice(price);
                     mDB_properties.addProperty(mProperty);
                 } else {
-                    mProperty.set_address(address);
-                    mDB_properties.updateProperty(mProperty);
+                  //  mProperty.set_address(address);
+                  //  mDB_properties.updateProperty(mProperty);
                 }
                 mListener.onSaveProperty();
             }

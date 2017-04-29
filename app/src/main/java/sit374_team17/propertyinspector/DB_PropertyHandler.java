@@ -16,14 +16,20 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "PropertyDatabase";
     private static final String TABLE_PROPERTIES = "properties";
     private static final String KEY_ID = "id";
-    private static final String KEY_ADDRESS = "address";
-    private static final String KEY_IMAGE = "image";
+    private static final String KEY_UNITNUMBER = "unitNumber";
+    private static final String KEY_STREETNUMBER = "streetNumber";
+    private static final String KEY_STREETNAME = "streetName";
+    private static final String KEY_CITY = "city";
+    private static final String KEY_STATE = "state";
+    private static final String KEY_POSTCODE = "postCode";
+    private static final String KEY_TYPE = "type";
     private static final String KEY_BEDROOMS= "bedrooms";
     private static final String KEY_BATHROOMS = "bathrooms";
-    private static final String KEY_GARAGES = "garages";
+    private static final String KEY_CARS = "cars";
     private static final String KEY_PRICE= "price";
-    private static final String KEY_STATUS = "status";
-    private static final String KEY_CRITERIA = "criteria";
+    private static final String KEY_RENTBUY = "rentBuy";
+    private static final String KEY_LEASELENGTH = "leaseLength";
+    private static final String KEY_DESCRIPTION = "description";
 
     DB_PropertyHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,7 +38,21 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_PROPERTIES + "("
-                + KEY_ID + " INTEGER PRIMARY KEY NOT NULL," + KEY_ADDRESS + " TEXT NOT NULL," + KEY_BEDROOMS + " TEXT,"  + KEY_BATHROOMS + " TEXT,"  + KEY_GARAGES + " TEXT,"  + KEY_PRICE + " TEXT,"  + KEY_STATUS + " TEXT,"  + KEY_CRITERIA+ " TEXT,"
+                + KEY_ID + " INTEGER PRIMARY KEY NOT NULL,"
+                + KEY_UNITNUMBER + " TEXT,"
+                + KEY_STREETNUMBER + " TEXT,"
+                + KEY_STREETNAME + " TEXT,"
+                + KEY_CITY + " TEXT,"
+                + KEY_STATE + " TEXT,"
+                + KEY_POSTCODE + " TEXT,"
+                + KEY_TYPE + " TEXT,"
+                + KEY_BEDROOMS + " TEXT,"
+                + KEY_BATHROOMS + " TEXT,"
+                + KEY_CARS + " TEXT,"
+                + KEY_PRICE + " TEXT,"
+                + KEY_RENTBUY + " TEXT,"
+                + KEY_LEASELENGTH + " TEXT,"
+                + KEY_DESCRIPTION + " TEXT,"
                 + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -47,13 +67,20 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ADDRESS, property.get_address());
-        values.put(KEY_BEDROOMS, property.get_bedrooms());
-        values.put(KEY_BATHROOMS, property.get_bathrooms());
-        values.put(KEY_GARAGES, property.get_garages());
-        values.put(KEY_PRICE, property.get_price());
-        values.put(KEY_STATUS, property.get_status());
-        values.put(KEY_CRITERIA, property.get_criteria());
+        values.put(KEY_UNITNUMBER, property.getUnitNumber());
+        values.put(KEY_STREETNUMBER, property.getStreetNumber());
+        values.put(KEY_STREETNAME, property.getStreetName());
+        values.put(KEY_CITY, property.getCity());
+        values.put(KEY_STATE, property.getState());
+        values.put(KEY_POSTCODE, property.getPostCode());
+        values.put(KEY_TYPE, property.getType());
+        values.put(KEY_BEDROOMS, property.getBedrooms());
+        values.put(KEY_BATHROOMS, property.getBathrooms());
+        values.put(KEY_CARS, property.getCars());
+        values.put(KEY_PRICE, property.getPrice());
+        values.put(KEY_RENTBUY, property.getRentBuy());
+        values.put(KEY_LEASELENGTH, property.getLeaseLength());
+        values.put(KEY_DESCRIPTION, property.getDescription());
 
         db.insert(TABLE_PROPERTIES, null, values);
         db.close();
@@ -63,17 +90,17 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         id = id + 1;
         Cursor cursor = db.query(TABLE_PROPERTIES, new String[]{KEY_ID,
-                        KEY_ADDRESS, KEY_BEDROOMS, KEY_BATHROOMS, KEY_GARAGES, KEY_PRICE, KEY_STATUS, KEY_CRITERIA}, KEY_ID + "=?",
+                        KEY_UNITNUMBER, KEY_STREETNUMBER, KEY_STREETNAME, KEY_CITY, KEY_STATE, KEY_POSTCODE, KEY_TYPE, KEY_BEDROOMS, KEY_BATHROOMS, KEY_CARS, KEY_PRICE, KEY_RENTBUY, KEY_LEASELENGTH, KEY_DESCRIPTION}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-
-
         Property contact = new Property(Integer.parseInt(cursor.getString(0)) - 1, cursor.getString(1),
                 cursor.getString(2), cursor.getString(3), (cursor.getString(4)),
-                cursor.getString(5), cursor.getString(6), cursor.getString(7));
-
+                cursor.getString(5), cursor.getString(6), cursor.getString(7),
+                cursor.getString(8), cursor.getString(9), cursor.getString(10),
+                cursor.getString(11), cursor.getString(12), cursor.getString(13),
+                cursor.getString(14));
 
         return contact;
     }
@@ -88,37 +115,47 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Property property = new Property();
-                property.set_id(Integer.parseInt(cursor.getString(0)) - 1);
-                property.set_address(cursor.getString(1));
-                property.set_bedrooms(cursor.getString(2));
-                property.set_bathrooms(cursor.getString(3));
-                property.set_garages(cursor.getString(4));
-                property.set_price(cursor.getString(5));
-                property.set_status(cursor.getString(6));
-                property.set_criteria(cursor.getString(7));;
+                property.setId(Integer.parseInt(cursor.getString(0)) - 1);
+                property.setUnitNumber(cursor.getString(1));
+                property.setStreetNumber(cursor.getString(2));
+                property.setStreetName(cursor.getString(3));
+                property.setCity(cursor.getString(4));
+                property.setState(cursor.getString(5));
+                property.setPostCode(cursor.getString(6));
+                property.setType(cursor.getString(7));
+                property.setBedrooms(cursor.getString(8));
+                property.setBathrooms(cursor.getString(9));
+                property.setCars(cursor.getString(10));
+                property.setPrice(cursor.getString(11));
+                property.setRentBuy(cursor.getString(12));
+                property.setLeaseLength(cursor.getString(13));
+                property.setDescription(cursor.getString(14));
 
                 propertyList.add(property);
             } while (cursor.moveToNext());
         }
-
         return propertyList;
-    }
-
-    public int getPropertiesCount() {
-        String countQuery = "SELECT * FROM " + TABLE_PROPERTIES;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
-
-        return cursor.getCount();
     }
 
     int updateProperty(Property property) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int id = property.get_id() + 1;
+        int id = property.getId() + 1;
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ADDRESS, property.get_address());
+        values.put(KEY_UNITNUMBER, property.getUnitNumber());
+        values.put(KEY_STREETNUMBER, property.getStreetNumber());
+        values.put(KEY_STREETNAME, property.getStreetName());
+        values.put(KEY_CITY, property.getCity());
+        values.put(KEY_STATE, property.getState());
+        values.put(KEY_POSTCODE, property.getPostCode());
+        values.put(KEY_TYPE, property.getType());
+        values.put(KEY_BEDROOMS, property.getBedrooms());
+        values.put(KEY_BATHROOMS, property.getBathrooms());
+        values.put(KEY_CARS, property.getCars());
+        values.put(KEY_PRICE, property.getPrice());
+        values.put(KEY_RENTBUY, property.getRentBuy());
+        values.put(KEY_LEASELENGTH, property.getLeaseLength());
+        values.put(KEY_DESCRIPTION, property.getDescription());
 
         // updating row
         return db.update(TABLE_PROPERTIES, values, KEY_ID + " = ?",
@@ -127,7 +164,7 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
 
     void deleteGroup(Property property) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int id = property.get_id() + 1;
+        int id = property.getId() + 1;
 
         db.delete(TABLE_PROPERTIES, KEY_ID + " = ?",
                 new String[]{String.valueOf(id)});
