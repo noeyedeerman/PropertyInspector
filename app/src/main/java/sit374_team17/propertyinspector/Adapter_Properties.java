@@ -1,5 +1,6 @@
 package sit374_team17.propertyinspector;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +15,11 @@ import java.util.List;
 class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHolder> {
     private List<Property> mPropertyList;
 
-    private PropertyItemListener mListener;
+    Listener mListener;
 
-    interface PropertyItemListener {
-        void onItemClicked(Property property);
-    }
 
-    Adapter_Properties(PropertyItemListener listener) {
+
+    Adapter_Properties(Listener listener) {
         mPropertyList = new ArrayList<>();
         mListener = listener;
     }

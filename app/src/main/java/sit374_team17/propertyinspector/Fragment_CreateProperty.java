@@ -4,6 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,14 +31,14 @@ public class Fragment_CreateProperty extends Fragment {
     int pickerMin = 0;
     int pickerMax = 100;
 
-    private CreatePropertyListener mListener;
+    private Listener mListener;
 
     public Fragment_CreateProperty() {
     }
 
-    public interface CreatePropertyListener {
-        void onSaveProperty();
-    }
+   // public interface CreatePropertyListener {
+    //    void onSaveProperty();
+   // }
 
     public static Fragment_CreateProperty newInstance(Property property) {
         Fragment_CreateProperty fragment = new Fragment_CreateProperty();
@@ -59,6 +62,7 @@ public class Fragment_CreateProperty extends Fragment {
                              Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_create_property, container, false);
+        setHasOptionsMenu(true);
 
         mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
         mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
@@ -144,8 +148,8 @@ public class Fragment_CreateProperty extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof CreatePropertyListener) {
-            mListener = (CreatePropertyListener) context;
+        if (context instanceof Listener) {
+            mListener = (Listener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement CreatePropertyListener");
@@ -157,4 +161,18 @@ public class Fragment_CreateProperty extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        MenuItem camera = menu.findItem(R.id.action_camera);
+        camera.setVisible(true);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setVisible(false);
+
+
+    }
+
 }

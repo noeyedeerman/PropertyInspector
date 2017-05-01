@@ -27,7 +27,7 @@ import static sit374_team17.propertyinspector.Adapter_Properties.*;
 import static sit374_team17.propertyinspector.Fragment_CreateProperty.newInstance;
 
 
-public class Fragment_Home extends Fragment implements PropertyItemListener, SearchView.OnQueryTextListener {
+public class Fragment_Home extends Fragment implements SearchView.OnQueryTextListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -43,45 +43,18 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
     DB_PropertyHandler mDB_properties;
     List<Property> mPropertiesList;
 
-    private HomeListener mListener;
+    private Listener mListener;
+
 
     public Fragment_Home() {
     }
+
+
 
     public interface HomeListener {
         void onHomeInteraction();
     }
 
-    @Override
-    public void onItemClicked(Property property) {
-        goTo_PropertyFragment(property);
-        mFab.hide();
-    }
-
-    public void goTo_PropertyFragment(Property property) {
-        Fragment_Property fragment = Fragment_Property.newInstance(property);
-        replaceFragment(fragment, "Fragment_Property");
-    }
-
-    private void replaceFragment(Fragment fragment, String tag) {
-        try {
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-
-            if (tag == "Fragment_CreateProperty") {
-                fragmentTransaction.setCustomAnimations(R.anim.enter_up, R.anim.exit_down, R.anim.exit_up, R.anim.enter_down);
-                fragmentTransaction.addToBackStack(null);
-            } else if (tag == "Fragment_Property") {
-                fragmentTransaction.setCustomAnimations(R.anim.enter_left, R.anim.exit_right, R.anim.exit_left, R.anim.enter_right);
-                fragmentTransaction.addToBackStack(null);
-            }
-
-            fragmentTransaction.replace(R.id.content_main, fragment, tag);
-            fragmentTransaction.commit();
-
-        } catch (Exception e) {
-            Log.d(tag, e.toString());
-        }
-    }
 
     public static Fragment_Home newInstance(String param1, String param2) {
         Fragment_Home fragment = new Fragment_Home();
@@ -95,8 +68,8 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof HomeListener) {
-            mListener = (HomeListener) context;
+        if (context instanceof Listener) {
+            mListener = (Listener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement HomeListener");
@@ -129,14 +102,13 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
 
         mPropertiesList = mDB_properties.getAllProperties();
 
-
         if (mPropertiesList.size() >= 0) {
-            mPropertyAdapter = new Adapter_Properties(this);
+            mPropertyAdapter = new Adapter_Properties(mListener);
             mPropertyAdapter.setPropertyList(mPropertiesList);
             mRecyclerView.setAdapter(mPropertyAdapter);
         }
 
-        mFab = ((MainActivity) getActivity()).getFab();
+
         return mView;
     }
 
@@ -154,6 +126,10 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
+
+        MenuItem camera = menu.findItem(R.id.action_camera);
+        camera.setVisible(false);
+
     }
 
     @Override
@@ -175,6 +151,12 @@ public class Fragment_Home extends Fragment implements PropertyItemListener, Sea
         mPropertyAdapter.animateTo(filteredModelList);
         mRecyclerView.scrollToPosition(0);
         return true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }
 

@@ -1,7 +1,10 @@
 package sit374_team17.propertyinspector;
 
+import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,19 +21,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ScrollView;
 
 import sit374_team17.propertyinspector.Fragment_Home.HomeListener;
 
-import static sit374_team17.propertyinspector.Fragment_CreateProperty.CreatePropertyListener;
+import static android.R.attr.duration;
 import static sit374_team17.propertyinspector.Fragment_CreateProperty.newInstance;
+import static sit374_team17.propertyinspector.R.id.scrollView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HomeListener, CreatePropertyListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Listener {
 
     Property mProperty;
 
-    FloatingActionButton mFab;
+    FloatingActionButton mFabProperty, mFabNote;
     SearchView mSearchView;
+    Listener mListener;
+Context context;
+
+    EditText editText_note;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +54,29 @@ public class MainActivity extends AppCompatActivity
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
+        mFabProperty = (FloatingActionButton) findViewById(R.id.fab_addProperty);
+        mFabProperty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mProperty = new Property();
                 goTo_CreatePropertyFragment(getCurrentFocus(), new Property(-1));
-                mFab.hide();
+                mFabProperty.hide();
             }
         });
+
+        mFabNote = (FloatingActionButton) findViewById(R.id.fab_addNote);
+
+        mFabNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ScrollView myScroller = (ScrollView) findViewById(R.id.scrollView_property);
+
+                ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.getChildAt(0).getBottom()).setDuration(600).start();
+
+            }
+        });
+        mFabNote.hide();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -61,14 +86,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         gotTo_HomeFragment(getCurrentFocus());
 
     }
 
+
     public void gotTo_HomeFragment(View view) {
-        Fragment_Home fragment = Fragment_Home.newInstance("param1", "param2");
-        replaceFragment(fragment, "Fragment_Home");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (fragmentManager.getBackStackEntryCount() < 1) {
+            Fragment_Home fragment = Fragment_Home.newInstance("param1", "param2");
+            replaceFragment(fragment, "Fragment_Home");
+        }
     }
 
     public void goTo_CreatePropertyFragment(View view, Property property) {
@@ -76,11 +105,30 @@ public class MainActivity extends AppCompatActivity
         replaceFragment(fragment, "Fragment_CreateProperty");
     }
 
+    public void goTo_PropertyFragment(Property property) {
+
+        Fragment_Property fragment = Fragment_Property.newInstance(property);
+        replaceFragment(fragment, "Fragment_Property");
+        mFabNote.show();
+
+
+    }
+
+    public void goTo_AddNoteFragment() {
+
+        Fragment_CreateNote fragment = Fragment_CreateNote.newInstance();
+        replaceFragment(fragment, "Fragment_CreateNote");
+       // mFabNote.hide();
+
+
+    }
+
     private void replaceFragment(Fragment fragment, String tag) {
         try {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-            if (tag == "Fragment_CreateProperty") {
+
+            if (tag == "Fragment_CreateProperty" || tag == "Fragment_CreateNote") {
                 fragmentTransaction.setCustomAnimations(R.anim.enter_up, R.anim.exit_down, R.anim.exit_up, R.anim.enter_down);
                 fragmentTransaction.addToBackStack(null);
             } else if (tag == "Fragment_Property") {
@@ -113,7 +161,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (fm.getBackStackEntryCount() == 1) {
-            mFab.show();
+            mFabProperty.show();
+            mFabNote.hide();
         }
     }
 
@@ -130,15 +179,15 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//      //  int id = item.getItemId();
+//
+//       // return super.onOptionsItemSelected(item);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -172,14 +221,23 @@ public class MainActivity extends AppCompatActivity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+
+
     @Override
     public void onHomeInteraction() {
 
     }
 
-    public FloatingActionButton getFab() {
-        return mFab;
+    @Override
+    public void onItemClicked(Property property) {
+        goTo_PropertyFragment(property);
+
+        mFabProperty.hide();
+
     }
+
+
+
 
     public SearchView getSearchView() {
         return mSearchView;

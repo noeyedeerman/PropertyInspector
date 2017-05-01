@@ -13,7 +13,7 @@ import java.util.List;
 class DB_PropertyHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "PropertyDatabase";
+    private static final String DATABASE_NAME = "PropertyInspectorDatabase";
     private static final String TABLE_PROPERTIES = "properties";
     private static final String KEY_ID = "id";
     private static final String KEY_UNITNUMBER = "unitNumber";
@@ -95,14 +95,14 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Property contact = new Property(Integer.parseInt(cursor.getString(0)) - 1, cursor.getString(1),
+        Property property = new Property(Integer.parseInt(cursor.getString(0)) - 1, cursor.getString(1),
                 cursor.getString(2), cursor.getString(3), (cursor.getString(4)),
                 cursor.getString(5), cursor.getString(6), cursor.getString(7),
                 cursor.getString(8), cursor.getString(9), cursor.getString(10),
                 cursor.getString(11), cursor.getString(12), cursor.getString(13),
                 cursor.getString(14));
 
-        return contact;
+        return property;
     }
 
     List<Property> getAllProperties() {
