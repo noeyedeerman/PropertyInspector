@@ -54,6 +54,15 @@ class Comment implements Parcelable {
         this.photo = photo;
     }
 
+    public Comment(int id, int userId, int propertyId, String description) {
+        this.id = id;
+        this.userId = userId;
+        this.propertyId = propertyId;
+        this.description = description;
+
+    }
+
+
     public Comment(int id, int userId, int propertyId, String description, Bitmap photo) {
         this.id = id;
         this.userId = userId;

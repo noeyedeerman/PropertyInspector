@@ -2,6 +2,7 @@ package sit374_team17.propertyinspector;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,9 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.R.attr.columnCount;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -43,7 +48,8 @@ public class Fragment_Property extends Fragment {
 
     View mView;
     ViewPager mViewPager_property;
-    Adapter_PropertySwipe mAdapter;
+    Adapter_PropertySwipe mAdapter_slideShow;
+    Adapter_Comments mAdapter_comments;
     TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice, mDescription;
 
 
@@ -53,7 +59,7 @@ public class Fragment_Property extends Fragment {
     Bitmap mHouse1, mHouse2, mHouse3, mHouse4, mHouse5;
 List<Bitmap> mPhotoList;
     int imageArray[];
-Comment mComment;
+//Comment mComment;
     List<Comment> mCommentsList;
     DB_CommentHandler mDB_comments;
     private Listener mListener;
@@ -62,6 +68,7 @@ Comment mComment;
     private String mCurrentPhotoPath;
     private Parcelable mImageBitmap;
     private Bitmap mhouse2;
+    RecyclerView mRecyclerView;
 
     public Fragment_Property() {
     }
@@ -77,7 +84,6 @@ Comment mComment;
                     + " must implement Listener");
         }
     }
-
 
     @Override
     public void onDetach() {
@@ -110,16 +116,45 @@ Comment mComment;
         mViewPager_property = (ViewPager) mView.findViewById(R.id.viewPager_property);
 
         mPhotoList = new ArrayList<>();
+        mCommentsList = new ArrayList<>();
       //  mAdapter = new Adapter_PropertySwipe(getContext());
 
-        mAdapter = new Adapter_PropertySwipe(getContext());
+        mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
+
+
+
+        Comment comment1 = new Comment(0, 0, 0, "Cool comment1");
+        Comment comment2 = new Comment(1, 0, 0, "Cool comment2");
+        Comment comment3 = new Comment(2, 0, 0, "Cool comment3");
+        Comment comment4 = new Comment(3, 0, 0, "Cool comment4");
+        Comment comment5 = new Comment(4, 0, 0, "Cool comment5");
+
+        mCommentsList.add(comment1);
+        mCommentsList.add(comment2);
+        mCommentsList.add(comment3);
+        mCommentsList.add(comment4);
+        mCommentsList.add(comment5);
+
+initViews();
+        if (mCommentsList.size() >= 0) {
+            mAdapter_comments = new Adapter_Comments(mListener);
+            mAdapter_comments.setCommentList(mCommentsList);
+            mRecyclerView.setAdapter(mAdapter_comments);
+        }
+      //  mAdapter_comments = new Adapter_Comments(mListener, getContext());
+       // mAdapter_comments.setCommentList(mCommentsList);
+      //  mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
+      //  mRecyclerView.setAdapter(mAdapter_comments);
 
         populatePhotoList();
 
-        mAdapter.setPhotoList(mPhotoList);
+        mAdapter_slideShow.setPhotoList(mPhotoList);
 
-        mViewPager_property.setAdapter(mAdapter);
-        // mListener.onPropertySelected();
+        mViewPager_property.setAdapter(mAdapter_slideShow);
+
+
+       // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
+
 
         mStreetNumber = (TextView) mView.findViewById(R.id.textView_streetNumber);
         mStreetName = (TextView) mView.findViewById(R.id.textView_streetName);
@@ -146,6 +181,24 @@ Comment mComment;
         return mView;
     }
 
+    private void initViews() {
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager;
+
+
+
+        layoutManager = new LinearLayoutManager(getContext()){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+
+
+
+        mRecyclerView.setLayoutManager(layoutManager);
+    }
     private void populatePhotoList() {
         mHouse1 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house1);
         mHouse2 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house2);
@@ -265,7 +318,7 @@ Comment mComment;
 //            mPhotoList.add(mComment.getPhoto());
 //        }
 
-        mAdapter.setPhotoList(mPhotoList);
+        mAdapter_slideShow.setPhotoList(mPhotoList);
 
 
 

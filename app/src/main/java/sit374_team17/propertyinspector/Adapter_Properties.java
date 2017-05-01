@@ -15,7 +15,7 @@ import java.util.List;
 class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHolder> {
     private List<Property> mPropertyList;
 
-    Listener mListener;
+    private Listener mListener;
 
 
 

@@ -3,8 +3,10 @@ package sit374_team17.propertyinspector;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import sit374_team17.propertyinspector.Fragment_Home.HomeListener;
 
 import static android.R.attr.duration;
 import static sit374_team17.propertyinspector.Fragment_CreateProperty.newInstance;
+import static sit374_team17.propertyinspector.R.id.propertyComments;
 import static sit374_team17.propertyinspector.R.id.scrollView;
 
 public class MainActivity extends AppCompatActivity
@@ -67,13 +70,15 @@ Context context;
         mFabNote = (FloatingActionButton) findViewById(R.id.fab_addNote);
 
         mFabNote.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH)
             @Override
             public void onClick(View view) {
 
                 ScrollView myScroller = (ScrollView) findViewById(R.id.scrollView_property);
-
-                ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.getChildAt(0).getBottom()).setDuration(600).start();
-
+int[] scrollLocation = {0,0};
+              //  ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.getChildAt(0).getBottom()).setDuration(600).start();
+                ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.findViewById(R.id.commentView).getBottom()+1500).setDuration(600).start();
+                //ObjectAnimator.ofInt(myScroller, "scrollY",  200).setDuration(600).start();
             }
         });
         mFabNote.hide();
