@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView_property"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -66,7 +67,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:src="@drawable/bed_icon"
-                        android:tint="@color/colorLightGrey" />
+                         />
 
                     <TextView
                         android:id="@+id/textView_bedrooms"
@@ -83,7 +84,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:src="@drawable/bath_icon"
-                        android:tint="@color/colorLightGrey" />
+                         />
 
                     <TextView
                         android:id="@+id/textView_bathrooms"
@@ -100,7 +101,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:src="@drawable/garage_icon"
-                        android:tint="@color/colorLightGrey" />
+                         />
 
                     <TextView
                         android:id="@+id/textView_cars"

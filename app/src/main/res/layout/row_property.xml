@@ -127,8 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_menu_manage"
-                    android:tint="@color/colorLightGrey" />
+                    card_view:srcCompat="@drawable/bed_icon" />
 
                 <TextView
                     android:id="@+id/textView_bedrooms"
@@ -144,8 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_menu_manage"
-                    android:tint="@color/colorLightGrey" />
+                    card_view:srcCompat="@drawable/bath_icon" />
 
                 <TextView
                     android:id="@+id/textView_bathrooms"
@@ -161,8 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_menu_manage"
-                    android:tint="@color/colorLightGrey" />
+                    card_view:srcCompat="@drawable/garage_icon" />
 
                 <TextView
                     android:id="@+id/textView_cars"
