@@ -1,11 +1,11 @@
 package sit374_team17.propertyinspector;
 
 import android.animation.ObjectAnimator;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -23,21 +23,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
-import sit374_team17.propertyinspector.Fragment_Home.HomeListener;
+import java.util.Calendar;
 
-import static android.R.attr.duration;
 import static sit374_team17.propertyinspector.Fragment_CreateProperty.newInstance;
-import static sit374_team17.propertyinspector.R.id.propertyComments;
-import static sit374_team17.propertyinspector.R.id.scrollView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Listener {
 
     Property mProperty;
-
+    //Calendar required variables
+    int mYear, mMonth, mDay;
     FloatingActionButton mFabProperty, mFabNote;
     SearchView mSearchView;
     Listener mListener;
@@ -202,6 +202,21 @@ int[] scrollLocation = {0,0};
 
         if (id == R.id.nav_calendar) {
             // Handle the camera action
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+                            Toast.makeText(getApplicationContext(),year+"/"+(monthOfYear + 1)+"/"+dayOfMonth,Toast.LENGTH_LONG).show();
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
         } else if (id == R.id.nav_privacySettings) {
 
         } else if (id == R.id.nav_alert) {
