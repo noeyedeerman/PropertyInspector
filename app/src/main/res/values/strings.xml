@@ -26,6 +26,19 @@
     <string name="password">Password</string>
     <string name="createAccount">Create an Account</string>
 
+
+    //Create Account
+    <string name="first_name">First Name : </string>
+    <string name="last_name">Surname : </string>
+    <string name="email">Email : </string>
+    <string name="create_password">Password : </string>
+    <string name="landline">Landline : </string>
+    <string name="mobile">Mobile : </string>
+    <string name="dob">Date of Birth : </string>
+    <string name="mob">Month of Birth : </string>
+    <string name="yob">Year of Birth : </string>
+    <string name="submit">Submit</string>
+
     // Drawer menu
     <string name="userAccounts">User Accounts</string>
     <string name="calendar">Calendar</string>
@@ -58,6 +71,21 @@
     <string name="inspection_dates">Inspection dates</string>
     <string name="camera">Camera</string>
     <string name="Comments">Comments</string>
+
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
 
 
 </resources>

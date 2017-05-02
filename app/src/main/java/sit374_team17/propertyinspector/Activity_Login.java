@@ -2,12 +2,10 @@ package sit374_team17.propertyinspector;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Activity_Login extends AppCompatActivity {
 
@@ -26,6 +24,19 @@ public class Activity_Login extends AppCompatActivity {
             }
 
         });
+
+        //Instance of the "Create Account" labeled TextView created and on click method opens the Activity_Create activity
+        TextView text_goToCreateActivity = (TextView) findViewById(R.id.text_goToCreateActivity);
+        text_goToCreateActivity.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(Activity_Login.this, Activity_Create.class);
+                startActivity(intent);
+            }
+
+        });
+
     }
 
 }
