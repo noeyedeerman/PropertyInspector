@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1.1"
-            android:src="@drawable/ic_menu_manage"
+            android:src="@drawable/bed_icon"
             android:tint="@color/colorLightGrey" />
 
         <NumberPicker
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1.1"
-            android:src="@drawable/ic_menu_manage"
+            android:src="@drawable/bath_icon"
             android:tint="@color/colorLightGrey" />
 
         <NumberPicker
@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1.1"
-            android:src="@drawable/ic_menu_manage"
+            android:src="@drawable/garage_icon"
             android:tint="@color/colorLightGrey" />
 
         <NumberPicker
