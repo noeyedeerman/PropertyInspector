@@ -1,6 +1,7 @@
 package sit374_team17.propertyinspector;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -21,7 +22,10 @@ public class Property implements Parcelable {
     private String leaseLength;
     private String description;
 
+    private Drawable photo;
+
     public Property(){};
+
 
     public void setId(int id) {this.id = id;}
     public int getId() {
@@ -98,6 +102,13 @@ public class Property implements Parcelable {
         return description;
     }
 
+
+    public void setPhoto(Drawable photo) {this.photo = photo;}
+    public Drawable getPhoto() {
+        return photo;
+    }
+
+
     public String getText() {
         return unitNumber + streetNumber + streetName + city + state + postCode;
     }
@@ -117,7 +128,6 @@ public class Property implements Parcelable {
         this.bedrooms = bedrooms;
         this.bathrooms = bathrooms;
         this.cars = cars;
-        this.cars = cars;
         this.price = price;
         this.rentBuy = rentBuy;
         this.leaseLength = leaseLength;
@@ -125,9 +135,39 @@ public class Property implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public Property(int id, String streetNumber, String streetName, String city, String state, String postCode, String bedrooms, String bathrooms, String cars, String price, Drawable photo) {
+        this.id = id;
+        this.streetNumber = streetNumber;
+        this.streetName = streetName;
+        this.city = city;
+        this.state = state;
+        this.postCode = postCode;
+        this.bedrooms = bedrooms;
+        this.bathrooms = bathrooms;
+        this.cars = cars;
+        this.price = price;
+        this.photo = photo;
+    }
+
+
+
+
+    protected Property(Parcel in) {
+        id = in.readInt();
+        unitNumber = in.readString();
+        streetNumber = in.readString();
+        streetName = in.readString();
+        city = in.readString();
+        state = in.readString();
+        postCode = in.readString();
+        type = in.readString();
+        bedrooms = in.readString();
+        bathrooms = in.readString();
+        cars = in.readString();
+        price = in.readString();
+        rentBuy = in.readString();
+        leaseLength = in.readString();
+        description = in.readString();
     }
 
     @Override
@@ -149,23 +189,9 @@ public class Property implements Parcelable {
         dest.writeString(description);
     }
 
-
-    protected Property(Parcel in) {
-        id = in.readInt();
-        unitNumber = in.readString();
-        streetNumber = in.readString();
-        streetName = in.readString();
-        city = in.readString();
-        state = in.readString();
-        postCode = in.readString();
-        type = in.readString();
-        bedrooms = in.readString();
-        bathrooms = in.readString();
-        cars = in.readString();
-        price = in.readString();
-        rentBuy = in.readString();
-        leaseLength = in.readString();
-        description = in.readString();
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Property> CREATOR = new Creator<Property>() {
@@ -179,4 +205,6 @@ public class Property implements Parcelable {
             return new Property[size];
         }
     };
+
+
 }

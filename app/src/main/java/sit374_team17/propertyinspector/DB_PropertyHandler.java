@@ -37,7 +37,7 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_PROPERTIES + "("
+        String CREATE_PROPERTY_TABLE = "CREATE TABLE " + TABLE_PROPERTIES + "("
                 + KEY_ID + " INTEGER PRIMARY KEY NOT NULL,"
                 + KEY_UNITNUMBER + " TEXT,"
                 + KEY_STREETNUMBER + " TEXT,"
@@ -54,12 +54,19 @@ class DB_PropertyHandler extends SQLiteOpenHelper {
                 + KEY_LEASELENGTH + " TEXT,"
                 + KEY_DESCRIPTION + " TEXT,"
                 + " TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_PROPERTY_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROPERTIES);
+        onCreate(db);
+    }
+
+    void resetTable(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROPERTIES);
+
         onCreate(db);
     }
 

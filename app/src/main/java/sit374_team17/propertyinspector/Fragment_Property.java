@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,6 +27,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,15 +55,18 @@ public class Fragment_Property extends Fragment {
     Adapter_PropertySwipe mAdapter_slideShow;
     Adapter_Comments mAdapter_comments;
     TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice, mDescription;
-
-
+    Button button_post, button_save;
+    ImageButton button_camera;
+    EditText editText_comment;
+    Fragment mFragment_tabs;
+    Comment mComment;
     Drawable d;
 
-   // List<Bitmap> bitmapArray = new ArrayList<>();
+    // List<Bitmap> bitmapArray = new ArrayList<>();
     Bitmap mHouse1, mHouse2, mHouse3, mHouse4, mHouse5;
-List<Bitmap> mPhotoList;
+    List<Bitmap> mPhotoList;
     int imageArray[];
-//Comment mComment;
+    //Comment mComment;
     List<Comment> mCommentsList;
     DB_CommentHandler mDB_comments;
     private Listener mListener;
@@ -114,37 +121,59 @@ List<Bitmap> mPhotoList;
         mView = inflater.inflate(R.layout.fragment_property, container, false);
         setHasOptionsMenu(true);
         mViewPager_property = (ViewPager) mView.findViewById(R.id.viewPager_property);
+        button_camera = (ImageButton) mView.findViewById(R.id.button_camera);
+        button_post = (Button) mView.findViewById(R.id.button_post);
+        button_save = (Button) mView.findViewById(R.id.button_save);
+
+
+        editText_comment = (EditText) mView.findViewById(R.id.editText_comment);
+
+        Fragment fragment_tabs = new Fragment_Tabs();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.tabHost_comments, fragment_tabs).commit();
+
 
         mPhotoList = new ArrayList<>();
         mCommentsList = new ArrayList<>();
-      //  mAdapter = new Adapter_PropertySwipe(getContext());
+
+      //  mCommentsList = mDB_comments.getAllComments();
+        //  mAdapter = new Adapter_PropertySwipe(getContext());
 
         mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
 
+        button_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
+
+        button_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveComment(true);
+            }
+        });
+
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveComment(false);
+            }
+        });
 
 
-        Comment comment1 = new Comment(0, 0, 0, "Cool comment1");
-        Comment comment2 = new Comment(1, 0, 0, "Cool comment2");
-        Comment comment3 = new Comment(2, 0, 0, "Cool comment3");
-        Comment comment4 = new Comment(3, 0, 0, "Cool comment4");
-        Comment comment5 = new Comment(4, 0, 0, "Cool comment5");
 
-        mCommentsList.add(comment1);
-        mCommentsList.add(comment2);
-        mCommentsList.add(comment3);
-        mCommentsList.add(comment4);
-        mCommentsList.add(comment5);
-
-initViews();
-        if (mCommentsList.size() >= 0) {
-            mAdapter_comments = new Adapter_Comments(mListener);
-            mAdapter_comments.setCommentList(mCommentsList);
-            mRecyclerView.setAdapter(mAdapter_comments);
-        }
-      //  mAdapter_comments = new Adapter_Comments(mListener, getContext());
-       // mAdapter_comments.setCommentList(mCommentsList);
-      //  mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
-      //  mRecyclerView.setAdapter(mAdapter_comments);
+//initViews();
+//        if (mCommentsList.size() >= 0) {
+//            mAdapter_comments = new Adapter_Comments(mListener);
+//            mAdapter_comments.setCommentList(mCommentsList);
+//            mRecyclerView.setAdapter(mAdapter_comments);
+//        }
+        //  mAdapter_comments = new Adapter_Comments(mListener, getContext());
+        // mAdapter_comments.setCommentList(mCommentsList);
+        //  mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
+        //  mRecyclerView.setAdapter(mAdapter_comments);
 
         populatePhotoList();
 
@@ -153,8 +182,7 @@ initViews();
         mViewPager_property.setAdapter(mAdapter_slideShow);
 
 
-       // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
-
+        // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
 
         mStreetNumber = (TextView) mView.findViewById(R.id.textView_streetNumber);
         mStreetName = (TextView) mView.findViewById(R.id.textView_streetName);
@@ -181,24 +209,47 @@ initViews();
         return mView;
     }
 
-    private void initViews() {
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
-        mRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager;
+    private void saveComment(boolean isPublic) {
+        String description = editText_comment.getText().toString();
 
+        if (mComment != null) {
+            if (!description.isEmpty()) {
+                if (mComment.getId() < 0) {
+                    mComment.setDescription(description);
+                        mComment.setIsPublic(isPublic);
 
-
-        layoutManager = new LinearLayoutManager(getContext()){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
+                    // if (city.isEmpty()) city = empty;
+                    mComment.setDescription(description);
+                    mDB_comments.addComment(mComment);
+                } else {
+                    //  mProperty.set_address(address);
+                    //  mDB_properties.updateProperty(mProperty);
+                }
+                  mListener.onSaveComment();
             }
-        };
-
-
-
-        mRecyclerView.setLayoutManager(layoutManager);
+        }
     }
+
+
+    private void initViews() {
+//      mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
+//       mRecyclerView.setHasFixedSize(true);
+//        RecyclerView.LayoutManager layoutManager;
+//
+//
+//
+//        layoutManager = new LinearLayoutManager(getContext()){
+//            @Override
+//            public boolean canScrollVertically() {
+//                return false;
+//            }
+//        };
+//
+//
+//
+//        mRecyclerView.setLayoutManager(layoutManager);
+    }
+
     private void populatePhotoList() {
         mHouse1 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house1);
         mHouse2 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house2);
@@ -217,32 +268,26 @@ initViews();
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        MenuItem camera = menu.findItem(R.id.action_camera);
-        camera.setVisible(true);
-
-        camera.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                dispatchTakePictureIntent();
-
-//              Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-//                    startActivityForResult(cameraIntent, 1);
-//                }
-
-//                File file = getFile();
-//                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-//                startActivityForResult(cameraIntent, 1);
-                return true;
-            }
-        });
+//        MenuItem camera = menu.findItem(R.id.action_camera);
+//        camera.setVisible(false);
+//
+//        camera.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                dispatchTakePictureIntent();
+//
+//
+//                return true;
+//            }
+//        });
 
         mSearchItem = menu.findItem(R.id.action_search);
         mSearchItem.setVisible(false);
 
 
     }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -296,7 +341,7 @@ initViews();
         int photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
@@ -307,10 +352,10 @@ initViews();
         mPhotoList.add(bitmap);
 
 
-      //  mViewPager_property..setImageBitmap(bitmap);
-       // mPhotoList.add(bitmap);
-      //  mComment.setPhoto(bitmap);
-      //  mDB_comments.addComment(mComment);
+        //  mViewPager_property..setImageBitmap(bitmap);
+        // mPhotoList.add(bitmap);
+        //  mComment.setPhoto(bitmap);
+        //  mDB_comments.addComment(mComment);
 //
 //        mCommentsList = mDB_comments.getAllComments();
 //
@@ -319,7 +364,6 @@ initViews();
 //        }
 
         mAdapter_slideShow.setPhotoList(mPhotoList);
-
 
 
     }
@@ -335,7 +379,7 @@ initViews();
 
     }
 
-        private void galleryAddPic() {
+    private void galleryAddPic() {
         Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
         File f = new File(mCurrentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
@@ -373,7 +417,6 @@ initViews();
 //       //                 ImageView.VISIBLE : ImageView.INVISIBLE
 //        //);
 //    }
-
 
 
 }

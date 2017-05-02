@@ -8,5 +8,7 @@ public interface Listener {
     void onHomeInteraction();
     void onItemClicked(Property property);
     void onSaveProperty();
-   // void onPropertySelected();
+
+    void onSaveComment();
+    // void onPropertySelected();
 }

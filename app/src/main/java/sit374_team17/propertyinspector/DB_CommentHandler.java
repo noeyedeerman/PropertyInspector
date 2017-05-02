@@ -20,6 +20,7 @@ class DB_CommentHandler extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_USERID = "userId";
     private static final String KEY_PROPERTYID = "propertyId";
+    private static final String KEY_ISPUBLIC = "isPublic";
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_PHOTO = "photo";
 
@@ -34,17 +35,31 @@ class DB_CommentHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+//    @Override
+//    public void onCreate(SQLiteDatabase db) {
+//        String CREATE_COMMENTS_TABLE = "CREATE TABLE " + TABLE_COMMENTS + "("
+//                + KEY_ID + " INTEGER PRIMARY KEY NOT NULL,"
+//                + KEY_USERID + " INTEGER,"
+//                + KEY_PROPERTYID + " INTEGER,"
+//                + KEY_ISPUBLIC + " BOOLEAN,"
+//                + KEY_DESCRIPTION + " TEXT,"
+//              //  + KEY_PHOTO + " BLOB,"
+//                + " TEXT" + ")";
+//        db.execSQL(CREATE_COMMENTS_TABLE);
+//    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_COMMENTS + "("
+        String CREATE_COMMENT_TABLE = "CREATE TABLE " + TABLE_COMMENTS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY NOT NULL,"
-                + KEY_USERID + " INTEGER,"
-                + KEY_PROPERTYID + " INTEGER,"
+                + KEY_USERID + " TEXT,"
+                + KEY_PROPERTYID + " TEXT,"
+                + KEY_ISPUBLIC + " TEXT,"
                 + KEY_DESCRIPTION + " TEXT,"
-                + KEY_PHOTO + " BLOB,"
                 + " TEXT" + ")";
-        db.execSQL(CREATE_CONTACTS_TABLE);
+        db.execSQL(CREATE_COMMENT_TABLE);
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -60,8 +75,9 @@ class DB_CommentHandler extends SQLiteOpenHelper {
         values.put(KEY_ID, comment.getId());
         values.put(KEY_USERID, comment.getUserId());
         values.put(KEY_PROPERTYID, comment.getPropertyId());
+        values.put(KEY_ISPUBLIC, comment.getIsPublic());
         values.put(KEY_DESCRIPTION, comment.getDescription());
-        values.put(KEY_PHOTO, photoByte);
+       // values.put(KEY_PHOTO, photoByte);
 
         db.insert(TABLE_COMMENTS, null, values);
         db.close();
@@ -71,16 +87,16 @@ class DB_CommentHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         id = id + 1;
         Cursor cursor = db.query(TABLE_COMMENTS, new String[]{KEY_ID,
-                        KEY_ID, KEY_USERID, KEY_PROPERTYID, KEY_DESCRIPTION, KEY_PHOTO}, KEY_ID + "=?",
+                        KEY_ID, KEY_USERID, KEY_PROPERTYID, KEY_ISPUBLIC, KEY_DESCRIPTION}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        byte[] photoByte = cursor.getBlob(id);
-        Bitmap photo = BitmapFactory.decodeByteArray(photoByte, 0, photoByte.length);
+      //  byte[] photoByte = cursor.getBlob(id);
+     //   Bitmap photo = BitmapFactory.decodeByteArray(photoByte, 0, photoByte.length);
 
         Comment comment = new Comment(Integer.parseInt(cursor.getString(0)) - 1, Integer.parseInt(cursor.getString(1)),
-                Integer.parseInt(cursor.getString(2)), cursor.getString(3), photo);
+                Integer.parseInt(cursor.getString(2)), Boolean.parseBoolean(cursor.getString(3)), cursor.getString(4));
 
         return comment;
     }
@@ -98,13 +114,14 @@ class DB_CommentHandler extends SQLiteOpenHelper {
                 comment.setId(Integer.parseInt(cursor.getString(0)) - 1);
                 comment.setUserId(Integer.parseInt(cursor.getString(1)));
                 comment.setPropertyId(Integer.parseInt(cursor.getString(2)));
+                comment.setIsPublic(Boolean.parseBoolean(cursor.getString(2)));
                 comment.setDescription(cursor.getString(3));
 
-                byte[] photoByte = cursor.getBlob(4);
-                Bitmap photo = BitmapFactory.decodeByteArray(photoByte, 0, photoByte.length);
+               // byte[] photoByte = cursor.getBlob(4);
+                //Bitmap photo = BitmapFactory.decodeByteArray(photoByte, 0, photoByte.length);
 
 
-                comment.setPhoto(photo);
+              //  comment.setPhoto(photo);
 
 
                 commentList.add(comment);
@@ -121,10 +138,11 @@ class DB_CommentHandler extends SQLiteOpenHelper {
         values.put(KEY_ID, comment.getId());
         values.put(KEY_USERID, comment.getUserId());
         values.put(KEY_PROPERTYID, comment.getPropertyId());
+        values.put(KEY_ISPUBLIC, comment.getIsPublic());
         values.put(KEY_DESCRIPTION, comment.getDescription());
 
-        byte[] photoByte = getBitmapAsByteArray(comment.getPhoto());
-        values.put(KEY_PHOTO, photoByte);
+      //  byte[] photoByte = getBitmapAsByteArray(comment.getPhoto());
+      //  values.put(KEY_PHOTO, photoByte);
 
         // updating row
         return db.update(TABLE_COMMENTS, values, KEY_ID + " = ?",

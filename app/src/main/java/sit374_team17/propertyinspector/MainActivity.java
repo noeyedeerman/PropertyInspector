@@ -77,7 +77,7 @@ Context context;
                 ScrollView myScroller = (ScrollView) findViewById(R.id.scrollView_property);
 int[] scrollLocation = {0,0};
               //  ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.getChildAt(0).getBottom()).setDuration(600).start();
-                ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.findViewById(R.id.commentView).getBottom()+1500).setDuration(600).start();
+                ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.findViewById(R.id.commentView).getBottom()+1600).setDuration(600).start();
                 //ObjectAnimator.ofInt(myScroller, "scrollY",  200).setDuration(600).start();
             }
         });
@@ -241,6 +241,12 @@ int[] scrollLocation = {0,0};
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+    @Override
+    public void onSaveComment() {
+//        FragmentManager manager = getSupportFragmentManager();
+//        Fragment toggleFragment = (ToggleFragment) manager.findFragmentById(R.id.content_main);
+//        toggleFragment.deleteToggle(id);
+    }
 
 
     @Override

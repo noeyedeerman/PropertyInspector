@@ -27,7 +27,7 @@ public class Fragment_Tabs extends Fragment {
         view = inflater.inflate(R.layout.fragment_tabs, container, false);
 
         viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-      //  viewPager.setAdapter(new sliderAdapter(getChildFragmentManager()));
+       viewPager.setAdapter(new sliderAdapter(getChildFragmentManager()));
 
        // viewPagerAdapter = new sliderAdapter(getChildFragmentManager());
        // viewPager.setAdapter(viewPagerAdapter);
@@ -43,53 +43,36 @@ public class Fragment_Tabs extends Fragment {
         return view;
     }
 
-//    private class sliderAdapter extends FragmentPagerAdapter {
-//
-//        final  String tabs[]={"Home", "Buy", "Rent", "Sold", "Lease", "News", "About"};
-//        public sliderAdapter(FragmentManager fm) {
-//            super(fm);
-//        }
-//
-//        @Override
-//        public Fragment getItem(int position) {
-//
-//            switch (position) {
-//                case 0:
-//                    Fragment_Home tab1 = new Fragment_Home();
-//                    return tab1;
-//                case 1:
-//                    Fragment_Buy tab2 = new Fragment_Buy();
-//                    return tab2;
-//                case 2:
-//                    Fragment_Rent tab3 = new Fragment_Rent();
-//                    return tab3;
-//                case 3:
-//                    Fragment_Sold tab4 = new Fragment_Sold();
-//                    return tab4;
-//                case 4:
-//                    Fragment_Lease tab5 = new Fragment_Lease();
-//                    return tab5;
-//                case 5:
-//                    Fragment_News tab6 = new Fragment_News();
-//                    return tab6;
-//                case 6:
-//                    Fragment_Property tab7 = new Fragment_Property();
-//                    return tab7;
-//
-//                default:
-//                    return null;
-//            }
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return 7;
-//        }
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return tabs[position];
-//        }
-//    }
+    private class sliderAdapter extends FragmentPagerAdapter {
+
+        final  String tabTitles[]={"Public", "Private"};
+        public sliderAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            switch (position) {
+                case 0:
+                    return new Fragment_PublicComments();
+                case 1:
+                    return new Fragment_PrivateComments();
+
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return tabTitles.length;
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabTitles[position];
+        }
+    }
 }
 
 

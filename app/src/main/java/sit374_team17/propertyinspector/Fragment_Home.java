@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -48,7 +50,6 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 
     public Fragment_Home() {
     }
-
 
 
     public interface HomeListener {
@@ -100,16 +101,39 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
         setHasOptionsMenu(true);
         initViews();
 
+        // mDB_properties.resetTable();
+//mDB_properties.onCreate();
         mPropertiesList = mDB_properties.getAllProperties();
 
+        mPropertiesList.addAll(populatePropertyList());
+
+
         if (mPropertiesList.size() >= 0) {
-            mPropertyAdapter = new Adapter_Properties(mListener);
+            mPropertyAdapter = new Adapter_Properties(mListener, getContext());
             mPropertyAdapter.setPropertyList(mPropertiesList);
             mRecyclerView.setAdapter(mPropertyAdapter);
         }
 
 
         return mView;
+    }
+
+    private List<Property> populatePropertyList() {
+        List<Property> propertyList = new ArrayList<>();
+
+
+        Property property1 = new Property(0, "311/67", "Spencer Street", "Melbourne", "VIC", "3000", "2", "1", "1", "$840,000", ContextCompat.getDrawable(getContext(), R.drawable.spencer));
+        Property property2 = new Property(1, "89", "Armstrong Street", "Middle Park", "VIC", "3206", "3", "2", "1", "Auction", ContextCompat.getDrawable(getContext(), R.drawable.armstrong));
+        Property property3 = new Property(2, "8", "Ferrars Place", "South Melbourne", "VIC", "3205", "4", "2", "1", "Auction", ContextCompat.getDrawable(getContext(), R.drawable.ferrars));
+        Property property4 = new Property(4, "23", "Wakefield Street", "Kensington", "VIC", "3031", "3", "2", "1", "$950,000", ContextCompat.getDrawable(getContext(), R.drawable.wake));
+        Property property5 = new Property(5, "199", "Clarke Street", "Northcote", "VIC", "3070", "3", "1", "1", "$700,000", ContextCompat.getDrawable(getContext(), R.drawable.clarke));
+
+        propertyList.add(property1);
+        propertyList.add(property2);
+        propertyList.add(property3);
+        propertyList.add(property4);
+        propertyList.add(property5);
+        return propertyList;
     }
 
     private void initViews() {
@@ -127,8 +151,8 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
 
-        MenuItem camera = menu.findItem(R.id.action_camera);
-        camera.setVisible(false);
+        //  MenuItem camera = menu.findItem(R.id.action_camera);
+        //  camera.setVisible(false);
 
     }
 

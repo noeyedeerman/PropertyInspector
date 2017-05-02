@@ -93,7 +93,7 @@ Context mContext;
 
     @Override
     public void onBindViewHolder(final Adapter_Comments.ViewHolder holder, int position) {
-        //holder.mStreetNumber.setText(mCommentsList.get(position).getDescription());
+        holder.mDescription.setText(mCommentsList.get(position).getDescription());
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +112,7 @@ Context mContext;
         ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-           // mDescription = (TextView) itemView.findViewById(R.id.textView_streetNumber);
+            mDescription = (TextView) itemView.findViewById(R.id.textView_comment);
 
         }
     }

@@ -3,6 +3,7 @@ package sit374_team17.propertyinspector;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -135,6 +136,7 @@ public class Fragment_CreateProperty extends Fragment {
                     mProperty.setBathrooms(bathrooms);
                     mProperty.setCars(garages);
                     mProperty.setPrice(price);
+                   // mProperty.setPhoto(ContextCompat.getDrawable(getContext(), R.drawable.house1));
                     mDB_properties.addProperty(mProperty);
                 } else {
                   //  mProperty.set_address(address);
@@ -166,8 +168,8 @@ public class Fragment_CreateProperty extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-        MenuItem camera = menu.findItem(R.id.action_camera);
-        camera.setVisible(true);
+//        MenuItem camera = menu.findItem(R.id.action_camera);
+//        camera.setVisible(true);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setVisible(false);

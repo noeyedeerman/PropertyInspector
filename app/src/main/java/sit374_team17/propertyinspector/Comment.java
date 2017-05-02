@@ -9,10 +9,12 @@ class Comment implements Parcelable {
     private int id;
     private int userId;
     private int propertyId;
+    private boolean isPublic;
     private String description;
     private Bitmap photo;
 
     public Comment() {}
+
 
     public int getId() {
         return id;
@@ -38,6 +40,14 @@ class Comment implements Parcelable {
         this.propertyId = propertyId;
     }
 
+    public boolean getIsPublic() {
+        return isPublic;
+    }
+
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -54,10 +64,11 @@ class Comment implements Parcelable {
         this.photo = photo;
     }
 
-    public Comment(int id, int userId, int propertyId, String description) {
+    public Comment(int id, int userId, int propertyId, boolean isPublic, String description) {
         this.id = id;
         this.userId = userId;
         this.propertyId = propertyId;
+        this.isPublic = isPublic;
         this.description = description;
 
     }
@@ -72,10 +83,12 @@ class Comment implements Parcelable {
     }
 
 
+
     protected Comment(Parcel in) {
         id = in.readInt();
         userId = in.readInt();
         propertyId = in.readInt();
+        isPublic = in.readByte() != 0;
         description = in.readString();
         photo = in.readParcelable(Bitmap.class.getClassLoader());
     }
@@ -85,6 +98,7 @@ class Comment implements Parcelable {
         dest.writeInt(id);
         dest.writeInt(userId);
         dest.writeInt(propertyId);
+        dest.writeByte((byte) (isPublic ? 1 : 0));
         dest.writeString(description);
         dest.writeParcelable(photo, flags);
     }
@@ -105,5 +119,4 @@ class Comment implements Parcelable {
             return new Comment[size];
         }
     };
-
 }

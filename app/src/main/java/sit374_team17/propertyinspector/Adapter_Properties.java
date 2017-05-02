@@ -1,27 +1,32 @@
 package sit374_team17.propertyinspector;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.support.v4.content.ContextCompat.*;
+
 class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHolder> {
     private List<Property> mPropertyList;
-
+private Context mContext;
     private Listener mListener;
 
 
 
-    Adapter_Properties(Listener listener) {
+    Adapter_Properties(Listener listener, Context context) {
         mPropertyList = new ArrayList<>();
         mListener = listener;
+        mContext = context;
     }
 
     public void setPropertyList(List<Property> propertiesList) {
@@ -103,6 +108,13 @@ class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHol
         holder.mCars.setText(String.valueOf(mPropertyList.get(position).getCars()));
         holder.mPrice.setText(String.valueOf(mPropertyList.get(position).getPrice()));
 
+
+        if (mPropertyList.get(position).getPhoto() != null ) {
+            holder.mPhoto.setImageDrawable(mPropertyList.get(position).getPhoto());
+        } else {
+            holder.mPhoto.setImageDrawable( getDrawable(mContext, R.drawable.house));
+        }
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +126,7 @@ class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHol
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice;
+        private ImageView mPhoto;
         private View mView;
 
         ViewHolder(View itemView) {
@@ -128,6 +141,8 @@ class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHol
             mBathrooms = (TextView) itemView.findViewById(R.id.textView_bathrooms);
             mCars = (TextView) itemView.findViewById(R.id.textView_cars);
             mPrice = (TextView) itemView.findViewById(R.id.textView_price);
+
+            mPhoto = (ImageView) itemView.findViewById(R.id.imageView_property);
         }
     }
 }
