@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton mFabProperty, mFabNote;
     SearchView mSearchView;
     Listener mListener;
-Context context;
+    Context context;
 
     EditText editText_note;
 
@@ -127,6 +127,10 @@ int[] scrollLocation = {0,0};
 
 
     }
+
+
+
+
 
     private void replaceFragment(Fragment fragment, String tag) {
         try {
@@ -261,7 +265,6 @@ int[] scrollLocation = {0,0};
         mFabProperty.hide();
 
     }
-
 
 
 

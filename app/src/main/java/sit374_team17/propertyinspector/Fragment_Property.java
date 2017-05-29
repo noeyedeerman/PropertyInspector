@@ -18,6 +18,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -113,6 +115,8 @@ public class Fragment_Property extends Fragment {
         if (getArguments() != null) {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
         }
+
+
     }
 
     @Override
@@ -126,7 +130,12 @@ public class Fragment_Property extends Fragment {
         button_save = (Button) mView.findViewById(R.id.button_save);
 
 
+
+
+
         editText_comment = (EditText) mView.findViewById(R.id.editText_comment);
+
+
 
         Fragment fragment_tabs = new Fragment_Tabs();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -205,9 +214,30 @@ public class Fragment_Property extends Fragment {
         mCars.setText(mProperty.getCars());
         //  mPrice.setText(mProperty.getPrice());
 
+        //Opens up Inspection Notes page/ inspection criteria
+        Button button_inspectionNotes = (Button)mView.findViewById(R.id.button_goToInspectionNotes);
+        button_inspectionNotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Create new fragment and transaction
+                Fragment newFragment = new Fragment_InspectionNotes();
+                // consider using Java coding conventions (upper first char class names!!!)
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack
+                transaction.replace(R.id.inspectionNotes, newFragment);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
+
+            }
+        });
 
         return mView;
     }
+
 
     private void saveComment(boolean isPublic) {
         String description = editText_comment.getText().toString();
@@ -395,6 +425,9 @@ public class Fragment_Property extends Fragment {
         }
 
     }
+
+
+
 
 //    // Some lifecycle callbacks so that the image can survive orientation change
 //    @Override

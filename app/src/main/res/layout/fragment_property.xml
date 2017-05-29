@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -270,6 +271,12 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/button_goToInspectionNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inspection Notes" />
+
         <LinearLayout
             android:id="@+id/propertyComments"
             android:layout_width="match_parent"
@@ -347,7 +354,7 @@
             <!--android:textColor="@android:color/black" />-->
         </LinearLayout>
 
-        <android.support.v4.app.FragmentTabHost
+       <android.support.v4.app.FragmentTabHost
             android:id="@+id/tabHost_comments"
             android:layout_width="match_parent"
             android:layout_height="1000dp">
