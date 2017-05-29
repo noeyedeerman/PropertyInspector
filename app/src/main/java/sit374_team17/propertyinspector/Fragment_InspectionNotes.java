@@ -22,6 +22,11 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 import android.view.KeyEvent;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
+
 
 
 import java.util.List;
@@ -226,7 +231,6 @@ public class Fragment_InspectionNotes extends Fragment {
             return expandableListDetail;
         }
     }
-
 
 
 
