@@ -6,11 +6,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by callu on 2/05/2017.
@@ -18,13 +29,10 @@ import java.util.ArrayList;
 
 public class Fragment_PublicComments extends Fragment {
     private ArrayList<Comment> mCommentsList;
-
+    protected List<DB_Comments> result;
     private static final String ARG_PROPERTY = "comment";
-
+    protected DynamoDBMapper mapper ;
     private Property mComment;
-
-
-
     private Listener mListener;
     private DB_CommentHandler mDB_comments;
     private View mView;
@@ -68,40 +76,14 @@ public class Fragment_PublicComments extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_public_comments, container, false);
-
-
-        mCommentsList = new ArrayList<>();
-
-        Comment comment1 = new Comment(0, 0, 0, true, "In efficitur quam congue leo eleifend, ut iaculis eros congue.");
-        Comment comment2 = new Comment(1, 0, 0, true, "Aliquam in mi vel leo dignissim dapibus in sed justo.");
-        Comment comment3 = new Comment(2, 0, 0, true, "Nunc elit turpis, ornare ut dolor quis, viverra tincidunt nisi. Pellentesque porttitor ut justo bibendum aliquet. Vestibulum ante ipsum primis.");
-        Comment comment4 = new Comment(3, 0, 0, true, "Curabitur sagittis faucibus mauris id finibus. Proin lacus lacus, pulvinar ut arcu a, finibus rutrum leo. Sed dapibus.");
-        Comment comment5 = new Comment(4, 0, 0, true, "Vestibulum ante ipsum primis in faucibus orci.");
-
-        mCommentsList.add(comment1);
-        mCommentsList.add(comment2);
-        mCommentsList.add(comment3);
-        mCommentsList.add(comment4);
-        mCommentsList.add(comment5);
-
-
         initViews();
-
-
-        if (mCommentsList.size() >= 0) {
-            mCommentsAdapter = new Adapter_Comments(mListener);
-            mCommentsAdapter.setCommentList(mCommentsList);
-            mRecyclerView.setAdapter(mCommentsAdapter);
-        }
-
-
         return mView;
     }
 
 
     private void initViews() {
-      mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_commentPublic);
-       mRecyclerView.setHasFixedSize(true);
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_commentPublic);
+        mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager;
 
 
@@ -114,6 +96,37 @@ public class Fragment_PublicComments extends Fragment {
         };
 
         mRecyclerView.setLayoutManager(layoutManager);
+
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                scanExpression.addFilterCondition("PropertyID",new Condition()
+                        .withComparisonOperator(ComparisonOperator.EQ)
+                        .withAttributeValueList(new AttributeValue().withS(Fragment_Property.PROPERTY_ID)));
+                scanExpression.addFilterCondition("CommentType",
+                        new Condition()
+                                .withComparisonOperator(ComparisonOperator.EQ)
+                                .withAttributeValueList(new AttributeValue().withS("public")));
+                result = mapper.scan(DB_Comments.class, scanExpression);
+                Log.e("asdasd",String.valueOf(result.size()));
+                if (result.size() >= 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mCommentsAdapter = new Adapter_Comments(mListener);
+                            mCommentsAdapter.setCommentList(result);
+                            mRecyclerView.setAdapter(mCommentsAdapter);
+                        }
+                    });
+                }
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
     }
 
 }

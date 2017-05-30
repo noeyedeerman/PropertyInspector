@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PropertyInspector.iml" filepath="$PROJECT_DIR$/PropertyInspector.iml" />
-      <module fileurl="file://$PROJECT_DIR$/PropertyInspector.iml" filepath="$PROJECT_DIR$/PropertyInspector.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/aws-android-sdk-cognitoidentityprovider-2.4.3/aws-android-sdk-cognitoidentityprovider-2.4.3.iml" filepath="$PROJECT_DIR$/aws-android-sdk-cognitoidentityprovider-2.4.3/aws-android-sdk-cognitoidentityprovider-2.4.3.iml" />
       <module fileurl="file://$PROJECT_DIR$/aws-android-sdk-core-2.4.3/aws-android-sdk-core-2.4.3.iml" filepath="$PROJECT_DIR$/aws-android-sdk-core-2.4.3/aws-android-sdk-core-2.4.3.iml" />

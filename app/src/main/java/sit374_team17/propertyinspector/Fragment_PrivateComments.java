@@ -6,21 +6,32 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by callu on 2/05/2017.
  */
 
 public class Fragment_PrivateComments extends Fragment {
-    private ArrayList<Comment> mCommentsList;
-
     private static final String ARG_PROPERTY = "comment";
 
+    protected List<DB_Comments> result;
+    protected DynamoDBMapper mapper ;
     private Property mComment;
 
     private Listener mListener;
@@ -67,32 +78,7 @@ public class Fragment_PrivateComments extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_private_comments, container, false);
 
-
-        mCommentsList = new ArrayList<>();
-
-        Comment comment1 = new Comment(0, 0, 0, true, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget purus varius, varius ante vel.");
-        Comment comment2 = new Comment(1, 0, 0, true, "Nulla accumsan pretium ligula id accumsan. Vestibulum posuere hendrerit lectus.");
-        Comment comment3 = new Comment(2, 0, 0, true, "Sed in sem id augue semper dapibus. Fusce sodales ac.");
-        Comment comment4 = new Comment(3, 0, 0, true, "Integer vitae elit est. Mauris hendrerit risus nec metus interdum tincidunt. Sed ullamcorper interdum justo.");
-        Comment comment5 = new Comment(4, 0, 0, true, "Donec eu semper felis. Sed pretium scelerisque erat, sed bibendum.");
-
-        mCommentsList.add(comment1);
-        mCommentsList.add(comment2);
-        mCommentsList.add(comment3);
-        mCommentsList.add(comment4);
-        mCommentsList.add(comment5);
-
-
         initViews();
-
-
-        if (mCommentsList.size() >= 0) {
-            mCommentsAdapter = new Adapter_Comments(mListener);
-            mCommentsAdapter.setCommentList(mCommentsList);
-            mRecyclerView.setAdapter(mCommentsAdapter);
-        }
-
-
         return mView;
     }
 
@@ -112,6 +98,36 @@ public class Fragment_PrivateComments extends Fragment {
         };
 
         mRecyclerView.setLayoutManager(layoutManager);
+
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                scanExpression.addFilterCondition("PropertyID",new Condition()
+                        .withComparisonOperator(ComparisonOperator.EQ)
+                        .withAttributeValueList(new AttributeValue().withS(Fragment_Property.PROPERTY_ID)));
+                scanExpression.addFilterCondition("CommentType",
+                        new Condition()
+                                .withComparisonOperator(ComparisonOperator.EQ)
+                                .withAttributeValueList(new AttributeValue().withS("private")));
+                result = mapper.scan(DB_Comments.class, scanExpression);
+                if (result.size() >= 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mCommentsAdapter = new Adapter_Comments(mListener);
+                            mCommentsAdapter.setCommentList(result);
+                            mRecyclerView.setAdapter(mCommentsAdapter);
+                        }
+                    });
+                }
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
     }
 
 }

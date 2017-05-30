@@ -35,7 +35,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    protected CognitoCachingCredentialsProvider credentialsProvider ;
+    protected static  CognitoCachingCredentialsProvider credentialsProvider ;
     protected DynamoDBMapper mapper ;
     private String IDENTITY_POOL_ID="ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
     protected  List<DB_Property> result;

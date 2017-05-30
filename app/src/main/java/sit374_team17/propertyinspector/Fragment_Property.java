@@ -20,11 +20,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +48,7 @@ public class Fragment_Property extends Fragment {
     private static final String ARG_PROPERTY = "property";
 
     private DB_Property mProperty;
-
+    protected DynamoDBMapper mapper ;
     View mView;
     ViewPager mViewPager_property;
     Adapter_PropertySwipe mAdapter_slideShow;
@@ -60,7 +67,7 @@ public class Fragment_Property extends Fragment {
     int imageArray[];
     //Comment mComment;
     List<Comment> mCommentsList;
-    DB_CommentHandler mDB_comments;
+    DB_Comments mDB_comments;
     private Listener mListener;
     private MenuItem mSearchItem;
     private ImageView mImageView;
@@ -69,6 +76,7 @@ public class Fragment_Property extends Fragment {
     private Bitmap mhouse2;
     RecyclerView mRecyclerView;
 
+    protected static String PROPERTY_ID="";
     public Fragment_Property() {
     }
 
@@ -101,7 +109,6 @@ public class Fragment_Property extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDB_comments = new DB_CommentHandler(getContext());
         if (getArguments() != null) {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
         }
@@ -198,7 +205,12 @@ public class Fragment_Property extends Fragment {
         if (mProperty.getInspection_date()!=null)
             propertyInspectionDate.setText(mProperty.getInspection_date());
         //  mPrice.setText(mProperty.getPrice());
+        PROPERTY_ID=mProperty.getId();
+        //  mPrice.setText(mProperty.getPrice());
 
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
         //Opens up Inspection Notes page/ inspection criteria
         Button button_inspectionNotes = (Button)mView.findViewById(R.id.button_goToInspectionNotes);
         button_inspectionNotes.setOnClickListener(new View.OnClickListener() {
@@ -225,23 +237,38 @@ public class Fragment_Property extends Fragment {
 
     private void saveComment(boolean isPublic) {
         String description = editText_comment.getText().toString();
-
-        if (mComment != null) {
-            if (!description.isEmpty()) {
-                if (mComment.getId() < 0) {
-                    mComment.setDescription(description);
-                    mComment.setIsPublic(isPublic);
-
-                    // if (city.isEmpty()) city = empty;
-                    mComment.setDescription(description);
-                    mDB_comments.addComment(mComment);
-                } else {
-                    //  mProperty.set_address(address);
-                    //  mDB_properties.updateProperty(mProperty);
+        mDB_comments =new DB_Comments();
+        mDB_comments.setPropertyId(PROPERTY_ID);
+        mDB_comments.setDescription(description);
+        if (isPublic)mDB_comments.setCommentType("public");
+        else  mDB_comments.setCommentType("private");
+        Toast.makeText(getActivity(),"Submitting please wait",Toast.LENGTH_SHORT).show();
+        if (!description.equals(""))
+        {
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    //DynamoDB calls go here
+                    mapper.save(mDB_comments);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(),"Comment submitted successfully",Toast.LENGTH_SHORT).show();
+                            editText_comment.setText("");
+                            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                            Fragment fragment_tabs = new Fragment_Tabs();
+                            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                            transaction.add(R.id.tabHost_comments, fragment_tabs).commit();
+                        }
+                    });
                 }
-                mListener.onSaveComment();
-            }
+            };
+            Thread mythread = new Thread(runnable);
+            mythread.start();
         }
+        else
+            Toast.makeText(getActivity(),"Empty post are not allowed",Toast.LENGTH_LONG).show();
+
+        mListener.onSaveComment();
     }
 
 
