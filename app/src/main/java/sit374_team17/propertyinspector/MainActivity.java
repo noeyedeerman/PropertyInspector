@@ -27,7 +27,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
-
 import java.util.Calendar;
 
 import static sit374_team17.propertyinspector.Fragment_CreateProperty.newInstance;
@@ -42,9 +41,7 @@ public class MainActivity extends AppCompatActivity
     SearchView mSearchView;
     Listener mListener;
     Context context;
-
     EditText editText_note;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +59,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 mProperty = new Property();
-                goTo_CreatePropertyFragment(getCurrentFocus(), new Property(-1));
+                goTo_CreatePropertyFragment(getCurrentFocus(), new DB_Property());
                 mFabProperty.hide();
             }
         });
@@ -75,8 +72,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
 
                 ScrollView myScroller = (ScrollView) findViewById(R.id.scrollView_property);
-int[] scrollLocation = {0,0};
-              //  ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.getChildAt(0).getBottom()).setDuration(600).start();
+                int[] scrollLocation = {0,0};
+                //  ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.getChildAt(0).getBottom()).setDuration(600).start();
                 ObjectAnimator.ofInt(myScroller, "scrollY",  myScroller.findViewById(R.id.commentView).getBottom()+1600).setDuration(600).start();
                 //ObjectAnimator.ofInt(myScroller, "scrollY",  200).setDuration(600).start();
             }
@@ -98,19 +95,18 @@ int[] scrollLocation = {0,0};
 
     public void gotTo_HomeFragment(View view) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         if (fragmentManager.getBackStackEntryCount() < 1) {
             Fragment_Home fragment = Fragment_Home.newInstance("param1", "param2");
             replaceFragment(fragment, "Fragment_Home");
         }
     }
 
-    public void goTo_CreatePropertyFragment(View view, Property property) {
+    public void goTo_CreatePropertyFragment(View view, DB_Property property) {
         Fragment_CreateProperty fragment = newInstance(property);
         replaceFragment(fragment, "Fragment_CreateProperty");
     }
 
-    public void goTo_PropertyFragment(Property property) {
+    public void goTo_PropertyFragment(DB_Property property) {
 
         Fragment_Property fragment = Fragment_Property.newInstance(property);
         replaceFragment(fragment, "Fragment_Property");
@@ -123,14 +119,10 @@ int[] scrollLocation = {0,0};
 
         Fragment_CreateNote fragment = Fragment_CreateNote.newInstance();
         replaceFragment(fragment, "Fragment_CreateNote");
-       // mFabNote.hide();
+        // mFabNote.hide();
 
 
     }
-
-
-
-
 
     private void replaceFragment(Fragment fragment, String tag) {
         try {
@@ -259,12 +251,13 @@ int[] scrollLocation = {0,0};
     }
 
     @Override
-    public void onItemClicked(Property property) {
+    public void onItemClicked(DB_Property property) {
         goTo_PropertyFragment(property);
 
         mFabProperty.hide();
 
     }
+
 
 
 

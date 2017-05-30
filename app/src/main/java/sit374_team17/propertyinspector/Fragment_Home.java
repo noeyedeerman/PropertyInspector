@@ -2,18 +2,13 @@ package sit374_team17.propertyinspector;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,11 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 
-import static sit374_team17.propertyinspector.Adapter_Properties.*;
-import static sit374_team17.propertyinspector.Fragment_CreateProperty.newInstance;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class Fragment_Home extends Fragment implements SearchView.OnQueryTextListener {
@@ -34,6 +35,11 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    protected CognitoCachingCredentialsProvider credentialsProvider ;
+    protected DynamoDBMapper mapper ;
+    private String IDENTITY_POOL_ID="ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
+    protected  List<DB_Property> result;
+    protected  List<DB_photos> results;
     private String mParam1;
     private String mParam2;
 
@@ -100,40 +106,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
         initViews();
-
-        // mDB_properties.resetTable();
-//mDB_properties.onCreate();
-        mPropertiesList = mDB_properties.getAllProperties();
-
-        mPropertiesList.addAll(populatePropertyList());
-
-
-        if (mPropertiesList.size() >= 0) {
-            mPropertyAdapter = new Adapter_Properties(mListener, getContext());
-            mPropertyAdapter.setPropertyList(mPropertiesList);
-            mRecyclerView.setAdapter(mPropertyAdapter);
-        }
-
-
         return mView;
-    }
-
-    private List<Property> populatePropertyList() {
-        List<Property> propertyList = new ArrayList<>();
-
-
-        Property property1 = new Property(0, "311/67", "Spencer Street", "Melbourne", "VIC", "3000", "2", "1", "1", "$840,000", ContextCompat.getDrawable(getContext(), R.drawable.spencer));
-        Property property2 = new Property(1, "89", "Armstrong Street", "Middle Park", "VIC", "3206", "3", "2", "1", "Auction", ContextCompat.getDrawable(getContext(), R.drawable.armstrong));
-        Property property3 = new Property(2, "8", "Ferrars Place", "South Melbourne", "VIC", "3205", "4", "2", "1", "Auction", ContextCompat.getDrawable(getContext(), R.drawable.ferrars));
-        Property property4 = new Property(4, "23", "Wakefield Street", "Kensington", "VIC", "3031", "3", "2", "1", "$950,000", ContextCompat.getDrawable(getContext(), R.drawable.wake));
-        Property property5 = new Property(5, "199", "Clarke Street", "Northcote", "VIC", "3070", "3", "1", "1", "$700,000", ContextCompat.getDrawable(getContext(), R.drawable.clarke));
-
-        propertyList.add(property1);
-        propertyList.add(property2);
-        propertyList.add(property3);
-        propertyList.add(property4);
-        propertyList.add(property5);
-        return propertyList;
     }
 
     private void initViews() {
@@ -141,6 +114,36 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
+        Log.d(Activity_Login.LOG_TAG,getActivity().getIntent().getStringExtra("tokens"));
+        // Create a credentials provider, or use the existing provider.
+        credentialsProvider = new CognitoCachingCredentialsProvider(getActivity(), IDENTITY_POOL_ID, Regions.AP_SOUTHEAST_2);
+        // Set up as a credentials provider.
+        Map<String, String> logins = new HashMap<String, String>();
+        logins.put("cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_e4nCxiblG", getActivity().getIntent().getStringExtra("tokens"));
+        credentialsProvider.setLogins(logins);
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                result = mapper.scan(DB_Property.class, scanExpression);
+                results = mapper.scan(DB_photos.class, scanExpression);
+                if (result.size() >= 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mPropertyAdapter = new Adapter_Properties(mListener, getContext(),credentialsProvider,results);
+                            mPropertyAdapter.setPropertyList(result);
+                            mRecyclerView.setAdapter(mPropertyAdapter);
+                        }
+                    });
+                }
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
     }
 
     @Override
@@ -161,13 +164,15 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
         return false;
     }
 
+
+
     @Override
     public boolean onQueryTextChange(String query) {
         query = query.toLowerCase();
 
-        final List<Property> filteredModelList = new ArrayList<>();
-        for (Property property : mPropertiesList) {
-            final String text = property.getText().toLowerCase();
+        final List<DB_Property> filteredModelList = new ArrayList<>();
+        for (DB_Property property : result) {
+            final String text = property.getUnitNumber() + property.getStreetNumber() + property.getStreetName() + property.getCity() +  property.getPostCode();
             if (text.contains(query)) {
                 filteredModelList.add(property);
             }
@@ -181,6 +186,12 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
     public void onDestroy() {
         super.onDestroy();
 
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+       initViews();
+        super.onViewStateRestored(savedInstanceState);
     }
 }
 

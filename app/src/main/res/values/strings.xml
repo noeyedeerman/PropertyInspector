@@ -71,6 +71,7 @@
     <string name="inspection_dates">Inspection dates</string>
     <string name="camera">Camera</string>
     <string name="Comments">Comments</string>
+    <string name="upload">Upload</string>
 
     <string-array name="months">
         <item>January</item>

@@ -2,26 +2,17 @@ package sit374_team17.propertyinspector;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
-import android.support.v4.app.FragmentManager;
-
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static android.R.attr.columnCount;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -50,13 +40,13 @@ public class Fragment_Property extends Fragment {
 
     private static final String ARG_PROPERTY = "property";
 
-    private Property mProperty;
+    private DB_Property mProperty;
 
     View mView;
     ViewPager mViewPager_property;
     Adapter_PropertySwipe mAdapter_slideShow;
     Adapter_Comments mAdapter_comments;
-    TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice, mDescription;
+    TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice, mDescription,propertyInspectionDate;
     Button button_post, button_save;
     ImageButton button_camera;
     EditText editText_comment;
@@ -66,7 +56,7 @@ public class Fragment_Property extends Fragment {
 
     // List<Bitmap> bitmapArray = new ArrayList<>();
     Bitmap mHouse1, mHouse2, mHouse3, mHouse4, mHouse5;
-    List<Bitmap> mPhotoList;
+    List<String> mPhotoList;
     int imageArray[];
     //Comment mComment;
     List<Comment> mCommentsList;
@@ -100,7 +90,7 @@ public class Fragment_Property extends Fragment {
         mListener = null;
     }
 
-    public static Fragment_Property newInstance(Property property) {
+    public static Fragment_Property newInstance(DB_Property property) {
         Fragment_Property fragment = new Fragment_Property();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PROPERTY, property);
@@ -115,8 +105,6 @@ public class Fragment_Property extends Fragment {
         if (getArguments() != null) {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
         }
-
-
     }
 
     @Override
@@ -130,12 +118,7 @@ public class Fragment_Property extends Fragment {
         button_save = (Button) mView.findViewById(R.id.button_save);
 
 
-
-
-
         editText_comment = (EditText) mView.findViewById(R.id.editText_comment);
-
-
 
         Fragment fragment_tabs = new Fragment_Tabs();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
@@ -145,7 +128,7 @@ public class Fragment_Property extends Fragment {
         mPhotoList = new ArrayList<>();
         mCommentsList = new ArrayList<>();
 
-      //  mCommentsList = mDB_comments.getAllComments();
+        //  mCommentsList = mDB_comments.getAllComments();
         //  mAdapter = new Adapter_PropertySwipe(getContext());
 
         mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
@@ -184,10 +167,8 @@ public class Fragment_Property extends Fragment {
         //  mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
         //  mRecyclerView.setAdapter(mAdapter_comments);
 
-        populatePhotoList();
-
+        mPhotoList.add(mProperty.getPhoto());
         mAdapter_slideShow.setPhotoList(mPhotoList);
-
         mViewPager_property.setAdapter(mAdapter_slideShow);
 
 
@@ -201,17 +182,21 @@ public class Fragment_Property extends Fragment {
         mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
         mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
         mCars = (TextView) mView.findViewById(R.id.textView_cars);
+        propertyInspectionDate = (TextView) mView.findViewById(R.id.propertyInspectionDate);
         // mPrice = (TextView) mView.findViewById(R.id.textView_price);
 
 
-        mStreetNumber.setText(mProperty.getStreetNumber());
-        mStreetName.setText(mProperty.getStreetName());
+        mStreetNumber.setText(String.valueOf(mProperty.getStreetNumber()));
+        mStreetName.setText(String.valueOf(mProperty.getStreetName()));
         mCity.setText(mProperty.getCity());
-        mState.setText(mProperty.getState());
-        mPostCode.setText(mProperty.getPostCode());
-        mBedrooms.setText(mProperty.getBedrooms());
-        mBathrooms.setText(mProperty.getBathrooms());
-        mCars.setText(mProperty.getCars());
+        //  mState.setText(mProperty.getState());
+        mState.setText(mProperty.getState().get(0));
+        mPostCode.setText(String.valueOf(mProperty.getPostCode()));
+        mBedrooms.setText(String.valueOf(mProperty.getBedrooms().get(0)));
+        mBathrooms.setText(String.valueOf(mProperty.getBathrooms().get(0)));
+        mCars.setText(String.valueOf(mProperty.getCars().get(0)));
+        if (mProperty.getInspection_date()!=null)
+            propertyInspectionDate.setText(mProperty.getInspection_date());
         //  mPrice.setText(mProperty.getPrice());
 
         //Opens up Inspection Notes page/ inspection criteria
@@ -238,7 +223,6 @@ public class Fragment_Property extends Fragment {
         return mView;
     }
 
-
     private void saveComment(boolean isPublic) {
         String description = editText_comment.getText().toString();
 
@@ -246,7 +230,7 @@ public class Fragment_Property extends Fragment {
             if (!description.isEmpty()) {
                 if (mComment.getId() < 0) {
                     mComment.setDescription(description);
-                        mComment.setIsPublic(isPublic);
+                    mComment.setIsPublic(isPublic);
 
                     // if (city.isEmpty()) city = empty;
                     mComment.setDescription(description);
@@ -255,7 +239,7 @@ public class Fragment_Property extends Fragment {
                     //  mProperty.set_address(address);
                     //  mDB_properties.updateProperty(mProperty);
                 }
-                  mListener.onSaveComment();
+                mListener.onSaveComment();
             }
         }
     }
@@ -278,20 +262,6 @@ public class Fragment_Property extends Fragment {
 //
 //
 //        mRecyclerView.setLayoutManager(layoutManager);
-    }
-
-    private void populatePhotoList() {
-        mHouse1 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house1);
-        mHouse2 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house2);
-        mHouse3 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house3);
-        mHouse4 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house4);
-        mHouse5 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.house5);
-
-        mPhotoList.add(mHouse1);
-        mPhotoList.add(mHouse2);
-        mPhotoList.add(mHouse3);
-        mPhotoList.add(mHouse4);
-        mPhotoList.add(mHouse5);
     }
 
     @Override
@@ -357,7 +327,7 @@ public class Fragment_Property extends Fragment {
         }
     }
 
-    private void setPic() {
+ /*   private void setPic() {
         // Get the dimensions of the View
         int targetW = mViewPager_property.getWidth();
         int targetH = mViewPager_property.getHeight();
@@ -396,13 +366,13 @@ public class Fragment_Property extends Fragment {
         mAdapter_slideShow.setPhotoList(mPhotoList);
 
 
-    }
+    }*/
 
 
     private void handleBigCameraPhoto() {
 
         if (mCurrentPhotoPath != null) {
-            setPic();
+            // setPic();
             galleryAddPic();
             mCurrentPhotoPath = null;
         }
@@ -425,9 +395,6 @@ public class Fragment_Property extends Fragment {
         }
 
     }
-
-
-
 
 //    // Some lifecycle callbacks so that the image can survive orientation change
 //    @Override

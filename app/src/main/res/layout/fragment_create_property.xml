@@ -74,7 +74,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.1"
             android:src="@drawable/bed_icon"
-             />
+            />
 
         <NumberPicker
             android:id="@+id/editText_bedrooms"
@@ -89,7 +89,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.1"
             android:src="@drawable/bath_icon"
-             />
+            />
 
         <NumberPicker
             android:id="@+id/editText_bathrooms"
@@ -104,7 +104,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.1"
             android:src="@drawable/garage_icon"
-             />
+            />
 
         <NumberPicker
             android:id="@+id/editText_cars"
@@ -130,6 +130,26 @@
         android:layout_height="wrap_content"
         android:hint="@string/description"
         android:inputType="textMultiLine" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="@string/upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_upload"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/file_path"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/button_save"

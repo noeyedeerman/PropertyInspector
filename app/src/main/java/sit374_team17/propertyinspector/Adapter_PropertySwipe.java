@@ -11,22 +11,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Adapter_PropertySwipe extends PagerAdapter {
-  //  private int[] image_resource = {R.drawable.ic_property, R.drawable.ic_property, R.drawable.ic_property, R.drawable.ic_property};
+    //  private int[] image_resource = {R.drawable.ic_property, R.drawable.ic_property, R.drawable.ic_property, R.drawable.ic_property};
 
     private Context context;
     private LayoutInflater layoutInflater;
-List<Bitmap> mPhotoList;
+    List<String> mPhotoList;
 
     public Adapter_PropertySwipe(Context context) {
         this.context = context;
         mPhotoList = new ArrayList<>();
     }
 
-    public void setPhotoList(List<Bitmap> photoList) {
+    public void setPhotoList(List<String> photoList) {
         mPhotoList.clear();
         mPhotoList.addAll(photoList);
         notifyDataSetChanged();
@@ -49,8 +51,11 @@ List<Bitmap> mPhotoList;
 
         ImageView imageView = (ImageView) item_view.findViewById(R.id.imageView_property);
 
-     //   imageView.setImageResource(mImageList.get(position));
-imageView.setImageBitmap(mPhotoList.get(position));
+        //   imageView.setImageResource(mImageList.get(position));
+        Glide.with(context)
+                .load(mPhotoList.get(position))
+                .asBitmap()
+                .into(imageView);
         container.addView(item_view);
 
         return item_view;

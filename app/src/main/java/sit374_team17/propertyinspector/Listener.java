@@ -6,7 +6,7 @@ package sit374_team17.propertyinspector;
 
 public interface Listener {
     void onHomeInteraction();
-    void onItemClicked(Property property);
+    void onItemClicked(DB_Property property);
     void onSaveProperty();
 
     void onSaveComment();

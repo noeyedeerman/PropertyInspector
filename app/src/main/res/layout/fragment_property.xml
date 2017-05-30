@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,7 +68,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:src="@drawable/bed_icon"
-                         />
+                        />
 
                     <TextView
                         android:id="@+id/textView_bedrooms"
@@ -86,7 +85,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:src="@drawable/bath_icon"
-                         />
+                        />
 
                     <TextView
                         android:id="@+id/textView_bathrooms"
@@ -103,7 +102,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:src="@drawable/garage_icon"
-                         />
+                        />
 
                     <TextView
                         android:id="@+id/textView_cars"
@@ -250,21 +249,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10/05/2017"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="11/05/2017"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="12/05/2017"
+                android:id="@+id/propertyInspectionDate"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -354,7 +339,7 @@
             <!--android:textColor="@android:color/black" />-->
         </LinearLayout>
 
-       <android.support.v4.app.FragmentTabHost
+        <android.support.v4.app.FragmentTabHost
             android:id="@+id/tabHost_comments"
             android:layout_width="match_parent"
             android:layout_height="1000dp">
