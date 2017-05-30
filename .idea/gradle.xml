@@ -9,6 +9,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/aws-android-sdk-cognitoidentityprovider-2.4.3" />
+            <option value="$PROJECT_DIR$/aws-android-sdk-core-2.4.3" />
+            <option value="$PROJECT_DIR$/aws-android-sdk-ddb-2.4.3" />
+            <option value="$PROJECT_DIR$/aws-android-sdk-ddb-mapper-2.4.3" />
+            <option value="$PROJECT_DIR$/aws-android-sdk-s3-2.4.3" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
