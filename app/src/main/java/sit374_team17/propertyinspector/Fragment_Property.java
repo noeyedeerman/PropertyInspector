@@ -189,7 +189,7 @@ public class Fragment_Property extends Fragment {
         mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
         mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
         mCars = (TextView) mView.findViewById(R.id.textView_cars);
-        propertyInspectionDate = (TextView) mView.findViewById(R.id.propertyInspectionDate);
+        //propertyInspectionDate = (TextView) mView.findViewById(R.id.propertyInspectionDate);
         // mPrice = (TextView) mView.findViewById(R.id.textView_price);
 
 
@@ -211,6 +211,7 @@ public class Fragment_Property extends Fragment {
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
         ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
         mapper = new DynamoDBMapper(ddbClient);
+
         //Opens up Inspection Notes page/ inspection criteria
         Button button_inspectionNotes = (Button)mView.findViewById(R.id.button_goToInspectionNotes);
         button_inspectionNotes.setOnClickListener(new View.OnClickListener() {
@@ -223,9 +224,9 @@ public class Fragment_Property extends Fragment {
 
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack
-                transaction.replace(R.id.inspectionNotes, newFragment);
+                transaction.replace(R.id.content_main, newFragment);
                 transaction.addToBackStack(null);
-
+                
                 // Commit the transaction
                 transaction.commit();
 

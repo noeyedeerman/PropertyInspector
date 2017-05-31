@@ -217,44 +217,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/propertyInspectionTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_my_calendar" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="7"
-
-                android:text="@string/inspection_dates"
-                android:textSize="@dimen/text_detailTitle"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/propertyInspection"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_margin="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/propertyInspectionDate"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-
-        </LinearLayout>
 
         <Button
             android:id="@+id/button_goToInspectionNotes"
