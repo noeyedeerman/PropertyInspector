@@ -223,7 +223,7 @@
             android:id="@+id/button_goToInspectionNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Inspection Notes" />
+            android:text="Inspection Ratings" />
 
         <LinearLayout
             android:id="@+id/propertyComments"

@@ -84,6 +84,7 @@ public class Fragment_InspectionNotes extends Fragment {
         expandableListView = (ExpandableListView) mView.findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();
         expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+        java.util.Collections.sort(expandableListTitle);
 
         expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
@@ -107,100 +108,65 @@ public class Fragment_InspectionNotes extends Fragment {
         public static HashMap<String, List<String>> getData() {
             HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
 
-            List<String> grounds = new ArrayList<String>();
-            grounds.add("Evidence of damage");
-            grounds.add("Evidence of risk");
-            grounds.add("Likes");
-            grounds.add("Dislikes");
 
+            List<String> grounds = new ArrayList<String>();
+            grounds.add("Comments:");
 
             List<String> structure = new ArrayList<String>();
-            structure.add("Evidence of damage");
-            structure.add("Evidence of risk");
-            structure.add("Likes");
-            structure.add("Dislikes");
-
+            structure.add("Comments:");
 
             List<String> exterior = new ArrayList<String>();
-            exterior.add("Evidence of damage");
-            exterior.add("Evidence of risk");
-            exterior.add("Likes");
-            exterior.add("Dislikes");
+            exterior.add("Comments:");
 
             List<String> environment = new ArrayList<String>();
-            environment.add("Evidence of damage");
-            environment.add("Evidence of risk");
-            environment.add("Likes");
-            environment.add("Dislikes");
+            environment.add("Comments:");
 
             List<String> interior = new ArrayList<String>();
-            interior.add("Evidence of damage");
-            interior.add("Evidence of risk");
-            interior.add("Likes");
-            interior.add("Dislikes");
+            interior.add("Comments:");
+
 
             List<String> roof = new ArrayList<String>();
-            roof.add("Evidence of damage");
-            roof.add("Evidence of risk");
-            roof.add("Likes");
-            roof.add("Dislikes");
+            roof.add("Comments:");
+
 
             List<String> windows = new ArrayList<String>();
-            windows.add("Evidence of damage");
-            windows.add("Evidence of risk");
-            windows.add("Likes");
-            windows.add("Dislikes");
+            windows.add("Comments:");
+
 
             List<String> kitchen = new ArrayList<String>();
-            kitchen.add("Evidence of damage");
-            kitchen.add("Evidence of risk");
-            kitchen.add("Likes");
-            kitchen.add("Dislikes");
+            kitchen.add("Comments:");
+
 
             List<String> bathroom = new ArrayList<String>();
-            bathroom.add("Evidence of damage");
-            bathroom.add("Evidence of risk");
-            bathroom.add("Likes");
-            bathroom.add("Dislikes");
+            bathroom.add("Comments:");
+
 
             List<String> attic = new ArrayList<String>();
-            attic.add("Evidence of damage");
-            attic.add("Evidence of risk");
-            attic.add("Likes");
-            attic.add("Dislikes");
+            attic.add("Comments:");
+
 
             List<String> garage = new ArrayList<String>();
-            garage.add("Evidence of damage");
-            garage.add("Evidence of risk");
-            garage.add("Likes");
-            garage.add("Dislikes");
+            garage.add("Comments:");
+
 
             List<String> plumbing = new ArrayList<String>();
-            plumbing.add("Evidence of damage");
-            plumbing.add("Evidence of risk");
+            plumbing.add("Comments:");
 
 
             List<String> electrical = new ArrayList<String>();
-            electrical.add("Evidence of damage");
-            electrical.add("Evidence of risk");
+            electrical.add("Comments:");
 
 
             List<String> heating = new ArrayList<String>();
-            heating.add("Evidence of damage");
-            heating.add("Evidence of risk");
+            heating.add("Comments:");
 
 
             List<String> garden = new ArrayList<String>();
-            garden.add("Evidence of damage");
-            garden.add("Evidence of risk");
-            garden.add("Likes");
-            garden.add("Dislikes");
+            garden.add("Comments:");
+
 
             List<String> miscellaneous = new ArrayList<String>();
-            miscellaneous.add("Evidence of damage");
-            miscellaneous.add("Evidence of risk");
-            miscellaneous.add("Likes");
-            miscellaneous.add("Dislikes");
+            miscellaneous.add("Comments:");
 
 
             expandableListDetail.put("Grounds", grounds);
