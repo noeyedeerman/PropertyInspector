@@ -8,15 +8,26 @@ import java.util.HashMap;
 import java.util.List;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.media.Image;
+import android.media.Rating;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.text.TextWatcher;
 import java.util.ArrayList;
+import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.support.v7.app.AlertDialog;
+import android.content.DialogInterface;
+import android.widget.RatingBar;
+import android.support.v7.app.ActionBar.LayoutParams;
+import android.widget.LinearLayout;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -53,14 +64,33 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_item, null);
         }
-        TextView expandedListTextView = (TextView) convertView
-                .findViewById(R.id.expandedListItem);
-        expandedListTextView.setText(expandedListText);
+        ImageButton commentButton = (ImageButton) convertView
+                .findViewById(R.id.commentButton);
+        commentButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
-        EditText editText = (EditText) convertView
-                .findViewById(R.id.listItemEditext);
-        editText.getText();
-        editTextList.add(editText);
+                builder.setMessage("Write Comment: ")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //do things
+                            }
+                        })
+                        .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                final EditText input = new EditText(context);
+                alert.setView(input);
+                alert.show();
+
+            }
+        });
+
 
 
         return convertView;

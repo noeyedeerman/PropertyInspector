@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/expandedListItem"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/list_item">
+
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
         android:layout_width="wrap_content"
@@ -25,43 +21,47 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Comment1 \n 0%"
+                android:text=" \n  Comment1"
+                android:textAlignment="viewStart" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/alert_light_frame" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="\nComment2"
                 android:textAlignment="center" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/alert_light_frame" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Comment2 \n 0%"
+                android:text="\nComment3"
                 android:textAlignment="center" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/alert_light_frame" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Comment3 \n 0%"
+                android:text="\nComment4"
                 android:textAlignment="center" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/alert_light_frame" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Comment4 \n 0%"
-                android:textAlignment="center" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/alert_light_frame" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Comment5 \n 0%"
+                android:text="\nComment5"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -70,32 +70,55 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/listItemEditext"
+    <TextView
+        android:id="@+id/TextView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="\n  Comment"
+        android:textAlignment="viewStart" />
+
+    <ImageButton
+        android:id="@+id/commentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <TextView
+        android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:ems="10" />
+        android:text="               " />
 
-    <ImageButton
-        android:id="@+id/imageButton"
+    <TextView
+        android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+        android:layout_weight="1"
+        android:text="\nLike" />
 
-    <Button
-        android:layout_width="55dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/holo_blue_light"
-        android:text="Like"
-        android:textSize="8sp" />
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:tint="@android:color/holo_blue_light"
+        app:srcCompat="@android:drawable/arrow_up_float" />
 
-    <Button
-        android:layout_width="55dp"
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/holo_red_light"
-        android:text="Dislike"
-        android:textSize="8sp" />
+        android:layout_weight="1"
+        android:text="\nDislike" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:tint="@android:color/holo_red_light"
+        app:srcCompat="@android:drawable/arrow_down_float" />
 
 </LinearLayout>
+
 </LinearLayout>

@@ -3,6 +3,7 @@ package sit374_team17.propertyinspector;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.LayoutInflaterFactory;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.Button;
+import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +32,8 @@ public class Fragment_InspectionNotes extends Fragment {
     // public interface CreatePropertyListener {
     //    void onSaveProperty();
    // }
+
+
 
 
     @Override
@@ -84,11 +89,13 @@ public class Fragment_InspectionNotes extends Fragment {
         expandableListView = (ExpandableListView) mView.findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListDataPump.getData();
         expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
-        java.util.Collections.sort(expandableListTitle);
+        //java.util.Collections.sort(expandableListTitle);
 
         expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail);
         expandableListView.setAdapter(expandableListAdapter);
         return mView;
+
+
     }
 
     @Override
@@ -104,87 +111,88 @@ public class Fragment_InspectionNotes extends Fragment {
 
     }
 
+
     public static class ExpandableListDataPump {
         public static HashMap<String, List<String>> getData() {
             HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
 
 
-            List<String> grounds = new ArrayList<String>();
-            grounds.add("Comments:");
+            List<String> A_grounds = new ArrayList<String>();
+            A_grounds.add("Comments:");
 
-            List<String> structure = new ArrayList<String>();
-            structure.add("Comments:");
+            List<String> B_structure = new ArrayList<String>();
+            B_structure.add("Comments:");
 
-            List<String> exterior = new ArrayList<String>();
-            exterior.add("Comments:");
+            List<String> C_exterior = new ArrayList<String>();
+            C_exterior.add("Comments:");
 
-            List<String> environment = new ArrayList<String>();
-            environment.add("Comments:");
+            List<String> D_environment = new ArrayList<String>();
+            D_environment.add("Comments:");
 
-            List<String> interior = new ArrayList<String>();
-            interior.add("Comments:");
-
-
-            List<String> roof = new ArrayList<String>();
-            roof.add("Comments:");
+            List<String> E_interior = new ArrayList<String>();
+            E_interior.add("Comments:");
 
 
-            List<String> windows = new ArrayList<String>();
-            windows.add("Comments:");
+            List<String> F_roof = new ArrayList<String>();
+            F_roof.add("Comments:");
 
 
-            List<String> kitchen = new ArrayList<String>();
-            kitchen.add("Comments:");
+            List<String> G_windows = new ArrayList<String>();
+            G_windows.add("Comments:");
 
 
-            List<String> bathroom = new ArrayList<String>();
-            bathroom.add("Comments:");
+            List<String> H_kitchen = new ArrayList<String>();
+            H_kitchen.add("Comments:");
 
 
-            List<String> attic = new ArrayList<String>();
-            attic.add("Comments:");
+            List<String> I_bathroom = new ArrayList<String>();
+            I_bathroom.add("Comments:");
 
 
-            List<String> garage = new ArrayList<String>();
-            garage.add("Comments:");
+            List<String> J_attic = new ArrayList<String>();
+            J_attic.add("Comments:");
 
 
-            List<String> plumbing = new ArrayList<String>();
-            plumbing.add("Comments:");
+            List<String> K_garage = new ArrayList<String>();
+            K_garage.add("Comments:");
 
 
-            List<String> electrical = new ArrayList<String>();
-            electrical.add("Comments:");
+            List<String> L_plumbing = new ArrayList<String>();
+            L_plumbing.add("Comments:");
 
 
-            List<String> heating = new ArrayList<String>();
-            heating.add("Comments:");
+            List<String> M_electrical = new ArrayList<String>();
+            M_electrical.add("Comments:");
 
 
-            List<String> garden = new ArrayList<String>();
-            garden.add("Comments:");
+            List<String> N_heating = new ArrayList<String>();
+            N_heating.add("Comments:");
 
 
-            List<String> miscellaneous = new ArrayList<String>();
-            miscellaneous.add("Comments:");
+            List<String> O_garden = new ArrayList<String>();
+            O_garden.add("Comments:");
 
 
-            expandableListDetail.put("Grounds", grounds);
-            expandableListDetail.put("Structure", structure);
-            expandableListDetail.put("Exterior Surface", exterior);
-            expandableListDetail.put("Environment", environment);
-            expandableListDetail.put("Interior Rooms", interior);
-            expandableListDetail.put("Roof", roof);
-            expandableListDetail.put("Windows, Doors and Wood Trim", windows);
-            expandableListDetail.put("Kitchen", kitchen);
-            expandableListDetail.put("Bathrooms", bathroom);
-            expandableListDetail.put("Attic/ Basement", attic);
-            expandableListDetail.put("Garage", garage);
-            expandableListDetail.put("Plumbing", plumbing);
-            expandableListDetail.put("Electrical", electrical);
-            expandableListDetail.put("Heating/Cooling System", heating);
-            expandableListDetail.put("Garden", garden);
-            expandableListDetail.put("Miscellaneous", miscellaneous);
+            List<String> other = new ArrayList<String>();
+            other.add("Comments:");
+
+
+            expandableListDetail.put("Grounds", A_grounds);
+            expandableListDetail.put("Structure", B_structure);
+            expandableListDetail.put("Exterior Surface", C_exterior);
+            expandableListDetail.put("Environment", D_environment);
+            expandableListDetail.put("Interior Rooms", E_interior);
+            expandableListDetail.put("Roof", F_roof);
+            expandableListDetail.put("Windows, Doors and Wood Trim", G_windows);
+            expandableListDetail.put("Kitchen", H_kitchen);
+            expandableListDetail.put("Bathrooms", I_bathroom);
+            expandableListDetail.put("Attic/ Basement", J_attic);
+            expandableListDetail.put("Garage", K_garage);
+            expandableListDetail.put("Plumbing", L_plumbing);
+            expandableListDetail.put("Electrical", M_electrical);
+            expandableListDetail.put("Heating/Cooling System", N_heating);
+            expandableListDetail.put("Garden", O_garden);
+            expandableListDetail.put("Other", other);
             return expandableListDetail;
         }
     }
