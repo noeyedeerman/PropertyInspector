@@ -39,17 +39,17 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
     /**
      * Cognito Your Identity Pool ID
      */
-    protected final String userPoolId="ap-southeast-2_e4nCxiblG";
+    protected final static String userPoolId="ap-southeast-2_e4nCxiblG";
     /**
      * Client ID created for your pool {@code userPoolId}.
      */
-    protected final String clientId="7urpmpfrej7qj5msrpju7hagum";
+    protected final static String clientId="7urpmpfrej7qj5msrpju7hagum";
 
     /**
      * Client secret generated for this {@code clientId}, this may be {@code null} if a secret is not
      * generated for the {@code clientId}.
      */
-    protected final String clientSecret="1vtjn8qulev7dg5c51jb0kq31jo27h208uqa9grj1agmr8uvckd7";
+    protected final static String clientSecret="1vtjn8qulev7dg5c51jb0kq31jo27h208uqa9grj1agmr8uvckd7";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,7 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
             Log.d(LOG_TAG,"Family Name"+mDetails.get("family_name"));
             Intent intent = new Intent(Activity_Login.this, MainActivity.class);
             intent.putExtra("tokens",idToken);
+            intent.putExtra("password",edt_password.getText().toString());
             startActivity(intent);
         }
 

@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1.1"
-            android:src="@drawable/garage_icon"
+            android:src="@mipmap/ic_car"
             />
 
         <NumberPicker

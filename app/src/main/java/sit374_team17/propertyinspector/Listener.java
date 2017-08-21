@@ -8,6 +8,8 @@ public interface Listener {
     void onHomeInteraction();
     void onItemClicked(DB_Property property);
     void onSaveProperty();
+    void onBackPressed();
+    void addToBackStack();
 
     void onSaveComment();
     // void onPropertySelected();

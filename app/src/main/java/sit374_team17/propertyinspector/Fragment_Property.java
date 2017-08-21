@@ -1,84 +1,48 @@
 package sit374_team17.propertyinspector;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.FileProvider;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
 
 
 public class Fragment_Property extends Fragment {
 
     private static final String ARG_PROPERTY = "property";
 
+    /**
+     * The number of pages (wizard steps) to show in this demo.
+     */
+    private static final int NUM_PAGES = 2;
+
+    /**
+     * The pager widget, which handles animation and allows swiping horizontally to access previous
+     * and next wizard steps.
+     */
+    public ViewPager mPager;
+private View mView;
     private DB_Property mProperty;
-    protected DynamoDBMapper mapper ;
-    View mView;
-    ViewPager mViewPager_property;
-    Adapter_PropertySwipe mAdapter_slideShow;
-    Adapter_Comments mAdapter_comments;
-    TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice, mDescription,propertyInspectionDate;
-    Button button_post, button_save;
-    ImageButton button_camera;
-    EditText editText_comment;
-    Fragment mFragment_tabs;
-    Comment mComment;
-    Drawable d;
 
-    // List<Bitmap> bitmapArray = new ArrayList<>();
-    Bitmap mHouse1, mHouse2, mHouse3, mHouse4, mHouse5;
-    List<String> mPhotoList;
-    int imageArray[];
-    //Comment mComment;
-    List<Comment> mCommentsList;
-    DB_Comments mDB_comments;
-    private Listener mListener;
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private PagerAdapter mPagerAdapter;
     private MenuItem mSearchItem;
-    private ImageView mImageView;
-    private String mCurrentPhotoPath;
-    private Parcelable mImageBitmap;
-    private Bitmap mhouse2;
-    RecyclerView mRecyclerView;
+    private MenuItem mNotesItem;
+    private Listener mListener;
 
-    protected static String PROPERTY_ID="";
     public Fragment_Property() {
     }
+
 
 
     @Override
@@ -112,54 +76,62 @@ public class Fragment_Property extends Fragment {
         if (getArguments() != null) {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
         }
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_property, container, false);
         setHasOptionsMenu(true);
-        mViewPager_property = (ViewPager) mView.findViewById(R.id.viewPager_property);
-        button_camera = (ImageButton) mView.findViewById(R.id.button_camera);
-        button_post = (Button) mView.findViewById(R.id.button_post);
-        button_save = (Button) mView.findViewById(R.id.button_save);
 
-
-        editText_comment = (EditText) mView.findViewById(R.id.editText_comment);
-
-        Fragment fragment_tabs = new Fragment_Tabs();
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.tabHost_comments, fragment_tabs).commit();
-
-
-        mPhotoList = new ArrayList<>();
-        mCommentsList = new ArrayList<>();
-
-        //  mCommentsList = mDB_comments.getAllComments();
-        //  mAdapter = new Adapter_PropertySwipe(getContext());
-
-        mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
-
-        button_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
-
-        button_post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveComment(true);
-            }
-        });
-
-        button_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveComment(false);
-            }
-        });
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) mView.findViewById(R.id.viewPager_property);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+//        mViewPager_property = (ViewPager) mView.findViewById(R.id.viewPager_property);
+//        button_camera = (ImageButton) mView.findViewById(R.id.button_camera);
+//        button_post = (Button) mView.findViewById(R.id.button_post);
+//        button_save = (Button) mView.findViewById(R.id.button_save);
+//
+//      //  ViewPager mViewPager = (ViewPager) mView.findViewById(R.id.view)
+//
+//        editText_comment = (EditText) mView.findViewById(R.id.editText_comment);
+//
+//        Fragment fragment_tabs = new Fragment_Tabs();
+//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//        transaction.add(R.id.tabHost_comments, fragment_tabs).commit();
+//
+//
+//        mPhotoList = new ArrayList<>();
+//        mCommentsList = new ArrayList<>();
+//
+//        //  mCommentsList = mDB_comments.getAllComments();
+//        //  mAdapter = new Adapter_PropertySwipe(getContext());
+//
+//        mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
+//
+//        button_camera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dispatchTakePictureIntent();
+//            }
+//        });
+//
+//        button_post.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                saveComment(true);
+//            }
+//        });
+//
+//        button_save.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                saveComment(false);
+//            }
+//        });
 
 
 
@@ -174,186 +146,242 @@ public class Fragment_Property extends Fragment {
         //  mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
         //  mRecyclerView.setAdapter(mAdapter_comments);
 
-        mPhotoList.add(mProperty.getPhoto());
-        mAdapter_slideShow.setPhotoList(mPhotoList);
-        mViewPager_property.setAdapter(mAdapter_slideShow);
+//        mPhotoList.add(mProperty.getPhoto());
+//        mAdapter_slideShow.setPhotoList(mPhotoList);
+//        mViewPager_property.setAdapter(mAdapter_slideShow);
+//
+//
+//        // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
+//
+//        mStreetNumber = (TextView) mView.findViewById(R.id.textView_streetNumber);
+//        mStreetName = (TextView) mView.findViewById(R.id.textView_streetName);
+//        mCity = (TextView) mView.findViewById(R.id.textView_city);
+//        mState = (TextView) mView.findViewById(R.id.textView_state);
+//        mPostCode = (TextView) mView.findViewById(R.id.textView_postCode);
+//        mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
+//        mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
+//        mCars = (TextView) mView.findViewById(R.id.textView_cars);
+//        //propertyInspectionDate = (TextView) mView.findViewById(R.id.propertyInspectionDate);
+//        // mPrice = (TextView) mView.findViewById(R.id.textView_price);
+//
+//
+//        mStreetNumber.setText(String.valueOf(mProperty.getStreetNumber()));
+//        mStreetName.setText(String.valueOf(mProperty.getStreetName()));
+//        mCity.setText(mProperty.getCity());
+//        //  mState.setText(mProperty.getState());
+//        mState.setText(mProperty.getState().get(0));
+//        mPostCode.setText(String.valueOf(mProperty.getPostCode()));
+//        mBedrooms.setText(String.valueOf(mProperty.getBedrooms().get(0)));
+//        mBathrooms.setText(String.valueOf(mProperty.getBathrooms().get(0)));
+//        mCars.setText(String.valueOf(mProperty.getCars().get(0)));
+//        if (mProperty.getInspection_date()!=null)
+//            propertyInspectionDate.setText(mProperty.getInspection_date());
+//        //  mPrice.setText(mProperty.getPrice());
+//        PROPERTY_ID=mProperty.getId();
+//        //  mPrice.setText(mProperty.getPrice());
+//
+//        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+//        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+//        mapper = new DynamoDBMapper(ddbClient);
+//
+//        //Opens up Inspection Notes page/ inspection criteria
+//        Button button_inspectionNotes = (Button)mView.findViewById(R.id.button_goToInspectionNotes);
+//        button_inspectionNotes.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Create new fragment and transaction
+//                Fragment newFragment = new Fragment_InspectionNotes();
+//                // consider using Java coding conventions (upper first char class names!!!)
+//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//
+//                // Replace whatever is in the fragment_container view with this fragment,
+//                // and add the transaction to the back stack
+//                transaction.replace(R.id.content_main, newFragment);
+//                transaction.addToBackStack(null);
+//
+//                // Commit the transaction
+//                transaction.commit();
+//
+//            }
+//        });
 
-
-        // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
-
-        mStreetNumber = (TextView) mView.findViewById(R.id.textView_streetNumber);
-        mStreetName = (TextView) mView.findViewById(R.id.textView_streetName);
-        mCity = (TextView) mView.findViewById(R.id.textView_city);
-        mState = (TextView) mView.findViewById(R.id.textView_state);
-        mPostCode = (TextView) mView.findViewById(R.id.textView_postCode);
-        mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
-        mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
-        mCars = (TextView) mView.findViewById(R.id.textView_cars);
-        //propertyInspectionDate = (TextView) mView.findViewById(R.id.propertyInspectionDate);
-        // mPrice = (TextView) mView.findViewById(R.id.textView_price);
-
-
-        mStreetNumber.setText(String.valueOf(mProperty.getStreetNumber()));
-        mStreetName.setText(String.valueOf(mProperty.getStreetName()));
-        mCity.setText(mProperty.getCity());
-        //  mState.setText(mProperty.getState());
-        mState.setText(mProperty.getState().get(0));
-        mPostCode.setText(String.valueOf(mProperty.getPostCode()));
-        mBedrooms.setText(String.valueOf(mProperty.getBedrooms().get(0)));
-        mBathrooms.setText(String.valueOf(mProperty.getBathrooms().get(0)));
-        mCars.setText(String.valueOf(mProperty.getCars().get(0)));
-        if (mProperty.getInspection_date()!=null)
-            propertyInspectionDate.setText(mProperty.getInspection_date());
-        //  mPrice.setText(mProperty.getPrice());
-        PROPERTY_ID=mProperty.getId();
-        //  mPrice.setText(mProperty.getPrice());
-
-        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
-        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
-        mapper = new DynamoDBMapper(ddbClient);
-
-        //Opens up Inspection Notes page/ inspection criteria
-        Button button_inspectionNotes = (Button)mView.findViewById(R.id.button_goToInspectionNotes);
-        button_inspectionNotes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Create new fragment and transaction
-                Fragment newFragment = new Fragment_InspectionNotes();
-                // consider using Java coding conventions (upper first char class names!!!)
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack
-                transaction.replace(R.id.content_main, newFragment);
-                transaction.addToBackStack(null);
-                
-                // Commit the transaction
-                transaction.commit();
-
-            }
-        });
 
         return mView;
     }
 
-    private void saveComment(boolean isPublic) {
-        String description = editText_comment.getText().toString();
-        mDB_comments =new DB_Comments();
-        mDB_comments.setPropertyId(PROPERTY_ID);
-        mDB_comments.setDescription(description);
-        if (isPublic)mDB_comments.setCommentType("public");
-        else  mDB_comments.setCommentType("private");
-        Toast.makeText(getActivity(),"Submitting please wait",Toast.LENGTH_SHORT).show();
-        if (!description.equals(""))
-        {
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    //DynamoDB calls go here
-                    mapper.save(mDB_comments);
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(),"Comment submitted successfully",Toast.LENGTH_SHORT).show();
-                            editText_comment.setText("");
-                            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                            Fragment fragment_tabs = new Fragment_Tabs();
-                            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-                            transaction.add(R.id.tabHost_comments, fragment_tabs).commit();
-                        }
-                    });
-                }
-            };
-            Thread mythread = new Thread(runnable);
-            mythread.start();
+//    public int getItemPos() {
+//       return mPager.getCurrentItem();
+//    }
+//
+
+    /**
+     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+     * sequence.
+     */
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
         }
-        else
-            Toast.makeText(getActivity(),"Empty post are not allowed",Toast.LENGTH_LONG).show();
 
-        mListener.onSaveComment();
+        @Override
+        public Fragment getItem(int position) {
+         //   return new Fragment_PropertyDescription();
+
+            switch (position) {
+                case 0:
+                    return Fragment_PropertyDescription.newInstance(mProperty);
+                case 1:
+                    mListener.addToBackStack();
+                    return Fragment_InspectionNotes.newInstance(mProperty);
+
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+
+
     }
 
 
-    private void initViews() {
-//      mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
-//       mRecyclerView.setHasFixedSize(true);
-//        RecyclerView.LayoutManager layoutManager;
+//    private void saveComment(boolean isPublic) {
+//        String description = editText_comment.getText().toString();
+//        mDB_comments =new DB_Comments();
+//        mDB_comments.setPropertyId(PROPERTY_ID);
+//        mDB_comments.setDescription(description);
+//        if (isPublic)mDB_comments.setCommentType("public");
+//        else  mDB_comments.setCommentType("private");
+//        Toast.makeText(getActivity(),"Submitting please wait",Toast.LENGTH_SHORT).show();
+//        if (!description.equals(""))
+//        {
+//            Runnable runnable = new Runnable() {
+//                public void run() {
+//                    //DynamoDB calls go here
+//                    mapper.save(mDB_comments);
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(getActivity(),"Comment submitted successfully",Toast.LENGTH_SHORT).show();
+//                            editText_comment.setText("");
+//                            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+//                            Fragment fragment_tabs = new Fragment_Tabs();
+//                            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//                            transaction.add(R.id.tabHost_comments, fragment_tabs).commit();
+//                        }
+//                    });
+//                }
+//            };
+//            Thread mythread = new Thread(runnable);
+//            mythread.start();
+//        }
+//        else
+//            Toast.makeText(getActivity(),"Empty post are not allowed",Toast.LENGTH_LONG).show();
 //
-//
-//
-//        layoutManager = new LinearLayoutManager(getContext()){
-//            @Override
-//            public boolean canScrollVertically() {
-//                return false;
-//            }
-//        };
-//
-//
-//
-//        mRecyclerView.setLayoutManager(layoutManager);
-    }
+//        mListener.onSaveComment();
+//    }
+
+
+//    private void initViews() {
+////      mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
+////       mRecyclerView.setHasFixedSize(true);
+////        RecyclerView.LayoutManager layoutManager;
+////
+////
+////
+////        layoutManager = new LinearLayoutManager(getContext()){
+////            @Override
+////            public boolean canScrollVertically() {
+////                return false;
+////            }
+////        };
+////
+////
+////
+////        mRecyclerView.setLayoutManager(layoutManager);
+//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
-//        MenuItem camera = menu.findItem(R.id.action_camera);
-//        camera.setVisible(false);
-//
-//        camera.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                dispatchTakePictureIntent();
-//
-//
-//                return true;
-//            }
-//        });
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setVisible(false);
 
-        mSearchItem = menu.findItem(R.id.action_search);
-        mSearchItem.setVisible(false);
+        mNotesItem = menu.findItem(R.id.action_notes);
+        mNotesItem.setVisible(true);
+        mNotesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (mPager.getCurrentItem() == 0) {
+                    mPager.setCurrentItem(1);
+                }
+                else if (mPager.getCurrentItem() == 1){
+                    mPager.setCurrentItem(0);
+                }
+                //mListener.addToBackStack();
+
+                return true;
+            }
+        });
+
+
 
 
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(getContext(),
-                        "sit374_team17.propertyinspector",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, 1);
-            }
+    public void setItem() {
+        if (mPager.getCurrentItem() == 1) {
+            mPager.setCurrentItem(0);
+        } else {
+            mListener.onBackPressed();
         }
     }
+
+}
+//
+//    private File createImageFile() throws IOException {
+//        // Create an image file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        String imageFileName = "JPEG_" + timeStamp + "_";
+//        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File image = File.createTempFile(
+//                imageFileName,  /* prefix */
+//                ".jpg",         /* suffix */
+//                storageDir      /* directory */
+//        );
+//
+//        // Save a file: path for use with ACTION_VIEW intents
+//        mCurrentPhotoPath = image.getAbsolutePath();
+//        return image;
+//    }
+//
+//    private void dispatchTakePictureIntent() {
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        // Ensure that there's a camera activity to handle the intent
+//        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+//            // Create the File where the photo should go
+//            File photoFile = null;
+//            try {
+//                photoFile = createImageFile();
+//            } catch (IOException ex) {
+//                // Error occurred while creating the File
+//
+//            }
+//            // Continue only if the File was successfully created
+//            if (photoFile != null) {
+//                Uri photoURI = FileProvider.getUriForFile(getContext(),
+//                        "sit374_team17.propertyinspector",
+//                        photoFile);
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                startActivityForResult(takePictureIntent, 1);
+//            }
+//        }
+//    }
 
  /*   private void setPic() {
         // Get the dimensions of the View
@@ -396,33 +424,33 @@ public class Fragment_Property extends Fragment {
 
     }*/
 
-
-    private void handleBigCameraPhoto() {
-
-        if (mCurrentPhotoPath != null) {
-            // setPic();
-            galleryAddPic();
-            mCurrentPhotoPath = null;
-        }
-
-    }
-
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        getActivity().sendBroadcast(mediaScanIntent);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            handleBigCameraPhoto();
-
-        }
-
-    }
+//
+//    private void handleBigCameraPhoto() {
+//
+//        if (mCurrentPhotoPath != null) {
+//            // setPic();
+//            galleryAddPic();
+//            mCurrentPhotoPath = null;
+//        }
+//
+//    }
+//
+//    private void galleryAddPic() {
+//        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+//        File f = new File(mCurrentPhotoPath);
+//        Uri contentUri = Uri.fromFile(f);
+//        mediaScanIntent.setData(contentUri);
+//        getActivity().sendBroadcast(mediaScanIntent);
+//    }
+//
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == 1 && resultCode == RESULT_OK) {
+//            handleBigCameraPhoto();
+//
+//        }
+//
+//    }
 
 //    // Some lifecycle callbacks so that the image can survive orientation change
 //    @Override
@@ -446,7 +474,5 @@ public class Fragment_Property extends Fragment {
 //        //);
 //    }
 
-
-}
 
 

@@ -6,19 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
-import com.amazonaws.services.dynamodbv2.model.Condition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,36 +89,36 @@ public class Fragment_PublicComments extends Fragment {
 
         mRecyclerView.setLayoutManager(layoutManager);
 
-        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
-        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
-        mapper = new DynamoDBMapper(ddbClient);
-        Runnable runnable = new Runnable() {
-            public void run() {
-                //DynamoDB calls go here
-                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-                scanExpression.addFilterCondition("PropertyID",new Condition()
-                        .withComparisonOperator(ComparisonOperator.EQ)
-                        .withAttributeValueList(new AttributeValue().withS(Fragment_Property.PROPERTY_ID)));
-                scanExpression.addFilterCondition("CommentType",
-                        new Condition()
-                                .withComparisonOperator(ComparisonOperator.EQ)
-                                .withAttributeValueList(new AttributeValue().withS("public")));
-                result = mapper.scan(DB_Comments.class, scanExpression);
-                Log.e("asdasd",String.valueOf(result.size()));
-                if (result.size() >= 0) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mCommentsAdapter = new Adapter_Comments(mListener);
-                            mCommentsAdapter.setCommentList(result);
-                            mRecyclerView.setAdapter(mCommentsAdapter);
-                        }
-                    });
-                }
-            }
-        };
-        Thread mythread = new Thread(runnable);
-        mythread.start();
+//        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+//        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+//        mapper = new DynamoDBMapper(ddbClient);
+//        Runnable runnable = new Runnable() {
+//            public void run() {
+//                //DynamoDB calls go here
+//                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+//                scanExpression.addFilterCondition("PropertyID",new Condition()
+//                        .withComparisonOperator(ComparisonOperator.EQ)
+//                        .withAttributeValueList(new AttributeValue().withS(Fragment_Property.PROPERTY_ID)));
+//                scanExpression.addFilterCondition("CommentType",
+//                        new Condition()
+//                                .withComparisonOperator(ComparisonOperator.EQ)
+//                                .withAttributeValueList(new AttributeValue().withS("public")));
+//                result = mapper.scan(DB_Comments.class, scanExpression);
+//                Log.e("asdasd",String.valueOf(result.size())+Fragment_Property.PROPERTY_ID);
+//                if (result.size() >= 0) {
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mCommentsAdapter = new Adapter_Comments(mListener);
+//                            mCommentsAdapter.setCommentList(result);
+//                            mRecyclerView.setAdapter(mCommentsAdapter);
+//                        }
+//                    });
+//                }
+//            }
+//        };
+//        Thread mythread = new Thread(runnable);
+//        mythread.start();
     }
 
 }

@@ -1,19 +1,14 @@
 package sit374_team17.propertyinspector;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.LayoutInflaterFactory;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.Button;
-import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,12 +23,41 @@ public class Fragment_InspectionNotes extends Fragment {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<String>> expandableListDetail;
+    private Listener mListener;
+
     private View mView;
     // public interface CreatePropertyListener {
     //    void onSaveProperty();
    // }
 
+    public Fragment_InspectionNotes() {
+    }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Listener) {
+            mListener = (Listener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement Listener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public static Fragment_InspectionNotes newInstance(DB_Property property) {
+        Fragment_InspectionNotes fragment = new Fragment_InspectionNotes();
+        Bundle args = new Bundle();
+       // args.putParcelable(ARG_PROPERTY, property);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
     @Override
@@ -98,18 +122,18 @@ public class Fragment_InspectionNotes extends Fragment {
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-//        MenuItem camera = menu.findItem(R.id.action_camera);
-//        camera.setVisible(true);
-
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.setVisible(false);
-
-
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//
+////        MenuItem camera = menu.findItem(R.id.action_camera);
+////        camera.setVisible(true);
+//
+//        MenuItem searchItem = menu.findItem(R.id.action_search);
+//        searchItem.setVisible(false);
+//
+//
+//    }
 
 
     public static class ExpandableListDataPump {

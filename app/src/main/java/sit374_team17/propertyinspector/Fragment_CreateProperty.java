@@ -2,6 +2,7 @@ package sit374_team17.propertyinspector;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -91,6 +92,7 @@ public class Fragment_CreateProperty extends Fragment {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
         }
     }
+    private ProgressDialog progress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,15 +140,21 @@ public class Fragment_CreateProperty extends Fragment {
                             MY_FILE,        /* The file where the data to upload exists */
                             CannedAccessControlList.PublicRead
                     );
-
+                    progress=new ProgressDialog(getActivity());
+                    progress.setMessage("Uploading Images");
+                    progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progress.setIndeterminate(false);
+                    progress.setProgress(0);
+                    progress.show();
 
                     observer.setTransferListener(new TransferListener() {
 
                         @Override
                         public void onStateChanged(int id, TransferState state) {
-                            // do something
                             if (TransferState.COMPLETED.equals(state)) {
-                                file_path.setText("Image Uploaded");
+                                progress.setProgress(100);
+                                if (progress.isShowing())progress.dismiss();
+                                Toast.makeText(getActivity(),"Image uploaded successfully!",Toast.LENGTH_SHORT).show();
                                 mPhotos.setPicDetails(OBJECT_KEY.concat(MY_FILE.getName().substring(MY_FILE.getName().length() - 4)));
                                 saveProperty();
                             }
@@ -155,18 +163,19 @@ public class Fragment_CreateProperty extends Fragment {
                         @Override
                         public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                             int percentage = (int) (bytesCurrent / bytesTotal * 100);
-                            file_path.setText("Uploading..".concat(String.valueOf(percentage).concat(" %")));
-                            //Display percentage transfered to user
+                            progress.setProgress(percentage);
+                            //Display percentage transferred to user
                         }
 
                         @Override
                         public void onError(int id, Exception ex) {
                             // do something
-                            file_path.setText("Image fail to upload");
-                            Log.e(Activity_Login.LOG_TAG, "" + ex.toString());
+                            if (progress.isShowing())progress.dismiss();
+                            Toast.makeText(getActivity(),"Image fail to upload",Toast.LENGTH_SHORT).show();
                         }
 
                     });
+
                 }else {
                     saveProperty();
                 }

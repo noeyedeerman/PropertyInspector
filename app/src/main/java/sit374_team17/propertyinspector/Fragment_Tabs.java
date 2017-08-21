@@ -22,6 +22,8 @@ public class Fragment_Tabs extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
     private PagerAdapter viewPagerAdapter;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_tabs, container, false);
@@ -55,7 +57,8 @@ public class Fragment_Tabs extends Fragment {
 
             switch (position) {
                 case 0:
-                    return new Fragment_PublicComments();
+
+                    //return new Fragment_PublicComments.newInstance(property);
                 case 1:
                     return new Fragment_PrivateComments();
 
@@ -68,10 +71,10 @@ public class Fragment_Tabs extends Fragment {
         public int getCount() {
             return tabTitles.length;
         }
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles[position];
-        }
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return tabTitles[position];
+//        }
     }
 }
 

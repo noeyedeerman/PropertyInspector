@@ -7,6 +7,10 @@
     <dimen name="nav_header_height">160dp</dimen>
 
     <!--Text Sizes-->
-    <dimen name="text_detailTitle">20sp</dimen>
-    <dimen name="text_detail">16sp</dimen>
+    <dimen name="text_descriptionTitle">26sp</dimen>
+    <dimen name="text_descriptionLarge">26sp</dimen>
+    <dimen name="text_description">20sp</dimen>
+    <dimen name="text_card">17sp</dimen>
+    <dimen name="text_price">22sp</dimen>
+
 </resources>

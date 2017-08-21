@@ -4,23 +4,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_calendar"
-            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:icon="@mipmap/ic_calendar"
             android:title="@string/calendar" />
         <item
             android:id="@+id/nav_privacySettings"
-            android:icon="@android:drawable/ic_lock_lock"
+            android:icon="@mipmap/ic_privacy"
             android:title="@string/privacySettings" />
         <item
             android:id="@+id/nav_alert"
-            android:icon="@android:drawable/ic_dialog_alert"
+            android:icon="@mipmap/ic_alert"
             android:title="@string/alert" />
         <item
+            android:id="@+id/nav_password"
+            android:icon="@mipmap/ic_privacy"
+            android:title="@string/change_password" />
+        <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@mipmap/ic_settings"
             android:title="@string/settings" />
         <item
             android:id="@+id/nav_help"
-            android:icon="@android:drawable/ic_menu_help"
+            android:icon="@mipmap/ic_help"
             android:title="@string/helpAndSupport" />
         <item
             android:id="@+id/nav_logout"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PropertyInspector</string>
+    <string name="app_name">Flagg</string>
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_create_activtiy">CreateActivtiy</string>
     <string name="title_activity_saved">SavedActivity</string>
@@ -13,7 +13,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
 
-    <string name="splash_text">Find property on the go.</string>
+    <string name="splash_text">FIND PROPERTY on the GO</string>
 
     <string name="splash_button">Get started</string>
 
@@ -25,6 +25,9 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="createAccount">Create an Account</string>
+    <string name="facebook_app_id">838648392959547</string>
+    <string name="fb_login_protocol_scheme">fb838648392959547</string>
+
 
 
     //Create Account
@@ -44,6 +47,7 @@
     <string name="calendar">Calendar</string>
     <string name="privacySettings">Privacy Settings</string>
     <string name="alert">Alert</string>
+    <string name="change_password">Change Password</string>
     <string name="settings">Settings</string>
     <string name="helpAndSupport">Help and Support</string>
     <string name="logout">Logout</string>
@@ -72,6 +76,14 @@
     <string name="camera">Camera</string>
     <string name="Comments">Comments</string>
     <string name="upload">Upload</string>
+    <string name="new_password">Enter new password</string>
+    <string name="old_password">Current password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="submit_password">Submit</string>
+    <string name="error_length_password">Minimum 6 characters requires</string>
+    <string name="error_new_password">Empty or password doesn\'t match</string>
+    <string name="error_old_password">Your current password doesn\'t match</string>
+    <string name="action_notes">action_notes</string>
 
     <string-array name="months">
         <item>January</item>
