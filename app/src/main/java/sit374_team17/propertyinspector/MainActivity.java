@@ -3,6 +3,7 @@ package sit374_team17.propertyinspector;
 import android.animation.ObjectAnimator;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,18 +16,28 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
+
+import com.amazonaws.ClientConfiguration;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+import com.amazonaws.regions.Regions;
+
 import java.util.Calendar;
 
 import static sit374_team17.propertyinspector.Fragment_CreateProperty.newInstance;
@@ -36,6 +47,8 @@ public class MainActivity extends AppCompatActivity
 
     Property mProperty;
     //Calendar required variables
+    protected CognitoUser cognitoUser;
+    protected CognitoUserPool userPool;
     int mYear, mMonth, mDay;
     FloatingActionButton mFabProperty, mFabNote;
     SearchView mSearchView;
@@ -89,6 +102,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         gotTo_HomeFragment(getCurrentFocus());
+        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        // Create a CognitoUserPool object to refer to your user pool
+        userPool = new CognitoUserPool(this, Activity_Login.userPoolId, Activity_Login.clientId, Activity_Login.clientSecret, clientConfiguration, Regions.AP_SOUTHEAST_2);
+        // Create a CognitoUserPool object to refer to your user pool
+        cognitoUser = userPool.getCurrentUser();
+
 
     }
 
@@ -217,6 +236,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_alert) {
 
+        } else if (id == R.id.nav_password) {
+            changePassword();
         } else if (id == R.id.nav_settings) {
 
         } else if (id == R.id.nav_help) {
@@ -257,7 +278,72 @@ public class MainActivity extends AppCompatActivity
         mFabProperty.hide();
 
     }
+    AlertDialog alert;
+    Button bt_done;
+    EditText edt_new,edt_confirm,edt_current;
+    void changePassword()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_password, null);
+        builder.setView(dialogView);
+        bt_done=(Button)dialogView.findViewById(R.id.bt_change);
+        edt_new=(EditText)dialogView.findViewById(R.id.edt_new);
+        edt_current=(EditText)dialogView.findViewById(R.id.edt_current);
+        edt_confirm=(EditText)dialogView.findViewById(R.id.edt_confirm);
+        bt_done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edt_new.getText().toString().equals("")||edt_new.getText().toString().equals("")||edt_current.getText().toString().equals(""))
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_old_password),Toast.LENGTH_SHORT).show();
+                else if (!edt_current.getText().toString().equals(getIntent().getStringExtra("password")))
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_new_password),Toast.LENGTH_SHORT).show();
+                else if (!edt_new.getText().toString().equals(edt_confirm.getText().toString()))
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_new_password),Toast.LENGTH_SHORT).show();
+                else if (edt_new.getText().toString().length()<6)
+                    Toast.makeText(getApplicationContext(),getString(R.string.error_length_password),Toast.LENGTH_SHORT).show();
+                    else{
+                    Toast.makeText(getApplicationContext(),"Password changing..Please wait",Toast.LENGTH_SHORT).show();
+                    new Thread(){
+                        @Override
+                        public void run() {
+                            GenericHandler handler = new GenericHandler() {
 
+                                @Override
+                                public void onSuccess() {
+                                    // Password change was successful!
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getApplicationContext(),"Password change was successful!",Toast.LENGTH_SHORT).show();
+                                            alert.dismiss();
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onFailure(Exception exception) {
+                                    // Password change failed, probe exception for details
+                                    Log.e(getClass().getName(),exception.toString());
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                    Toast.makeText(getApplicationContext(),"Password change failed",Toast.LENGTH_SHORT).show();
+                                    alert.dismiss();
+                                        }
+                                    });
+                                }
+                            };
+                            cognitoUser.changePassword(edt_current.getText().toString(), edt_new.getText().toString(), handler);
+                        }
+                    }.start();
+                    }
+            }
+        });
+        alert = builder.create();
+        alert.show();
+    }
 
 
 

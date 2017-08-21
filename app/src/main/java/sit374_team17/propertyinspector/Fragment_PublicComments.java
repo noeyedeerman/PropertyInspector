@@ -112,7 +112,7 @@ public class Fragment_PublicComments extends Fragment {
                                 .withComparisonOperator(ComparisonOperator.EQ)
                                 .withAttributeValueList(new AttributeValue().withS("public")));
                 result = mapper.scan(DB_Comments.class, scanExpression);
-                Log.e("asdasd",String.valueOf(result.size()));
+                Log.e("asdasd",String.valueOf(result.size())+Fragment_Property.PROPERTY_ID);
                 if (result.size() >= 0) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

@@ -57,6 +57,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <!-- Service is called by s3 sdk to upload images if this is deleted upload
+        function in the create property doesn't work -->
+        <service
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
+
     </application>
 
 </manifest>
