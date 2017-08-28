@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import sit374_team17.propertyinspector.Note.Fragment_Note_List;
+
 /**
  * Created by Callum on 12/04/2017.
  */
@@ -60,7 +62,7 @@ public class Fragment_Tabs extends Fragment {
 
                     //return new Fragment_PublicComments.newInstance(property);
                 case 1:
-                    return new Fragment_PrivateComments();
+                    return new Fragment_Note_List();
 
                 default:
                     return null;

@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class Comment implements Parcelable {
+public class Comment implements Parcelable {
 
     private int id;
     private int userId;

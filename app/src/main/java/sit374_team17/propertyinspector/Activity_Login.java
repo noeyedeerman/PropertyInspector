@@ -29,27 +29,30 @@ import com.amazonaws.services.cognitoidentityprovider.model.UserNotConfirmedExce
 
 import java.util.Map;
 
+import sit374_team17.propertyinspector.Main.MainActivity;
+
 public class Activity_Login extends AppCompatActivity implements AuthenticationHandler {
+
 
     protected CognitoUser cognitoUser;
     protected CognitoUserPool userPool;
-    protected static String LOG_TAG="PropertyInspector";
+    public static String LOG_TAG="PropertyInspector";
     private String idToken="";
     private EditText edt_email,edt_password;
     /**
      * Cognito Your Identity Pool ID
      */
-    protected final static String userPoolId="ap-southeast-2_e4nCxiblG";
+    public final static String userPoolId="ap-southeast-2_e4nCxiblG";
     /**
      * Client ID created for your pool {@code userPoolId}.
      */
-    protected final static String clientId="7urpmpfrej7qj5msrpju7hagum";
+    public final static String clientId="7urpmpfrej7qj5msrpju7hagum";
 
     /**
      * Client secret generated for this {@code clientId}, this may be {@code null} if a secret is not
      * generated for the {@code clientId}.
      */
-    protected final static String clientSecret="1vtjn8qulev7dg5c51jb0kq31jo27h208uqa9grj1agmr8uvckd7";
+    public final static String clientSecret="1vtjn8qulev7dg5c51jb0kq31jo27h208uqa9grj1agmr8uvckd7";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

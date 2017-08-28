@@ -1,0 +1,209 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fafafa"
+    tools:context="sit374_team17.propertyinspector.Property.Fragment_Property_Edit_2">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="5dp"
+   app:cardPreventCornerOverlap="true"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white"
+                android:text="IDK"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="@+id/guideline4"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="1dp"
+                android:background="@android:color/white"
+                android:text="IDK"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline4"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <ImageButton
+                android:id="@+id/button_textNote"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="0dp"
+                android:background="@android:color/white"
+                android:src="@drawable/ic_note_plus"
+                android:text="Text Note"
+                android:textColor="@color/colorAccent"
+                android:tint="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageButton
+                android:id="@+id/button_photoNote"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@android:color/white"
+                android:src="@drawable/ic_camera_plus"
+                android:text="Photo Note"
+                android:textColor="@color/colorAccent"
+                android:tint="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <!--<Button-->
+        <!--android:id="@+id/button_upload"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="@string/upload" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/file_path"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--</LinearLayout>-->
+        <!--    <EditText
+        android:id="@+id/editText_auctionDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Auction Date"
+        android:ems="10"
+        android:inputType="date" />
+
+        <EditText
+        android:id="@+id/editText_notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.50"
+        android:hint="Notes"
+        android:inputType="textMultiLine"/>-->
+
+
+</android.support.constraint.ConstraintLayout>
+
+
+    <!--<EditText--><!--android:id="@+id/editText_postCode"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1.7"--><!--android:hint="@string/post_code"--><!--android:inputType="textPostalAddress"--><!--android:layout_below=""/>-->
+
+
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:orientation="horizontal">-->
+
+
+    <!--<ImageView--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1.1"--><!--android:src="@drawable/bed_icon" />-->
+
+    <!--<NumberPicker--><!--android:id="@+id/editText_bedrooms"--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1"--><!--android:hint="@string/bedrooms"--><!--android:inputType="number" />-->
+
+    <!--<ImageView--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1.1"--><!--android:src="@drawable/bath_icon" />-->
+
+    <!--<NumberPicker--><!--android:id="@+id/editText_bathrooms"--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1"--><!--android:hint="@string/bathrooms"--><!--android:inputType="number" />-->
+
+    <!--<ImageView--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1.1"--><!--android:src="@mipmap/ic_car" />-->
+
+    <!--<NumberPicker--><!--android:id="@+id/editText_cars"--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1"--><!--android:hint="@string/cars"--><!--android:inputType="number" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<EditText--><!--android:id="@+id/editText_price"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:hint="@string/price"--><!--android:inputType="numberDecimal" />-->
+
+
+    <!--<EditText--><!--android:id="@+id/editText_description"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:hint="@string/description"--><!--android:inputType="textMultiLine" />-->
+
+    <!--<LinearLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:orientation="horizontal">-->
+
+    <!--<Button--><!--android:id="@+id/button_upload"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1"--><!--android:text="@string/upload" />-->
+
+    <!--<TextView--><!--android:id="@+id/file_path"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_weight="1" />-->
+
+    <!--</LinearLayout>-->
+
+    <!--<Button--><!--android:id="@+id/button_save"--><!--android:layout_width="match_parent"--><!--android:layout_height="wrap_content"--><!--android:text="Save" />-->
+
+
+    <!--    <EditText
+            android:id="@+id/editText_auctionDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Auction Date"
+            android:ems="10"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/editText_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:hint="Notes"
+            android:inputType="textMultiLine"/>-->
+
+
+
