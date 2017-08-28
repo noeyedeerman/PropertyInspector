@@ -70,9 +70,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
-                builder.setMessage("Write Comment: ")
+                builder.setMessage("Write a comment you wish to Flag: ")
                         .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("Post", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //do things
                             }

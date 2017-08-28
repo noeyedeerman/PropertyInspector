@@ -2,57 +2,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
         <TextView
             android:id="@+id/listTitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
             android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-            android:textColor="@android:color/black"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp" />
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+            android:textColor="@android:color/black" />
 
-        <Space
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            tools:targetApi="ice_cream_sandwich" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.05"
-            android:backgroundTint="@android:color/holo_blue_light"
-            android:tint="@android:color/holo_blue_light"
-            app:srcCompat="@android:drawable/arrow_up_float" />
+                <Space
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    tools:targetApi="ice_cream_sandwich" />
 
-        <TextView
-            android:id="@+id/likeNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.06"
-            android:text="0" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:tint="@color/colorAccent"
+                    app:srcCompat="@mipmap/ic_like1" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.05"
-            android:backgroundTint="@android:color/holo_red_dark"
-            android:tint="@android:color/holo_red_dark"
-            app:srcCompat="@android:drawable/arrow_down_float" />
+                <TextView
+                    android:id="@+id/likeNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.06"
+                    android:text="0" />
 
-        <TextView
-            android:id="@+id/dislikeNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0" />
-</LinearLayout>
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.05"
+                    android:rotation="180"
+                    android:tint="@color/colorAccent"
+                    app:srcCompat="@mipmap/ic_like1" />
+
+                <TextView
+                    android:id="@+id/dislikeNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0" />
+        </LinearLayout>
 
 </LinearLayout>

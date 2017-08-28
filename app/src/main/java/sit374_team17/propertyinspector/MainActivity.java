@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private Fragment mSelectedFragment;
     private FragmentTransaction fragmentTransaction;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -300,6 +301,8 @@ public class MainActivity extends AppCompatActivity
         mFabProperty.hide();
 
     }
+
+
     AlertDialog alert;
     Button bt_done;
     EditText edt_new,edt_confirm,edt_current;

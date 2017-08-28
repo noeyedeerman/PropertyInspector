@@ -29,7 +29,7 @@ public class Fragment_Property extends Fragment {
      * and next wizard steps.
      */
     public ViewPager mPager;
-private View mView;
+    private View mView;
     private DB_Property mProperty;
 
     /**
@@ -42,7 +42,6 @@ private View mView;
 
     public Fragment_Property() {
     }
-
 
 
     @Override
@@ -341,6 +340,8 @@ private View mView;
             mListener.onBackPressed();
         }
     }
+
+
 
 }
 //
