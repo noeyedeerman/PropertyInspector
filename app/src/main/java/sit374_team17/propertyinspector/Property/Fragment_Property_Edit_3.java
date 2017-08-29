@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,8 +91,8 @@ public class Fragment_Property_Edit_3 extends Fragment {
         mView = inflater.inflate(R.layout.fragment_property_edit_3, container, false);
         setHasOptionsMenu(true);
 
-        Button button_textNote = (Button) mView.findViewById(R.id.button_textNote);
-        Button button_PhotoNote = (Button) mView.findViewById(R.id.button_photoNote);
+        ImageButton button_textNote = (ImageButton) mView.findViewById(R.id.button_textNote);
+        ImageButton button_PhotoNote = (ImageButton) mView.findViewById(R.id.button_photoNote);
 
 
         button_textNote.setOnClickListener(new View.OnClickListener() {
