@@ -38,5 +38,16 @@
             android:text="Continue"
             android:textColor="@android:color/white" />
 
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/button_margin"
+            android:background="@color/colorAccent"
+            android:text="Save"
+            android:textColor="@android:color/white" />
+
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

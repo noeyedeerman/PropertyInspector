@@ -1,6 +1,7 @@
 package sit374_team17.propertyinspector.Property;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,10 +9,32 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import sit374_team17.propertyinspector.R;
 
-public class Activity_Property_Edit extends AppCompatActivity {
+public class Activity_Property_Edit extends AppCompatActivity implements Listener_Property_Edit {
     int count = 0;
+
+    protected CognitoCachingCredentialsProvider credentialsProvider;
+    protected DynamoDBMapper mapper;
+    private String IDENTITY_POOL_ID = "ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
+    private String MY_BUCKET = "propertyinspector-userfiles-mobilehub-4404653";
+    private String OBJECT_KEY = "uploads/propertyinspector_image" + SystemClock.currentThreadTimeMillis();
+    private File MY_FILE;
+
+
+    private Property mProperty;
+    private FragmentManager fm;
+    private Button button_save, button_continue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +42,14 @@ public class Activity_Property_Edit extends AppCompatActivity {
         setContentView(R.layout.activity_property_edit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final FragmentManager fm = getSupportFragmentManager();
+        //  final FragmentManager fm = getSupportFragmentManager();
+        fm = getSupportFragmentManager();
+        mProperty = new Property();
         // Initialises fragment
-        Button button_continue = (Button) findViewById(R.id.button_continue);
+        button_continue = (Button) findViewById(R.id.button_continue);
+        button_save = (Button) findViewById(R.id.button_save);
+        button_save.setVisibility(View.GONE);
+
         button_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -29,16 +57,26 @@ public class Activity_Property_Edit extends AppCompatActivity {
 
                 switch (fm.getBackStackEntryCount()) {
                     case 0:
+
+
                         goTo_PropertyEditFragment2();
                         break;
                     case 1:
+
                         goTo_PropertyEditFragment3();
+
                         break;
 
                 }
 
                 //  fm.getBackStackEntryCount()
                 // goTo_CreatePropertyFragment2();
+            }
+        });
+        button_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveProperty();
             }
         });
 
@@ -52,6 +90,38 @@ public class Activity_Property_Edit extends AppCompatActivity {
 //        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         goTo_PropertyEditFragment1();
+
+
+        credentialsProvider = new CognitoCachingCredentialsProvider(this, IDENTITY_POOL_ID, Regions.AP_SOUTHEAST_2);
+        // Set up as a credentials provider.
+        Map<String, String> logins = new HashMap<String, String>();
+        logins.put("cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_e4nCxiblG", this.getIntent().getStringExtra("tokens"));
+        credentialsProvider.setLogins(logins);
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+    }
+
+    private void saveProperty() {
+
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                try {
+                    // mapper.save(mProperty);
+                    //  mPhotos.setPropertyId((mProperty.getId()));
+                    //  if (MY_FILE != null)
+                    //   mapper.save(mPhotos);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                finish();
+
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+        //  mListener.onSaveProperty();
     }
 
 
@@ -63,14 +133,21 @@ public class Activity_Property_Edit extends AppCompatActivity {
 
     // Passes "CreateGroupFragment" fragment to the "replaceFragment" method.
     public void goTo_PropertyEditFragment2() {
+        Fragment_Property_Edit_1 fragment_property_edit_1 = (Fragment_Property_Edit_1) fm.findFragmentById(R.id.content_property_edit);
+        fragment_property_edit_1.getDetails_1();
+
         Fragment_Property_Edit_2 fragment = new Fragment_Property_Edit_2();
         replaceFragment(fragment, "Fragment_Property_Edit_2");
     }
 
     // Passes "CreateGroupFragment" fragment to the "replaceFragment" method.
     public void goTo_PropertyEditFragment3() {
-        Fragment_Property_Edit_3 fragment = new Fragment_Property_Edit_3();
+        Fragment_Property_Edit_2 fragment_property_edit_2 = (Fragment_Property_Edit_2) fm.findFragmentById(R.id.content_property_edit);
+        fragment_property_edit_2.getDetails_2();
+        Fragment_Property_Edit_3 fragment = Fragment_Property_Edit_3.newInstance(mProperty);
         replaceFragment(fragment, "Fragment_Property_Edit_3");
+        button_continue.setVisibility(View.GONE);
+        button_save.setVisibility(View.VISIBLE);
     }
 //
 //    // Passes "AddPersonFragment" fragment to the "replaceFragment" method.
@@ -89,9 +166,15 @@ public class Activity_Property_Edit extends AppCompatActivity {
             if (tag == "Fragment_Property_Edit_2" || tag == "Fragment_Property_Edit_3") {
                 fragmentTransaction.setCustomAnimations(R.anim.enter_left, R.anim.exit_right, R.anim.exit_left, R.anim.enter_right);
                 fragmentTransaction.addToBackStack(null);
+
+//                if (tag == "Fragment_Property_Edit_3") {
+//                    Bundle args = new Bundle();
+//                    args.putParcelable("PROPERTY", mProperty);
+//                    fragment.setArguments(args);
+//                }
             }
 
-            fragmentTransaction.replace(R.id.content_create_property, fragment, tag);
+            fragmentTransaction.replace(R.id.content_property_edit, fragment, tag);
             fragmentTransaction.commit();
 
         } catch (Exception e) {
@@ -100,4 +183,112 @@ public class Activity_Property_Edit extends AppCompatActivity {
     }
 
 
+    private void buttonVisability() {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        if (fm.getBackStackEntryCount() <= 1) {
+            button_continue.setVisibility(View.VISIBLE);
+            button_save.setVisibility(View.GONE);
+        }
+    }
+
+    //
+//    Integer streetNumber;
+//    private void saveProperty() {
+//        if (!mEditText_streetNumber.getText().toString().equals(""))
+//            streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
+//        String streetName = mEditText_streetName.getText().toString();
+//        String city = mEditText_city.getText().toString();
+//        List<String> state = new ArrayList<>();
+//        if (!mEditText_state.getText().toString().equals(""))
+//            state.add(mEditText_state.getText().toString());
+//        Integer postCode = Integer.parseInt(mEditText_postCode.getText().toString());
+//        List<String> bedrooms =  new ArrayList<>();
+//        bedrooms.add(String.valueOf(mNumberPicker_bedrooms.getValue()));
+//        List<String>  bathrooms = new ArrayList<>();
+//        bathrooms.add(String.valueOf(mNumberPicker_bathrooms.getValue()));
+//        List<String> garages =  new ArrayList<>();
+//        garages.add(String.valueOf(mNumberPicker_cars.getValue()));
+//        List<Integer> price = new ArrayList<>();
+//        price.add(Integer.parseInt(mEditText_price.getText().toString()));
+//        String description=mEditText_description.getText().toString();
+//
+//        String empty = "--";
+//        if (streetNumber>0 && !streetName.isEmpty()) {
+//            mProperty.setStreetNumber(streetNumber);
+//            mProperty.setStreetName(streetName);
+//
+//            if (city.isEmpty()) city ="None";
+//            if (state.isEmpty()) state.add("None");
+//            if (postCode==0) postCode = 0;
+//            if (bedrooms.isEmpty()) bedrooms.add("None");
+//            if (bathrooms.isEmpty()) bathrooms.add("None");
+//            if (garages.isEmpty()) garages .add("None");
+//            if (description.isEmpty())description="None";
+//            if (price.isEmpty()) price.add(0);
+//
+//            mProperty.setCity(city);
+//            mProperty.setState(state);
+//            mProperty.setPostCode(postCode);
+//            mProperty.setBedrooms(bedrooms);
+//            mProperty.setBathrooms(bathrooms);
+//            mProperty.setCars(garages);
+//            mProperty.setPrice(price);
+//            mProperty.setUnitNumber(0);
+//            mProperty.setDescription(description);
+//            // mProperty.setPhoto(ContextCompat.getDrawable(getContext(), R.drawable.house1));
+//            Runnable runnable = new Runnable() {
+//                public void run() {
+//                    //DynamoDB calls go here
+//                    try {
+//                        mapper.save(mProperty);
+//                        mPhotos.setPropertyId((mProperty.getId()));
+//                        if (MY_FILE != null)
+//                            mapper.save(mPhotos);
+//                    }catch (Exception e){e.printStackTrace();}
+//
+//
+//                }
+//            };
+//            Thread mythread = new Thread(runnable);
+//            mythread.start();
+//            //  mListener.onSaveProperty();
+//        }
+//    }
+
+
+    @Override
+    public void onContinue() {
+        // Fragment_Property_Edit_1 fragment_property_edit_1 = (Fragment_Property_Edit_1) fm.findFragmentById(R.id.content_property_edit);
+        // fragment_property_edit_1.getDetails_1();
+    }
+
+    @Override
+    public void save() {
+
+    }
+
+    @Override
+    public void setDetails_1(Property property) {
+        mProperty.setDescription(property.getDescription());
+        mProperty.setPrice(property.getPrice());
+        mProperty.setBedrooms(property.getBedrooms());
+        mProperty.setBathrooms(property.getBathrooms());
+        mProperty.setCars(property.getCars());
+    }
+
+    @Override
+    public void setDetails_2(Property property) {
+        mProperty.setStreetNumber(property.getStreetNumber());
+        mProperty.setStreetName(property.getStreetName());
+        mProperty.setCity(property.getCity());
+        mProperty.setState(property.getState());
+        mProperty.setPostCode(property.getPostCode());
+        mProperty.setUnitNumber(property.getUnitNumber());
+    }
 }

@@ -219,7 +219,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         mStreetNumber = (TextView) mView.findViewById(R.id.textView_streetNumber);
         mStreetName = (TextView) mView.findViewById(R.id.textView_streetName);
         mCity = (TextView) mView.findViewById(R.id.textView_city);
-        mState = (TextView) mView.findViewById(R.id.textView_state);
+        mState = (TextView) mView.findViewById(R.id.textView_address);
         mPostCode = (TextView) mView.findViewById(R.id.textView_postCode);
         mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
         mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);

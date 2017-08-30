@@ -7,18 +7,231 @@
     android:background="#fafafa"
     tools:context="sit374_team17.propertyinspector.Property.Fragment_Property_Edit_2">
 
+
     <android.support.v7.widget.CardView
+        android:id="@+id/cardView4"
         android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="24dp"
         app:cardCornerRadius="5dp"
-   app:cardPreventCornerOverlap="true"
+        app:cardPreventCornerOverlap="true"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="8dp"
+
+                android:text="Description"
+                android:textSize="@dimen/form_text_size_large"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_price" />
+
+            <TextView
+                android:id="@+id/textView_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="3"
+                android:drawableLeft="@drawable/ic_dollar"
+                android:textSize="@dimen/form_text_size_small"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView_bed"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_bed"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_bedrooms"
+                app:layout_constraintRight_toLeftOf="@+id/textView_bedrooms" />
+
+            <TextView
+                android:id="@+id/textView_bedrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="2"
+                android:text="0"
+                android:textAlignment="center"
+                android:textSize="@dimen/form_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_bath"
+                app:layout_constraintRight_toLeftOf="@+id/imageView_bath" />
+
+            <ImageView
+                android:id="@+id/imageView_bath"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_bath"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_bed"
+                app:layout_constraintRight_toLeftOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/textView_description"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textView_bathrooms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="2"
+                android:text="0"
+                android:textAlignment="center"
+                android:textSize="@dimen/form_text_size_small"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/imageView_bath" />
+
+            <ImageView
+                android:id="@+id/imageView_car"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_car"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_bath"
+                app:layout_constraintLeft_toRightOf="@+id/textView_bathrooms" />
+
+            <TextView
+                android:id="@+id/textView_cars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+
+                android:layout_weight="1"
+
+                android:text="0"
+                android:textAlignment="center"
+                android:textSize="@dimen/form_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_car"
+                app:layout_constraintLeft_toRightOf="@+id/imageView_car" />
+
+            <TextView
+                android:id="@+id/textView_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/post"
+                android:textSize="@dimen/form_text_size_small"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/textView_city"
+                tools:text="State" />
+
+            <TextView
+                android:id="@+id/textView_postCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/post"
+                android:textSize="@dimen/form_text_size_small"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="@+id/guideline2"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_city" />
+
+            <TextView
+                android:id="@+id/textView_city"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/city"
+                android:textSize="@dimen/form_text_size_small"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_address" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <TextView
+                android:id="@+id/textView_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/address"
+                android:textSize="@dimen/form_text_size_small"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_bath" />
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+
+        app:cardCornerRadius="5dp"
+   app:cardPreventCornerOverlap="true"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        android:id="@+id/cardView5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,8 +243,6 @@
                 android:id="@+id/button4"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginRight="1dp"
                 android:layout_marginTop="1dp"
                 android:background="@android:color/white"
@@ -42,15 +253,13 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="@+id/guideline4"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginEnd="1dp" />
 
             <Button
                 android:id="@+id/button5"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
                 android:layout_marginTop="1dp"
                 android:background="@android:color/white"
                 android:text="IDK"
@@ -67,23 +276,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
+                app:layout_constraintGuide_percent="0.5"
+                tools:layout_editor_absoluteY="345dp"
+                tools:layout_editor_absoluteX="206dp" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/guideline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5" />
+                app:layout_constraintGuide_percent="0.5"
+                tools:layout_editor_absoluteY="445dp"
+                tools:layout_editor_absoluteX="16dp" />
 
             <ImageButton
                 android:id="@+id/button_textNote"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginLeft="0dp"
                 android:layout_marginRight="1dp"
-                android:layout_marginTop="0dp"
                 android:background="@android:color/white"
                 android:src="@drawable/ic_note_plus"
                 android:text="Text Note"
@@ -94,16 +304,14 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginEnd="1dp" />
 
             <ImageButton
                 android:id="@+id/button_photoNote"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="1dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginTop="0dp"
                 android:background="@android:color/white"
                 android:src="@drawable/ic_camera_plus"
                 android:text="Photo Note"
@@ -114,10 +322,19 @@
                 app:layout_constraintLeft_toLeftOf="@+id/guideline"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                android:layout_marginStart="1dp" />
+
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline6"
+        app:layout_constraintGuide_begin="301dp"
+        android:orientation="horizontal" />
 
     <!--<Button-->
         <!--android:id="@+id/button_upload"-->

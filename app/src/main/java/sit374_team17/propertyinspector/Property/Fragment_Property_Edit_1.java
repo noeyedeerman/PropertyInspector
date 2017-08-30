@@ -3,6 +3,7 @@ package sit374_team17.propertyinspector.Property;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -16,13 +17,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +44,8 @@ public class Fragment_Property_Edit_1 extends Fragment {
     Button mButton_save,mButton_upload;
     //DB_PropertyHandler mDB_properties;
     List<Property> mPropertyList;
-    EditText mEditText_streetNumber, mEditText_streetName, mEditText_city, mEditText_state, mEditText_postCode, mEditText_price, mEditText_description;
-    NumberPicker mNumberPicker_bedrooms, mNumberPicker_bathrooms, mNumberPicker_cars;
+    EditText mEditText_address, mEditText_streetName, mEditText_city, mEditText_state, mEditText_postCode, mEditText_price, mEditText_description;
+    EditText mEditText_bedrooms, mEditText_bathrooms, mEditText_cars;
     protected CognitoCachingCredentialsProvider credentialsProvider ;
     protected DynamoDBMapper mapper ;
     private String IDENTITY_POOL_ID="ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
@@ -57,32 +55,69 @@ public class Fragment_Property_Edit_1 extends Fragment {
     int pickerMin = 0;
     int pickerMax = 100;
     int SELECT_IMAGE = 103;
-
+Listener_Property_Edit mListener;
     //private Listener mListener;
-private CreatePropertyListener mListener;
+//private CreatePropertyListener mListener;
+
     public Fragment_Property_Edit_1() {
     }
 
-     public interface CreatePropertyListener {
-        void onContinue1();
-     }
+    public void getDetails_1() {
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof CreatePropertyListener) {
-//            mListener = (CreatePropertyListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement CreatePropertyListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+        String description=mEditText_description.getText().toString();
+
+        String priceRaw = mEditText_price.getText().toString();
+
+        List<Integer> price = new ArrayList<>();
+        if (!priceRaw.isEmpty() && priceRaw !="") {
+            String priceTemp = priceRaw.replace(",","");
+            price.add(Integer.parseInt(priceTemp));
+        }
+        List<String> bedrooms =  new ArrayList<>();
+        bedrooms.add(String.valueOf(mEditText_bedrooms.getText()));
+        List<String>  bathrooms = new ArrayList<>();
+        bathrooms.add(String.valueOf(mEditText_bathrooms.getText()));
+        List<String> garages =  new ArrayList<>();
+        garages.add(String.valueOf(mEditText_cars.getText()));
+
+        if (description.isEmpty())description="None";
+        if (price.isEmpty()) price.add(0);
+        if (bedrooms.isEmpty()) bedrooms.add("None");
+        if (bathrooms.isEmpty()) bathrooms.add("None");
+        if (garages.isEmpty()) garages .add("None");
+
+        mProperty = new Property();
+        mProperty.setDescription(description);
+        mProperty.setPrice(price);
+        mProperty.setBedrooms(bedrooms);
+        mProperty.setBathrooms(bathrooms);
+        mProperty.setCars(garages);
+
+      //  mProperty.setUnitNumber(0);
+
+
+  mListener.setDetails_1(mProperty);
+
+
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Listener_Property_Edit) {
+            mListener = (Listener_Property_Edit) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement Listener_Property_Edit");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
 
     public static Fragment_Property_Edit_1 newInstance(Property property) {
@@ -126,10 +161,11 @@ private CreatePropertyListener mListener;
               //  onRadioButtonClicked(radioButton_auction);
             }
         });
+
         RadioButton radioButton_lease = (RadioButton) mView.findViewById(R.id.radioButton_lease);
 
         RadioGroup radioGroup = (RadioGroup) mView.findViewById(R.id.radioGroup_category);
-
+radioButton_sale.setChecked(true);
 
 //        Button button_continue = (Button) mView.findViewById(R.id.button_continue);
 //button_continue.setOnClickListener(new View.OnClickListener() {
@@ -140,30 +176,37 @@ private CreatePropertyListener mListener;
 //});
 
       //  mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
+      //  mEditText_address = (EditText) mView.findViewById(R.id.editText_address);
      //   mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
-      //  mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
+       // mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
       //  mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
       //  mEditText_postCode = (EditText) mView.findViewById(R.id.editText_postCode);
       //  mNumberPicker_bedrooms = (NumberPicker) mView.findViewById(R.id.editText_bedrooms);
       //  mNumberPicker_bathrooms = (NumberPicker) mView.findViewById(R.id.editText_bathrooms);
       //  mNumberPicker_cars = (NumberPicker) mView.findViewById(R.id.editText_cars);
+
+        mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
         mEditText_price = (EditText) mView.findViewById(R.id.editText_price);
-      //  mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
+        mEditText_bedrooms = (EditText) mView.findViewById(R.id.editText_bedrooms);
+        mEditText_bathrooms = (EditText) mView.findViewById(R.id.editText_bathrooms);
+        mEditText_cars = (EditText) mView.findViewById(R.id.editText_cars);
+        //  mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
       //  file_path = (TextView) mView.findViewById(R.id.file_path);
 
 //
-        Spinner spinner_currency = (Spinner) mView.findViewById(R.id.spinner_currency);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-              R.array.array_currency, R.layout.spinner_item);
-       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item,list);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(R.layout.spinner_item);
-// Apply the adapter to the spinner
-        spinner_currency.setAdapter(adapter);
-
+//        Spinner spinner_currency = (Spinner) mView.findViewById(R.id.spinner_currency);
+//// Create an ArrayAdapter using the string array and a default spinner layout
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+//              R.array.array_currency, R.layout.spinner_item);
+//       // ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item,list);
+//// Specify the layout to use when the list of choices appears
+//        adapter.setDropDownViewResource(R.layout.spinner_item);
+//// Apply the adapter to the spinner
+//        spinner_currency.setAdapter(adapter);
+//spinner_currency.setSelection(0);
 
      mEditText_price.addTextChangedListener(new NumberTextWatcherForThousand(mEditText_price));
+
 //        mNumberPicker_bedrooms.setMinValue(pickerMin);
 //        mNumberPicker_bedrooms.setMaxValue(pickerMax);
 //        mNumberPicker_bedrooms.setWrapSelectorWheel(false);
@@ -277,68 +320,71 @@ private CreatePropertyListener mListener;
 //        }
 //    }
 
-    Integer streetNumber;
-    private void saveProperty() {
-        if (!mEditText_streetNumber.getText().toString().equals(""))
-            streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
-        String streetName = mEditText_streetName.getText().toString();
-        String city = mEditText_city.getText().toString();
-        List<String> state = new ArrayList<>();
-        if (!mEditText_state.getText().toString().equals(""))
-            state.add(mEditText_state.getText().toString());
-        Integer postCode = Integer.parseInt(mEditText_postCode.getText().toString());
-        List<String> bedrooms =  new ArrayList<>();
-        bedrooms.add(String.valueOf(mNumberPicker_bedrooms.getValue()));
-        List<String>  bathrooms = new ArrayList<>();
-        bathrooms.add(String.valueOf(mNumberPicker_bathrooms.getValue()));
-        List<String> garages =  new ArrayList<>();
-        garages.add(String.valueOf(mNumberPicker_cars.getValue()));
-        List<Integer> price = new ArrayList<>();
-        price.add(Integer.parseInt(mEditText_price.getText().toString()));
-        String description=mEditText_description.getText().toString();
-
-        String empty = "--";
-        if (streetNumber>0 && !streetName.isEmpty()) {
-            mProperty.setStreetNumber(streetNumber);
-            mProperty.setStreetName(streetName);
-
-            if (city.isEmpty()) city ="None";
-            if (state.isEmpty()) state.add("None");
-            if (postCode==0) postCode = 0;
-            if (bedrooms.isEmpty()) bedrooms.add("None");
-            if (bathrooms.isEmpty()) bathrooms.add("None");
-            if (garages.isEmpty()) garages .add("None");
-            if (description.isEmpty())description="None";
-            if (price.isEmpty()) price.add(0);
-
-            mProperty.setCity(city);
-            mProperty.setState(state);
-            mProperty.setPostCode(postCode);
-            mProperty.setBedrooms(bedrooms);
-            mProperty.setBathrooms(bathrooms);
-            mProperty.setCars(garages);
-            mProperty.setPrice(price);
-            mProperty.setUnitNumber(0);
-            mProperty.setDescription(description);
-            // mProperty.setPhoto(ContextCompat.getDrawable(getContext(), R.drawable.house1));
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    //DynamoDB calls go here
-                    try {
-                        mapper.save(mProperty);
-                        mPhotos.setPropertyId((mProperty.getId()));
-                        if (MY_FILE != null)
-                            mapper.save(mPhotos);
-                    }catch (Exception e){e.printStackTrace();}
 
 
-                }
-            };
-            Thread mythread = new Thread(runnable);
-            mythread.start();
-          //  mListener.onSaveProperty();
-        }
-    }
+
+//    Integer streetNumber;
+//    private void saveProperty() {
+//        if (!mEditText_streetNumber.getText().toString().equals(""))
+//            streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
+//        String streetName = mEditText_streetName.getText().toString();
+//        String city = mEditText_city.getText().toString();
+//        List<String> state = new ArrayList<>();
+//        if (!mEditText_state.getText().toString().equals(""))
+//            state.add(mEditText_state.getText().toString());
+//        Integer postCode = Integer.parseInt(mEditText_postCode.getText().toString());
+//        List<String> bedrooms =  new ArrayList<>();
+//        bedrooms.add(String.valueOf(mNumberPicker_bedrooms.getValue()));
+//        List<String>  bathrooms = new ArrayList<>();
+//        bathrooms.add(String.valueOf(mNumberPicker_bathrooms.getValue()));
+//        List<String> garages =  new ArrayList<>();
+//        garages.add(String.valueOf(mNumberPicker_cars.getValue()));
+//        List<Integer> price = new ArrayList<>();
+//        price.add(Integer.parseInt(mEditText_price.getText().toString()));
+//        String description=mEditText_description.getText().toString();
+//
+//        String empty = "--";
+//        if (streetNumber>0 && !streetName.isEmpty()) {
+//            mProperty.setStreetNumber(streetNumber);
+//            mProperty.setStreetName(streetName);
+//
+//            if (city.isEmpty()) city ="None";
+//            if (state.isEmpty()) state.add("None");
+//            if (postCode==0) postCode = 0;
+//            if (bedrooms.isEmpty()) bedrooms.add("None");
+//            if (bathrooms.isEmpty()) bathrooms.add("None");
+//            if (garages.isEmpty()) garages .add("None");
+//            if (description.isEmpty())description="None";
+//            if (price.isEmpty()) price.add(0);
+//
+//            mProperty.setCity(city);
+//            mProperty.setState(state);
+//            mProperty.setPostCode(postCode);
+//            mProperty.setBedrooms(bedrooms);
+//            mProperty.setBathrooms(bathrooms);
+//            mProperty.setCars(garages);
+//            mProperty.setPrice(price);
+//            mProperty.setUnitNumber(0);
+//            mProperty.setDescription(description);
+//            // mProperty.setPhoto(ContextCompat.getDrawable(getContext(), R.drawable.house1));
+//            Runnable runnable = new Runnable() {
+//                public void run() {
+//                    //DynamoDB calls go here
+//                    try {
+//                        mapper.save(mProperty);
+//                        mPhotos.setPropertyId((mProperty.getId()));
+//                        if (MY_FILE != null)
+//                            mapper.save(mPhotos);
+//                    }catch (Exception e){e.printStackTrace();}
+//
+//
+//                }
+//            };
+//            Thread mythread = new Thread(runnable);
+//            mythread.start();
+//          //  mListener.onSaveProperty();
+//        }
+//    }
 
 
 

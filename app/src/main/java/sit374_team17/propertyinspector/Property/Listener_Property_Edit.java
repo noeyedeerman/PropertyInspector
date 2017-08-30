@@ -6,4 +6,7 @@ package sit374_team17.propertyinspector.Property;
 
 public interface Listener_Property_Edit {
     void onContinue();
+    void save();
+    void setDetails_1(Property property);
+    void setDetails_2(Property property);
 }

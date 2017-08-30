@@ -17,9 +17,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +25,6 @@ import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import sit374_team17.propertyinspector.Main.Listener;
@@ -45,8 +42,9 @@ public class Fragment_Property_Edit_3 extends Fragment {
     Button mButton_save,mButton_upload;
     //DB_PropertyHandler mDB_properties;
     List<Property> mPropertyList;
-    EditText mEditText_streetNumber, mEditText_streetName, mEditText_city, mEditText_state, mEditText_postCode, mEditText_price, mEditText_description;
-    NumberPicker mNumberPicker_bedrooms, mNumberPicker_bathrooms, mNumberPicker_cars;
+    TextView mTextView_address, mTextView_streetName, mTextView_city, mTextView_state, mTextView_postCode, mTextView_price, mTextView_description,
+    mTextView_bedrooms, mTextView_bathrooms, mTextView_cars;
+
     protected CognitoCachingCredentialsProvider credentialsProvider ;
     protected DynamoDBMapper mapper ;
     private String IDENTITY_POOL_ID="ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
@@ -130,14 +128,21 @@ public class Fragment_Property_Edit_3 extends Fragment {
 
 
         //mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
-      //  mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
-        mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
-        mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
-      //  mEditText_postCode = (EditText) mView.findViewById(R.id.editText_postCode);
-      //  mNumberPicker_bedrooms = (NumberPicker) mView.findViewById(R.id.editText_bedrooms);
-      //  mNumberPicker_bathrooms = (NumberPicker) mView.findViewById(R.id.editText_bathrooms);
-      //  mNumberPicker_cars = (NumberPicker) mView.findViewById(R.id.editText_cars);
-      //  mEditText_price = (EditText) mView.findViewById(R.id.editText_price);
+        mTextView_description = (TextView) mView.findViewById(R.id.textView_description);
+        mTextView_price = (TextView) mView.findViewById(R.id.textView_price);
+        mTextView_address = (TextView) mView.findViewById(R.id.textView_address);
+        mTextView_city = (TextView) mView.findViewById(R.id.textView_city);
+        mTextView_state = (TextView) mView.findViewById(R.id.textView_state);
+        mTextView_postCode = (TextView) mView.findViewById(R.id.textView_postCode);
+
+
+        mTextView_description.setText(mProperty.getDescription());
+        mTextView_price.setText(String.valueOf(mProperty.getPrice()));
+        mTextView_address.setText(mProperty.getAddress());
+        mTextView_city.setText(mProperty.getCity());
+        mTextView_state.setText(String.valueOf(mProperty.getState()));
+        mTextView_postCode.setText(String.valueOf(mProperty.getPostCode()));
+
       //  mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
       //  file_path = (TextView) mView.findViewById(R.id.file_path);
 
@@ -273,70 +278,70 @@ public class Fragment_Property_Edit_3 extends Fragment {
 //        }
 //    }
 
-
-    Integer streetNumber;
-    private void saveProperty() {
-        if (!mEditText_streetNumber.getText().toString().equals(""))
-            streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
-        String streetName = mEditText_streetName.getText().toString();
-        String city = mEditText_city.getText().toString();
-        List<String> state = new ArrayList<>();
-        if (!mEditText_state.getText().toString().equals(""))
-            state.add(mEditText_state.getText().toString());
-        Integer postCode = Integer.parseInt(mEditText_postCode.getText().toString());
-        List<String> bedrooms =  new ArrayList<>();
-        bedrooms.add(String.valueOf(mNumberPicker_bedrooms.getValue()));
-        List<String>  bathrooms = new ArrayList<>();
-        bathrooms.add(String.valueOf(mNumberPicker_bathrooms.getValue()));
-        List<String> garages =  new ArrayList<>();
-        garages.add(String.valueOf(mNumberPicker_cars.getValue()));
-        List<Integer> price = new ArrayList<>();
-        price.add(Integer.parseInt(mEditText_price.getText().toString()));
-        String description=mEditText_description.getText().toString();
-
-        String empty = "--";
-        if (streetNumber>0 && !streetName.isEmpty()) {
-            mProperty.setStreetNumber(streetNumber);
-            mProperty.setStreetName(streetName);
-
-            if (city.isEmpty()) city ="None";
-            if (state.isEmpty()) state.add("None");
-            if (postCode==0) postCode = 0;
-            if (bedrooms.isEmpty()) bedrooms.add("None");
-            if (bathrooms.isEmpty()) bathrooms.add("None");
-            if (garages.isEmpty()) garages .add("None");
-            if (description.isEmpty())description="None";
-            if (price.isEmpty()) price.add(0);
-
-            mProperty.setCity(city);
-            mProperty.setState(state);
-            mProperty.setPostCode(postCode);
-            mProperty.setBedrooms(bedrooms);
-            mProperty.setBathrooms(bathrooms);
-            mProperty.setCars(garages);
-            mProperty.setPrice(price);
-            mProperty.setUnitNumber(0);
-            mProperty.setDescription(description);
-            // mProperty.setPhoto(ContextCompat.getDrawable(getContext(), R.drawable.house1));
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    //DynamoDB calls go here
-                    try {
-                        mapper.save(mProperty);
-                        mPhotos.setPropertyId((mProperty.getId()));
-                        if (MY_FILE != null)
-                            mapper.save(mPhotos);
-                    }catch (Exception e){e.printStackTrace();}
-
-
-                }
-            };
-            Thread mythread = new Thread(runnable);
-            mythread.start();
-            mListener.onSaveProperty();
-        }
-    }
-
+//
+//    Integer streetNumber;
+//    private void saveProperty() {
+//        if (!mEditText_streetNumber.getText().toString().equals(""))
+//            streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
+//        String streetName = mEditText_streetName.getText().toString();
+//        String city = mEditText_city.getText().toString();
+//        List<String> state = new ArrayList<>();
+//        if (!mEditText_state.getText().toString().equals(""))
+//            state.add(mEditText_state.getText().toString());
+//        Integer postCode = Integer.parseInt(mEditText_postCode.getText().toString());
+//        List<String> bedrooms =  new ArrayList<>();
+//        bedrooms.add(String.valueOf(mNumberPicker_bedrooms.getValue()));
+//        List<String>  bathrooms = new ArrayList<>();
+//        bathrooms.add(String.valueOf(mNumberPicker_bathrooms.getValue()));
+//        List<String> garages =  new ArrayList<>();
+//        garages.add(String.valueOf(mNumberPicker_cars.getValue()));
+//        List<Integer> price = new ArrayList<>();
+//        price.add(Integer.parseInt(mEditText_price.getText().toString()));
+//        String description=mEditText_description.getText().toString();
+//
+//        String empty = "--";
+//        if (streetNumber>0 && !streetName.isEmpty()) {
+//            mProperty.setStreetNumber(streetNumber);
+//            mProperty.setStreetName(streetName);
+//
+//            if (city.isEmpty()) city ="None";
+//            if (state.isEmpty()) state.add("None");
+//            if (postCode==0) postCode = 0;
+//            if (bedrooms.isEmpty()) bedrooms.add("None");
+//            if (bathrooms.isEmpty()) bathrooms.add("None");
+//            if (garages.isEmpty()) garages .add("None");
+//            if (description.isEmpty())description="None";
+//            if (price.isEmpty()) price.add(0);
+//
+//            mProperty.setCity(city);
+//            mProperty.setState(state);
+//            mProperty.setPostCode(postCode);
+//            mProperty.setBedrooms(bedrooms);
+//            mProperty.setBathrooms(bathrooms);
+//            mProperty.setCars(garages);
+//            mProperty.setPrice(price);
+//            mProperty.setUnitNumber(0);
+//            mProperty.setDescription(description);
+//            // mProperty.setPhoto(ContextCompat.getDrawable(getContext(), R.drawable.house1));
+//            Runnable runnable = new Runnable() {
+//                public void run() {
+//                    //DynamoDB calls go here
+//                    try {
+//                        mapper.save(mProperty);
+//                        mPhotos.setPropertyId((mProperty.getId()));
+//                        if (MY_FILE != null)
+//                            mapper.save(mPhotos);
+//                    }catch (Exception e){e.printStackTrace();}
+//
+//
+//                }
+//            };
+//            Thread mythread = new Thread(runnable);
+//            mythread.start();
+//            mListener.onSaveProperty();
+//        }
+//    }
+//
 
 
 //

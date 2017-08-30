@@ -96,6 +96,9 @@ private View mView;
 
         mPager.setAdapter(new ScreenSlidePagerAdapter(getChildFragmentManager()));
 
+        return mView;
+    }
+
        // mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
         //mPager.setAdapter(mPagerAdapter);
 
@@ -218,8 +221,7 @@ private View mView;
 //        });
 
 
-        return mView;
-    }
+
 
     public void onBackPressed() {
         if (mPager.getCurrentItem() > 0) {
@@ -351,9 +353,12 @@ private View mView;
     }
 
 
+
+
+
+
 }
-//
-//    private File createImageFile() throws IOException {
+//private File createImageFile() throws IOException {
 //        // Create an image file name
 //        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 //        String imageFileName = "JPEG_" + timeStamp + "_";

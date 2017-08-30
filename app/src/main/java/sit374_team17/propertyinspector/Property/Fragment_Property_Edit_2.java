@@ -3,6 +3,7 @@ package sit374_team17.propertyinspector.Property;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -42,7 +43,7 @@ public class Fragment_Property_Edit_2 extends Fragment {
     Button mButton_save,mButton_upload;
    // DB_PropertyHandler mDB_properties;
     List<Property> mPropertyList;
-    EditText mEditText_streetNumber, mEditText_streetName, mEditText_city, mEditText_state, mEditText_postCode, mEditText_price, mEditText_description;
+    EditText mEditText_address, mEditText_streetName, mEditText_city, mEditText_state, mEditText_post, mEditText_price, mEditText_description;
     NumberPicker mNumberPicker_bedrooms, mNumberPicker_bathrooms, mNumberPicker_cars;
     protected CognitoCachingCredentialsProvider credentialsProvider ;
     protected DynamoDBMapper mapper ;
@@ -54,31 +55,74 @@ public class Fragment_Property_Edit_2 extends Fragment {
     int pickerMax = 100;
     int SELECT_IMAGE = 103;
 
-    private CreatePropertyListener mListener;
+    Listener_Property_Edit mListener;
 
     public Fragment_Property_Edit_2() {
     }
 
-     public interface CreatePropertyListener {
-         void onContinue2();
-     }
+    public void getDetails_2() {
+        mProperty = new Property();
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof Fragment_Property_Edit_2.CreatePropertyListener) {
-//            mListener = (Fragment_Property_Edit_2.CreatePropertyListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement CreatePropertyListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
+      //  if (!mEditText_streetNumber.getText().toString().equals(""))
+         //   streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
+        //String streetName = mEditText_streetName.getText().toString();
+        String address = mEditText_address.getText().toString();
+        String city = mEditText_city.getText().toString();
+        List<String> state = new ArrayList<>();
+        if (!mEditText_state.getText().toString().equals(""))
+            state.add(mEditText_state.getText().toString());
+
+        String postCodeString = mEditText_post.getText().toString();
+        Integer postCode = 0;
+        if (!postCodeString.isEmpty() && postCodeString !="") {
+            postCode = Integer.parseInt(postCodeString);
+        }
+
+
+        String empty = "--";
+        //if (streetNumber>0 && !streetName.isEmpty()) {
+      //  String address = editText_address;
+       // if (
+           // mProperty.setStreetNumber(streetNumber);
+           // mProperty.setStreetName(streetName);
+
+        if (address.isEmpty() || address == "") address = "None";
+            if (city.isEmpty() || city == "") city = "None";
+            if (state.isEmpty()) state.add("None");
+            if (postCode <= 0) postCode = 0;
+
+        mProperty.setAddress(address);
+            mProperty.setCity(city);
+            mProperty.setState(state);
+            mProperty.setPostCode(postCode);
+            mProperty.setUnitNumber(0);
+
+
+        mListener.setDetails_2(mProperty);
+    }
+
+
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Listener_Property_Edit) {
+            mListener = (Listener_Property_Edit) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement Listener_Property_Edit");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
 
 
     public static Fragment_Property_Edit_2 newInstance(Property property) {
@@ -102,150 +146,14 @@ public class Fragment_Property_Edit_2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         mView = inflater.inflate(R.layout.fragment_property_edit_2, container, false);
-        setHasOptionsMenu(true);
 
-//        Button button_continue = (Button) mView.findViewById(R.id.button_continue);
-//        button_continue.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mListener.onContinue2();
-//            }
-//        });
-
-//        final RadioButton radioButton_sale = (RadioButton) mView.findViewById(R.id.radioButton_sale);
-//
-//        radioButton_sale.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//              //  onRadioButtonClicked(radioButton_sale);
-//            }
-//        });
-//        final RadioButton radioButton_auction = (RadioButton) mView.findViewById(R.id.radioButton_auction);
-//
-//        radioButton_auction.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//              //  onRadioButtonClicked(radioButton_auction);
-//            }
-//        });
-//        RadioButton radioButton_lease = (RadioButton) mView.findViewById(R.id.radioButton_lease);
-//
-//        RadioGroup radioGroup = (RadioGroup) mView.findViewById(R.id.radioGroup_category);
-
-
-       // mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
-       // mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
-        mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
-        mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
-      //  mEditText_postCode = (EditText) mView.findViewById(R.id.editText_postCode);
-      //  mNumberPicker_bedrooms = (NumberPicker) mView.findViewById(R.id.editText_bedrooms);
-      //  mNumberPicker_bathrooms = (NumberPicker) mView.findViewById(R.id.editText_bathrooms);
-      //  mNumberPicker_cars = (NumberPicker) mView.findViewById(R.id.editText_cars);
-      //  mEditText_price = (EditText) mView.findViewById(R.id.editText_price);
-      //  mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
-      //  file_path = (TextView) mView.findViewById(R.id.file_path);
-
-//
-//        Spinner spinner = (Spinner) mView.findViewById(R.id.spinner_bedrooms);
-//// Create an ArrayAdapter using the string array and a default spinner layout
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-//                R.array.number_array, android.R.layout.simple_spinner_item);
-//// Specify the layout to use when the list of choices appears
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//// Apply the adapter to the spinner
-//        spinner.setAdapter(adapter);
-
-//        mNumberPicker_bedrooms.setMinValue(pickerMin);
-//        mNumberPicker_bedrooms.setMaxValue(pickerMax);
-//        mNumberPicker_bedrooms.setWrapSelectorWheel(false);
-//
-//        mNumberPicker_bathrooms.setMinValue(pickerMin);
-//        mNumberPicker_bathrooms.setMaxValue(pickerMax);
-//        mNumberPicker_bathrooms.setWrapSelectorWheel(false);
-//
-//        mNumberPicker_cars.setMinValue(pickerMin);
-//        mNumberPicker_cars.setMaxValue(pickerMax);
-//        mNumberPicker_cars.setWrapSelectorWheel(false);
-
-//        mButton_save = (Button) mView.findViewById(R.id.button_save);
-//       // mButton_upload = (Button) mView.findViewById(R.id.button_upload);
-//
-//
-//
-//
-//        mButton_save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (MY_FILE!=null) {
-//                    AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
-//                    TransferUtility transferUtility = new TransferUtility(s3, getActivity());
-//                    final TransferObserver observer = transferUtility.upload(
-//                            MY_BUCKET,     /* The bucket to upload to */
-//                            OBJECT_KEY.concat(MY_FILE.getName().substring(MY_FILE.getName().length()-4)),    /* The key for the uploaded object */
-//                            MY_FILE,        /* The file where the data to upload exists */
-//                            CannedAccessControlList.PublicRead
-//                    );
-//                    progress=new ProgressDialog(getActivity());
-//                    progress.setMessage("Uploading Images");
-//                    progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//                    progress.setIndeterminate(false);
-//                    progress.setProgress(0);
-//                    progress.show();
-//
-//                    observer.setTransferListener(new TransferListener() {
-//
-//                        @Override
-//                        public void onStateChanged(int id, TransferState state) {
-//                            if (TransferState.COMPLETED.equals(state)) {
-//                                progress.setProgress(100);
-//                                if (progress.isShowing())progress.dismiss();
-//                                Toast.makeText(getActivity(),"Image uploaded successfully!",Toast.LENGTH_SHORT).show();
-//                                mPhotos.setPicDetails(OBJECT_KEY.concat(MY_FILE.getName().substring(MY_FILE.getName().length() - 4)));
-//                                saveProperty();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-//                            int percentage = (int) (bytesCurrent / bytesTotal * 100);
-//                            progress.setProgress(percentage);
-//                            //Display percentage transferred to user
-//                        }
-//
-//                        @Override
-//                        public void onError(int id, Exception ex) {
-//                            // do something
-//                            if (progress.isShowing())progress.dismiss();
-//                            Toast.makeText(getActivity(),"Image fail to upload",Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                    });
-//
-//                }else {
-//                    saveProperty();
-//                }
-//            }
-//        });
-//        mButton_upload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);//
-//                startActivityForResult(Intent.createChooser(intent, "Select Picture"),SELECT_IMAGE);
-//            }
-//        });
-//
-//        credentialsProvider = new CognitoCachingCredentialsProvider(getActivity(), IDENTITY_POOL_ID, Regions.AP_SOUTHEAST_2);
-//        // Set up as a credentials provider.
-//        Map<String, String> logins = new HashMap<String, String>();
-//        logins.put("cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_e4nCxiblG", getActivity().getIntent().getStringExtra("tokens"));
-//        credentialsProvider.setLogins(logins);
-//        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
-//        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
-//        mapper = new DynamoDBMapper(ddbClient);
+          //mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
+        mEditText_address = (EditText) mView.findViewById(R.id.editText_address);
+          // mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
+         mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
+          mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
+          mEditText_post = (EditText) mView.findViewById(R.id.editText_post);
         return mView;
     }
 
@@ -271,67 +179,68 @@ public class Fragment_Property_Edit_2 extends Fragment {
 //    }
 
     Integer streetNumber;
-    private void saveProperty() {
-        if (!mEditText_streetNumber.getText().toString().equals(""))
-            streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
-        String streetName = mEditText_streetName.getText().toString();
-        String city = mEditText_city.getText().toString();
-        List<String> state = new ArrayList<>();
-        if (!mEditText_state.getText().toString().equals(""))
-            state.add(mEditText_state.getText().toString());
-        Integer postCode = Integer.parseInt(mEditText_postCode.getText().toString());
-        List<String> bedrooms =  new ArrayList<>();
-        bedrooms.add(String.valueOf(mNumberPicker_bedrooms.getValue()));
-        List<String>  bathrooms = new ArrayList<>();
-        bathrooms.add(String.valueOf(mNumberPicker_bathrooms.getValue()));
-        List<String> garages =  new ArrayList<>();
-        garages.add(String.valueOf(mNumberPicker_cars.getValue()));
-        List<Integer> price = new ArrayList<>();
-        price.add(Integer.parseInt(mEditText_price.getText().toString()));
-        String description=mEditText_description.getText().toString();
-
-        String empty = "--";
-        if (streetNumber>0 && !streetName.isEmpty()) {
-            mProperty.setStreetNumber(streetNumber);
-            mProperty.setStreetName(streetName);
-
-            if (city.isEmpty()) city ="None";
-            if (state.isEmpty()) state.add("None");
-            if (postCode==0) postCode = 0;
-            if (bedrooms.isEmpty()) bedrooms.add("None");
-            if (bathrooms.isEmpty()) bathrooms.add("None");
-            if (garages.isEmpty()) garages .add("None");
-            if (description.isEmpty())description="None";
-            if (price.isEmpty()) price.add(0);
-
-            mProperty.setCity(city);
-            mProperty.setState(state);
-            mProperty.setPostCode(postCode);
-            mProperty.setBedrooms(bedrooms);
-            mProperty.setBathrooms(bathrooms);
-            mProperty.setCars(garages);
-            mProperty.setPrice(price);
-            mProperty.setUnitNumber(0);
-            mProperty.setDescription(description);
-            // mProperty.setPhoto(ContextCompat.getDrawable(getContext(), R.drawable.house1));
-            Runnable runnable = new Runnable() {
-                public void run() {
-                    //DynamoDB calls go here
-                    try {
-                        mapper.save(mProperty);
-                        mPhotos.setPropertyId((mProperty.getId()));
-                        if (MY_FILE != null)
-                            mapper.save(mPhotos);
-                    }catch (Exception e){e.printStackTrace();}
-
-
-                }
-            };
-            Thread mythread = new Thread(runnable);
-            mythread.start();
-          //  mListener.onSaveProperty();
-        }
-    }
+//    private void saveProperty() {
+//
+//      //  if (!mEditText_streetNumber.getText().toString().equals(""))
+//         //   streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
+//       // String streetName = mEditText_streetName.getText().toString();
+//        String city = mEditText_city.getText().toString();
+//        List<String> state = new ArrayList<>();
+//        if (!mEditText_state.getText().toString().equals(""))
+//            state.add(mEditText_state.getText().toString());
+//        Integer postCode = Integer.parseInt(mEditText_post.getText().toString());
+//        List<String> bedrooms =  new ArrayList<>();
+//        bedrooms.add(String.valueOf(mNumberPicker_bedrooms.getValue()));
+//        List<String>  bathrooms = new ArrayList<>();
+//        bathrooms.add(String.valueOf(mNumberPicker_bathrooms.getValue()));
+//        List<String> garages =  new ArrayList<>();
+//        garages.add(String.valueOf(mNumberPicker_cars.getValue()));
+//        List<Integer> price = new ArrayList<>();
+//        price.add(Integer.parseInt(mEditText_price.getText().toString()));
+//        String description=mEditText_description.getText().toString();
+//
+//        String empty = "--";
+//        if (streetNumber>0 && !streetName.isEmpty()) {
+//            mProperty.setStreetNumber(streetNumber);
+//            mProperty.setStreetName(streetName);
+//
+//            if (city.isEmpty()) city ="None";
+//            if (state.isEmpty()) state.add("None");
+//            if (postCode==0) postCode = 0;
+//            if (bedrooms.isEmpty()) bedrooms.add("None");
+//            if (bathrooms.isEmpty()) bathrooms.add("None");
+//            if (garages.isEmpty()) garages .add("None");
+//            if (description.isEmpty())description="None";
+//            if (price.isEmpty()) price.add(0);
+//
+//            mProperty.setCity(city);
+//            mProperty.setState(state);
+//            mProperty.setPostCode(postCode);
+//            mProperty.setBedrooms(bedrooms);
+//            mProperty.setBathrooms(bathrooms);
+//            mProperty.setCars(garages);
+//            mProperty.setPrice(price);
+//            mProperty.setUnitNumber(0);
+//            mProperty.setDescription(description);
+//            // mProperty.setPhoto(ContextCompat.getDrawable(getContext(), R.drawable.house1));
+//            Runnable runnable = new Runnable() {
+//                public void run() {
+//                    //DynamoDB calls go here
+//                    try {
+//                        mapper.save(mProperty);
+//                        mPhotos.setPropertyId((mProperty.getId()));
+//                        if (MY_FILE != null)
+//                            mapper.save(mPhotos);
+//                    }catch (Exception e){e.printStackTrace();}
+//
+//
+//                }
+//            };
+//            Thread mythread = new Thread(runnable);
+//            mythread.start();
+//          //  mListener.onSaveProperty();
+//        }
+//    }
 
 
     @Override

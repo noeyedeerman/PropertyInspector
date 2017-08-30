@@ -103,12 +103,12 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case 0:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note_text, parent, false);
                 return new ViewHolder_text(view);
-            case 4:
+            case 2:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note_photo, parent, false);
                 return new ViewHolder_photo(view);
-            case 2:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note_stack, parent, false);
-                return new ViewHolder_stack(view);
+           // case 2:
+            //    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note_stack, parent, false);
+             //   return new ViewHolder_stack(view);
 
 
             default:
@@ -129,20 +129,20 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                 break;
 
-            case 4:
+            case 2:
                 ViewHolder_photo viewHolder_photo = (ViewHolder_photo)holder;
                 viewHolder_photo.mTitle.setText("Text Title");
                 viewHolder_photo.mNote.setText(mNotesList.get(position).getDescription());
                 //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
                 //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
                 break;
-            case 2:
-                ViewHolder_stack viewHolder_stack = (ViewHolder_stack)holder;
-                viewHolder_stack.mStack.setAdapter(mNoteStack);
-             //   viewHolder_stack.mNote.setText(mNotesList.get(position).getDescription());
-                //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
-                //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
-                break;
+//            case 2:
+//                ViewHolder_stack viewHolder_stack = (ViewHolder_stack)holder;
+//                viewHolder_stack.mStack.setAdapter(mNoteStack);
+//             //   viewHolder_stack.mNote.setText(mNotesList.get(position).getDescription());
+//                //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
+//                //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
+//                break;
         }
 
     }

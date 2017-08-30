@@ -167,7 +167,7 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
             mStreetNumber = (TextView) itemView.findViewById(R.id.textView_streetNumber);
             mStreetName = (TextView) itemView.findViewById(R.id.textView_streetName);
             mCity = (TextView) itemView.findViewById(R.id.textView_city);
-            mState = (TextView) itemView.findViewById(R.id.textView_state);
+            mState = (TextView) itemView.findViewById(R.id.textView_address);
             mPostCode = (TextView) itemView.findViewById(R.id.textView_postCode);
             mBedrooms = (TextView) itemView.findViewById(R.id.textView_bedrooms);
             mBathrooms = (TextView) itemView.findViewById(R.id.textView_bathrooms);
