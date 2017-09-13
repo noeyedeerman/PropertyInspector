@@ -87,6 +87,9 @@
     <string name="action_notes">action_notes</string>
 
     // Loans
+    <string name="loan">First, let\'s source a bank to get your loan. Have a look at our partners below by tapping on them, and if you find a package or offer you like, tap the "I like this" button with the offer page</string>
+    <string name="loan_no">No thanks, I can source my own! / This is not required for me</string>
+    <string name="select_loan">Select a loan</string>
 
     // Loan 1
     <string name="loan_name_1">Lorem Ipsum</string>
@@ -110,6 +113,8 @@
     <string name="loan_info_3"><![CDATA[<b>Fixed Rate Loans (3 Years)</b><br/>3.89% p.a. variable rate]]></string>
 
     // Lawyers
+    <string name="lawyer">Would you like to source a lawyer/solicitor?</string>
+    <string name="select_lawyer">Select a lawyer</string>
 
     // Lawyer 1
     <string name="lawyer_name_1">Hienaman And Partners</string>
@@ -126,6 +131,90 @@
     giving our customers that feeling, and we’ve now branched out to Real-Estate and we’re giving Flagg users a glimpse in
     how real-estate legal should be done.]]></string>
     <string name="lawyer_info_2"><![CDATA[<b>Rates</b><br>Lawyers - between $300 and $500 per hour<br>Solicitors - $150 and $200 per hour]]></string>
+
+
+    // Electrical
+    <string name="electrical">Would you like to source a electrical provider?</string>
+    <string name="select_electrical">Select a electrical provider</string>
+
+    // Electrical 1
+    <string name="electrical_name_1">Electrical 1</string>
+    <string name="electrical_pitch_1"><![CDATA[This is a cool pitch]]></string>
+    <string name="electrical_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Electrical 2
+    <string name="electrical_name_2">Electrical 2</string>
+    <string name="electrical_pitch_2"><![CDATA[This is a cool pitch]]></string>
+    <string name="electrical_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Electrical 3
+    <string name="electrical_name_3">Electrical 3</string>
+    <string name="electrical_pitch_3"><![CDATA[This is a cool pitch]]></string>
+    <string name="electrical_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+
+    // Gas
+    <string name="gas">Would you like to source a gas provider?</string>
+    <string name="select_gas">Select a gas provider</string>
+
+    // Gas 1
+    <string name="gas_name_1">Gas 1</string>
+    <string name="gas_pitch_1"><![CDATA[This is a cool pitch]]></string>
+    <string name="gas_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Gas 2
+    <string name="gas_name_2">Gas 2</string>
+    <string name="gas_pitch_2"><![CDATA[This is a cool pitch]]></string>
+    <string name="gas_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Gas 3
+    <string name="gas_name_3">Gas 3</string>
+    <string name="gas_pitch_3"><![CDATA[This is a cool pitch]]></string>
+    <string name="gas_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+
+    // Internet
+    <string name="internet">Would you like to source a internet provider?</string>
+    <string name="select_internet">Select a internet provider</string>
+
+    // Internet 1
+    <string name="internet_name_1">Internet 1</string>
+    <string name="internet_pitch_1"><![CDATA[This is a cool pitch]]></string>
+    <string name="internet_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Internet 2
+    <string name="internet_name_2">Internet 2</string>
+    <string name="internet_pitch_2"><![CDATA[This is a cool pitch]]></string>
+    <string name="internet_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Internet 3
+    <string name="internet_name_3">Internet 3</string>
+    <string name="internet_pitch_3"><![CDATA[This is a cool pitch]]></string>
+    <string name="internet_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+
+    // Moval
+    <string name="moval">Would you like to source a moval provider?</string>
+    <string name="select_moval">Select a moval provider</string>
+
+    // Moval 1
+    <string name="moval_name_1">Moval 1</string>
+    <string name="moval_pitch_1"><![CDATA[This is a cool pitch]]></string>
+    <string name="moval_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Moval 2
+    <string name="moval_name_2">Moval 2</string>
+    <string name="moval_pitch_2"><![CDATA[This is a cool pitch]]></string>
+    <string name="moval_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Moval 3
+    <string name="moval_name_3">Moval 3</string>
+    <string name="moval_pitch_3"><![CDATA[This is a cool pitch]]></string>
+    <string name="moval_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+
+
+
 
 
 
@@ -173,8 +262,8 @@
     <string name="action_property" />
     <string name="action_criteria" />
     <string name="title_activity__walkthrough">Activity_Walkthrough</string>
-    <string name="loan">Would you like to source a bank for a loan?</string>
-    <string name="lawyer">Would you like to source a lawyer/solicitor?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 
 

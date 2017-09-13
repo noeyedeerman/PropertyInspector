@@ -15,19 +15,11 @@ import java.util.ArrayList;
 
 import sit374_team17.propertyinspector.R;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class Fragment_Walkthrough_2_Loan extends Fragment {
+public class Fragment_Walkthrough_7_Moval extends Fragment {
 
-    private View mView;
     Listener_Walkthrough mListener;
-    private RecyclerView mRecyclerView;
-    private ArrayList<Loan> mList;
-    private Adapter_Loan mAdapter;
 
-
-    public Fragment_Walkthrough_2_Loan() {
+    public Fragment_Walkthrough_7_Moval() {
     }
 
     @Override
@@ -47,41 +39,40 @@ public class Fragment_Walkthrough_2_Loan extends Fragment {
         mListener = null;
     }
 
-    public static Fragment_Walkthrough_2_Loan newInstance() {
-        Fragment_Walkthrough_2_Loan fragment = new Fragment_Walkthrough_2_Loan();
+    public static Fragment_Walkthrough_7_Moval newInstance() {
+        Fragment_Walkthrough_7_Moval fragment = new Fragment_Walkthrough_7_Moval();
         Bundle args = new Bundle();
        // args.putParcelable();
       //  fragment.setArguments(args);
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mView = inflater.inflate(R.layout.fragment_walkthrough_2_loan, container, false);
+        View mView = inflater.inflate(R.layout.fragment_walkthrough_7_moval, container, false);
 
         CardView cardView_no = (CardView) mView.findViewById(R.id.cardView_no);
 
-        cardView_no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.goTo_3_lawyer();
-            }
-        });
+//        cardView_no.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mListener.goTo_5_gas();
+//            }
+//        });
 
-        mList = new ArrayList<>();
+        ArrayList<Moval> mList = new ArrayList<>();
 
-        Loan loan1 = new Loan("0", getString(R.string.loan_name_1), getString(R.string.loan_pitch_1), getString(R.string.loan_info_1));
-        Loan loan2 = new Loan("1", getString(R.string.loan_name_2), getString(R.string.loan_pitch_2), getString(R.string.loan_info_2));
-        Loan loan3 = new Loan("2", getString(R.string.loan_name_3), getString(R.string.loan_pitch_3), getString(R.string.loan_info_3));
+        Moval moval1 = new Moval("0", getString(R.string.moval_name_1), getString(R.string.moval_pitch_1), getString(R.string.moval_info_1));
+        Moval moval2 = new Moval("1", getString(R.string.moval_name_2), getString(R.string.moval_pitch_2), getString(R.string.moval_info_2));
+        Moval moval3 = new Moval("2", getString(R.string.moval_name_3), getString(R.string.moval_pitch_3), getString(R.string.moval_info_3));
 
-        mList.add(loan1);
-        mList.add(loan2);
-        mList.add(loan3);
+        mList.add(moval1);
+        mList.add(moval2);
+        mList.add(moval3);
 
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
+        RecyclerView mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager;
         int columnCount = 2;
@@ -101,12 +92,13 @@ public class Fragment_Walkthrough_2_Loan extends Fragment {
 
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new Adapter_Loan(mListener, getContext());
+        Adapter_Moval mAdapter = new Adapter_Moval(mListener, getContext());
         mAdapter.setList(mList);
         mRecyclerView.setAdapter(mAdapter);
 
 
-        return  mView;
+
+        return mView;
 
 
     }

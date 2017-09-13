@@ -12,16 +12,12 @@ import android.widget.TextView;
 
 import sit374_team17.propertyinspector.R;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class Fragment_Walkthrough_3_Lawyer_Details extends Fragment {
+public class Fragment_Walkthrough_7_Moval_Details extends Fragment {
 
-    private View mView;
     Listener_Walkthrough mListener;
-    private Lawyer mLawyer;
+    private Moval mMoval;
 
-    public Fragment_Walkthrough_3_Lawyer_Details() {
+    public Fragment_Walkthrough_7_Moval_Details() {
     }
 
     @Override
@@ -41,10 +37,10 @@ public class Fragment_Walkthrough_3_Lawyer_Details extends Fragment {
         mListener = null;
     }
 
-    public static Fragment_Walkthrough_3_Lawyer_Details newInstance(Lawyer lawyer) {
-        Fragment_Walkthrough_3_Lawyer_Details fragment = new Fragment_Walkthrough_3_Lawyer_Details();
+    public static Fragment_Walkthrough_7_Moval_Details newInstance(Moval moval) {
+        Fragment_Walkthrough_7_Moval_Details fragment = new Fragment_Walkthrough_7_Moval_Details();
         Bundle args = new Bundle();
-        args.putParcelable("lawyer", lawyer);
+        args.putParcelable("moval", moval);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,34 +49,32 @@ public class Fragment_Walkthrough_3_Lawyer_Details extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mLawyer = getArguments().getParcelable("lawyer");
+            mMoval = getArguments().getParcelable("moval");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        mView = inflater.inflate(R.layout.fragment_walkthrough_3_lawyer_details, container, false);
+        View mView = inflater.inflate(R.layout.fragment_walkthrough_7_moval_details, container, false);
 
         TextView name = (TextView) mView.findViewById(R.id.textView_name);
         TextView pitch = (TextView) mView.findViewById(R.id.textView_pitch);
         TextView info = (TextView) mView.findViewById(R.id.textView_info);
 
-        name.setText(mLawyer.getName());
-        pitch.setText(Html.fromHtml(mLawyer.getPitch()));
-        info.setText(Html.fromHtml(mLawyer.getInfo()));
+        name.setText(mMoval.getName());
+        pitch.setText(Html.fromHtml(mMoval.getPitch()));
+        info.setText(Html.fromHtml(mMoval.getInfo()));
 
         Button buttonContinue = (Button) mView.findViewById(R.id.buttonContinue);
         buttonContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.goTo_4_electrical();
+               // mListener.goTo_7_moval();
+                getActivity().finish();
             }
         });
 
-        return  mView;
-
-
+        return mView;
     }
 }

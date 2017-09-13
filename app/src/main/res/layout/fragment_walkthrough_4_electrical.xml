@@ -15,7 +15,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginTop="32dp"
-        android:text="@string/loan"
+        android:text="@string/electrical"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="18sp"
@@ -55,6 +55,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="361dp"
+
         android:layout_marginLeft="27dp"
         android:layout_marginRight="27dp"
         android:layout_marginTop="7dp"

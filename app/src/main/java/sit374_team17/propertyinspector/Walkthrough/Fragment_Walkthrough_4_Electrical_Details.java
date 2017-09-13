@@ -12,16 +12,13 @@ import android.widget.TextView;
 
 import sit374_team17.propertyinspector.R;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class Fragment_Walkthrough_3_Lawyer_Details extends Fragment {
+public class Fragment_Walkthrough_4_Electrical_Details extends Fragment {
 
     private View mView;
     Listener_Walkthrough mListener;
-    private Lawyer mLawyer;
+    private Electrical mElectrical;
 
-    public Fragment_Walkthrough_3_Lawyer_Details() {
+    public Fragment_Walkthrough_4_Electrical_Details() {
     }
 
     @Override
@@ -41,10 +38,11 @@ public class Fragment_Walkthrough_3_Lawyer_Details extends Fragment {
         mListener = null;
     }
 
-    public static Fragment_Walkthrough_3_Lawyer_Details newInstance(Lawyer lawyer) {
-        Fragment_Walkthrough_3_Lawyer_Details fragment = new Fragment_Walkthrough_3_Lawyer_Details();
+
+    public static Fragment_Walkthrough_4_Electrical_Details newInstance(Electrical electrical) {
+        Fragment_Walkthrough_4_Electrical_Details fragment = new Fragment_Walkthrough_4_Electrical_Details();
         Bundle args = new Bundle();
-        args.putParcelable("lawyer", lawyer);
+        args.putParcelable("electrical", electrical);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,31 +51,33 @@ public class Fragment_Walkthrough_3_Lawyer_Details extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mLawyer = getArguments().getParcelable("lawyer");
+            mElectrical = getArguments().getParcelable("electrical");
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mView = inflater.inflate(R.layout.fragment_walkthrough_3_lawyer_details, container, false);
+        mView = inflater.inflate(R.layout.fragment_walkthrough_4_electrical_details, container, false);
 
         TextView name = (TextView) mView.findViewById(R.id.textView_name);
         TextView pitch = (TextView) mView.findViewById(R.id.textView_pitch);
         TextView info = (TextView) mView.findViewById(R.id.textView_info);
 
-        name.setText(mLawyer.getName());
-        pitch.setText(Html.fromHtml(mLawyer.getPitch()));
-        info.setText(Html.fromHtml(mLawyer.getInfo()));
+        name.setText(mElectrical.getName());
+        pitch.setText(Html.fromHtml(mElectrical.getPitch()));
+        info.setText(Html.fromHtml(mElectrical.getInfo()));
 
         Button buttonContinue = (Button) mView.findViewById(R.id.buttonContinue);
         buttonContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.goTo_4_electrical();
+                mListener.goTo_5_gas();
             }
         });
+
 
         return  mView;
 

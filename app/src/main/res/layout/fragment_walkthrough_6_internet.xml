@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fafafa"
-    tools:context="sit374_team17.propertyinspector.Walkthrough.Fragment_Walkthrough_2_Loan"
+    tools:context="sit374_team17.propertyinspector.Walkthrough.Fragment_Walkthrough_6_Internet"
     >
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginTop="32dp"
-        android:text="@string/loan"
+        android:text="@string/internet"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="18sp"

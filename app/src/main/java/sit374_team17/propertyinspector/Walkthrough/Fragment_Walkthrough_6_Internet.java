@@ -15,19 +15,12 @@ import java.util.ArrayList;
 
 import sit374_team17.propertyinspector.R;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class Fragment_Walkthrough_2_Loan extends Fragment {
+public class Fragment_Walkthrough_6_Internet extends Fragment {
 
     private View mView;
     Listener_Walkthrough mListener;
-    private RecyclerView mRecyclerView;
-    private ArrayList<Loan> mList;
-    private Adapter_Loan mAdapter;
 
-
-    public Fragment_Walkthrough_2_Loan() {
+    public Fragment_Walkthrough_6_Internet() {
     }
 
     @Override
@@ -47,41 +40,39 @@ public class Fragment_Walkthrough_2_Loan extends Fragment {
         mListener = null;
     }
 
-    public static Fragment_Walkthrough_2_Loan newInstance() {
-        Fragment_Walkthrough_2_Loan fragment = new Fragment_Walkthrough_2_Loan();
+    public static Fragment_Walkthrough_6_Internet newInstance() {
+        Fragment_Walkthrough_6_Internet fragment = new Fragment_Walkthrough_6_Internet();
         Bundle args = new Bundle();
        // args.putParcelable();
       //  fragment.setArguments(args);
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        mView = inflater.inflate(R.layout.fragment_walkthrough_2_loan, container, false);
+        mView = inflater.inflate(R.layout.fragment_walkthrough_6_internet, container, false);
 
         CardView cardView_no = (CardView) mView.findViewById(R.id.cardView_no);
 
         cardView_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.goTo_3_lawyer();
+                mListener.goTo_7_moval();
             }
         });
 
-        mList = new ArrayList<>();
+        ArrayList<Internet> mList = new ArrayList<>();
 
-        Loan loan1 = new Loan("0", getString(R.string.loan_name_1), getString(R.string.loan_pitch_1), getString(R.string.loan_info_1));
-        Loan loan2 = new Loan("1", getString(R.string.loan_name_2), getString(R.string.loan_pitch_2), getString(R.string.loan_info_2));
-        Loan loan3 = new Loan("2", getString(R.string.loan_name_3), getString(R.string.loan_pitch_3), getString(R.string.loan_info_3));
+        Internet internet1 = new Internet("0", getString(R.string.internet_name_1), getString(R.string.internet_pitch_1), getString(R.string.internet_info_1));
+        Internet internet2 = new Internet("1", getString(R.string.internet_name_2), getString(R.string.internet_pitch_2), getString(R.string.internet_info_2));
+        Internet internet3 = new Internet("2", getString(R.string.internet_name_3), getString(R.string.internet_pitch_3), getString(R.string.internet_info_3));
 
-        mList.add(loan1);
-        mList.add(loan2);
-        mList.add(loan3);
+        mList.add(internet1);
+        mList.add(internet2);
+        mList.add(internet3);
 
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
+        RecyclerView mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager;
         int columnCount = 2;
@@ -101,7 +92,7 @@ public class Fragment_Walkthrough_2_Loan extends Fragment {
 
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new Adapter_Loan(mListener, getContext());
+        Adapter_Internet mAdapter = new Adapter_Internet(mListener, getContext());
         mAdapter.setList(mList);
         mRecyclerView.setAdapter(mAdapter);
 
