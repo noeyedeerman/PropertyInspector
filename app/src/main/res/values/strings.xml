@@ -90,35 +90,43 @@
 
     // Loan 1
     <string name="loan_name_1">Lorem Ipsum</string>
-    <string name="loan_pitch_1"><![CDATA[This is a cool pitch]]></string>
-    <string name="loan_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="loan_pitch_1"><![CDATA[With a history as old as the founding of the nation itself, Lorem Ipsum has been
+    with Australians and has grown alongside the generations of Australians. It only makes sense that we want to help
+    you grow too by offering home loan packages that will help you buy into that dream home you’ve always dreamed of.]]></string>
+    <string name="loan_info_1"><![CDATA[<b>Fixed Rate Loans (3 Years)</b><br>3.79% p.a. variable rate<br/>$2,327 / Monthly repayments for the period on a 30 year $500,000 loan paying P&I]]></string>
+
 
     // Loan 2
-    <string name="loan_name_2">Lorem Ipsum</string>
-    <string name="loan_pitch_2"><![CDATA[This is a cool pitch]]></string>
-    <string name="loan_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="loan_name_2">TOWER Finance</string>
+    <string name="loan_pitch_2"><![CDATA[The bank of no-compromise in growing your wealth now offers home loans that follow suit.]]></string>
+    <string name="loan_info_2"><![CDATA[<b>Fixed Rate</b><br>2-Year Fixed Rate<br/>3.99% p.a. (owner occupied)]]></string>
+
 
     // Loan 3
-    <string name="loan_name_3">Lorem Ipsum</string>
-    <string name="loan_pitch_3"><![CDATA[This is a cool pitch]]></string>
-    <string name="loan_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="loan_name_3">Falcon Bank</string>
+    <string name="loan_pitch_3"><![CDATA[Flexibility has been a paramount facet when establishing Falcon as we believe we
+    should treat our customers with the respect and trust that they deserve. Which is why we have created competitive home
+    loan packages that promote ease and no-nonsense when getting buying into your new home.]]></string>
+    <string name="loan_info_3"><![CDATA[<b>Fixed Rate Loans (3 Years)</b><br/>3.89% p.a. variable rate]]></string>
 
     // Lawyers
 
     // Lawyer 1
-    <string name="lawyer_name_1">Lorem Ipsum</string>
-    <string name="lawyer_pitch_1"><![CDATA[This is a cool pitch]]></string>
-    <string name="lawyer_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="lawyer_name_1">Hienaman And Partners</string>
+    <string name="lawyer_pitch_1"><![CDATA[With over 150 years of providing the community competitive legal advice at matching
+    rates, it’s no wonder we are the number 1 law firm when it comes to topics pertaining to Real Estate, whether it be inspecting
+    purchasing, leasing, and renting contracts, or construction law. We will investigate, and provide you advice on what to do with
+    your property, new or old, and only work to your best interest - because it’s ours too.]]></string>
+    <string name="lawyer_info_1"><![CDATA[<b>Rates</b><br/>Lawyers - Between $350 and $650 per hour<br/>Solicitors - $150 and $250 per hour]]></string>
+
 
     // Lawyer 2
-    <string name="lawyer_name_2">Lorem Ipsum</string>
-    <string name="lawyer_pitch_2"><![CDATA[This is a cool pitch]]></string>
-    <string name="lawyer_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="lawyer_name_2">The Golden Mile Legal Solutions</string>
+    <string name="lawyer_pitch_2"><![CDATA[Nothing feels better than getting your legal life sorted out. We specialize in
+    giving our customers that feeling, and we’ve now branched out to Real-Estate and we’re giving Flagg users a glimpse in
+    how real-estate legal should be done.]]></string>
+    <string name="lawyer_info_2"><![CDATA[<b>Rates</b><br>Lawyers - between $300 and $500 per hour<br>Solicitors - $150 and $200 per hour]]></string>
 
-    // Lawyer 3
-    <string name="lawyer_name_3">Lorem Ipsum</string>
-    <string name="lawyer_pitch_3"><![CDATA[This is a cool pitch]]></string>
-    <string name="lawyer_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
 
 
     <string-array name="months">

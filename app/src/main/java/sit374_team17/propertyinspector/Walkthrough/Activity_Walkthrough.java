@@ -6,8 +6,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import sit374_team17.propertyinspector.R;
+
+import static sit374_team17.propertyinspector.R.id.view;
 
 public class Activity_Walkthrough extends AppCompatActivity implements Listener_Walkthrough{
 
@@ -21,11 +25,13 @@ public class Activity_Walkthrough extends AppCompatActivity implements Listener_
         setContentView(R.layout.activity_walkthrough);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        setTitle("Property Buying Walkthrough");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         goTo_1_start();
     }
+
+
 
     public void goTo_1_start() {
         Fragment_Walkthrough_1 fragment = Fragment_Walkthrough_1.newInstance();

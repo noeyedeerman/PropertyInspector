@@ -7,6 +7,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import sit374_team17.propertyinspector.R;
@@ -70,6 +71,14 @@ public class Fragment_Walkthrough_3_Lawyer_Details extends Fragment {
         name.setText(mLawyer.getName());
         pitch.setText(Html.fromHtml(mLawyer.getPitch()));
         info.setText(Html.fromHtml(mLawyer.getInfo()));
+
+        Button buttonContinue = (Button) mView.findViewById(R.id.buttonContinue);
+        buttonContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //mListener.goTo_3_lawyer();
+            }
+        });
 
         return  mView;
 

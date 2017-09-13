@@ -39,6 +39,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.Calendar;
 
 import sit374_team17.propertyinspector.Activity_Login;
+import sit374_team17.propertyinspector.Activity_Settings;
 import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
 import sit374_team17.propertyinspector.Property.Activity_Property_Edit;
 import sit374_team17.propertyinspector.Property.Fragment_Property;
@@ -292,6 +293,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
 //    public void goTo_NoteEditActivity() {
 //
 //        Intent intent = new Intent(MainActivity.this, Activity_Note_Edit.class);
@@ -419,7 +421,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_password) {
             changePassword();
         } else if (id == R.id.nav_settings) {
-
+            Intent intent = new Intent(MainActivity.this, Activity_Settings.class);
+            startActivity(intent);
         } else if (id == R.id.nav_help) {
 
         } else if (id == R.id.nav_logout) {
