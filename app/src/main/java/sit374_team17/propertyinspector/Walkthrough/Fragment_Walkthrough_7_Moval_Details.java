@@ -66,12 +66,12 @@ public class Fragment_Walkthrough_7_Moval_Details extends Fragment {
         pitch.setText(Html.fromHtml(mMoval.getPitch()));
         info.setText(Html.fromHtml(mMoval.getInfo()));
 
-        Button buttonContinue = (Button) mView.findViewById(R.id.buttonContinue);
-        buttonContinue.setOnClickListener(new View.OnClickListener() {
+        Button button_select = (Button) mView.findViewById(R.id.button_select);
+        button_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // mListener.goTo_7_moval();
-                getActivity().finish();
+                mListener.goTo_8_finish();
+                //getActivity().finish();
             }
         });
 

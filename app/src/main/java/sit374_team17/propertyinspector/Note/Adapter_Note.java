@@ -121,17 +121,25 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        String note_title;
+
+        if (mNotesList.get(position).getCommentTitle() == null || mNotesList.get(position).getCommentTitle() == ""){
+            note_title = "Note Title";
+        } else {
+            note_title = mNotesList.get(position).getCommentTitle();
+        }
+
         switch (holder.getItemViewType()) {
             case 0:
                 ViewHolder_text viewHolder_text = (ViewHolder_text)holder;
-                viewHolder_text.mTitle.setText("Text Title");
+                viewHolder_text.mTitle.setText(note_title);
                 viewHolder_text.mNote.setText(mNotesList.get(position).getDescription());
 
                 break;
 
             case 2:
                 ViewHolder_photo viewHolder_photo = (ViewHolder_photo)holder;
-                viewHolder_photo.mTitle.setText("Text Title");
+                viewHolder_photo.mTitle.setText(note_title);
                 viewHolder_photo.mNote.setText(mNotesList.get(position).getDescription());
                 //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
                 //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));

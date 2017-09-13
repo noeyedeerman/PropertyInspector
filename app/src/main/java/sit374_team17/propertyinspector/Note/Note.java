@@ -9,6 +9,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 public class Note {
     private String CommentID;
     private String CommentType;
+    private String CommentTitle;
     private String Description;
     private String PropertyID;
 
@@ -18,6 +19,14 @@ public class Note {
     }
     public void setCommentType(String commentType) {
         CommentType = commentType;
+    }
+
+    @DynamoDBAttribute(attributeName = "CommentTitle")
+    public String getCommentTitle() {
+        return CommentTitle;
+    }
+    public void setCommentTitle(String commentTitle) {
+        CommentTitle = commentTitle;
     }
 
     @DynamoDBAttribute(attributeName = "Description")

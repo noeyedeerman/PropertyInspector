@@ -67,8 +67,8 @@ public class Fragment_Walkthrough_5_Gas_Details extends Fragment {
         pitch.setText(Html.fromHtml(mGas.getPitch()));
         info.setText(Html.fromHtml(mGas.getInfo()));
 
-        Button buttonContinue = (Button) mView.findViewById(R.id.buttonContinue);
-        buttonContinue.setOnClickListener(new View.OnClickListener() {
+        Button button_select = (Button) mView.findViewById(R.id.button_select);
+        button_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.goTo_6_internet();

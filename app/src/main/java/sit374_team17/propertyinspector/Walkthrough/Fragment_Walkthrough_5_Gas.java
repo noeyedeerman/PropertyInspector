@@ -71,9 +71,9 @@ public class Fragment_Walkthrough_5_Gas extends Fragment {
 
         ArrayList<Gas> mList = new ArrayList<>();
 
-        Gas gas1 = new Gas("0", getString(R.string.gas_name_1), getString(R.string.gas_pitch_1), getString(R.string.gas_info_1));
-        Gas gas2 = new Gas("1", getString(R.string.gas_name_2), getString(R.string.gas_pitch_2), getString(R.string.gas_info_2));
-        Gas gas3 = new Gas("2", getString(R.string.gas_name_3), getString(R.string.gas_pitch_3), getString(R.string.gas_info_3));
+        Gas gas1 = new Gas("0", getString(R.string.gas_name_1), getResources().getDrawable(R.drawable.ic_logo_nobiegasses), getString(R.string.gas_pitch_1), getString(R.string.gas_info_1));
+        Gas gas2 = new Gas("1", getString(R.string.gas_name_2), getResources().getDrawable(R.drawable.ic_logo_atmos), getString(R.string.gas_pitch_2), getString(R.string.gas_info_2));
+        Gas gas3 = new Gas("2", getString(R.string.gas_name_3), getResources().getDrawable(R.drawable.ic_logo_cell), getString(R.string.gas_pitch_3), getString(R.string.gas_info_3));
 
         mList.add(gas1);
         mList.add(gas2);

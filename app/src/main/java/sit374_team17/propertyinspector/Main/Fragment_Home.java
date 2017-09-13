@@ -193,7 +193,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 
         final List<Property> filteredModelList = new ArrayList<>();
         for (Property property : result) {
-            final String text = property.getUnitNumber() + property.getStreetNumber() + property.getStreetName() + property.getCity() +  property.getPostCode();
+            final String text = property.getAddress() + property.getCity() + property.getState() +  property.getPostCode();
             if (text.contains(query)) {
                 filteredModelList.add(property);
             }

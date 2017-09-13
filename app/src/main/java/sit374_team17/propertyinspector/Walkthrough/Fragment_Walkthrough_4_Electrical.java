@@ -72,9 +72,9 @@ public class Fragment_Walkthrough_4_Electrical extends Fragment {
 
         ArrayList<Electrical> mList = new ArrayList<>();
 
-        Electrical electrical1 = new Electrical("0", getString(R.string.electrical_name_1), getString(R.string.electrical_pitch_1), getString(R.string.electrical_info_1));
-        Electrical electrical2 = new Electrical("1", getString(R.string.electrical_name_2), getString(R.string.electrical_pitch_2), getString(R.string.electrical_info_2));
-        Electrical electrical3 = new Electrical("2", getString(R.string.electrical_name_3), getString(R.string.electrical_pitch_3), getString(R.string.electrical_info_3));
+        Electrical electrical1 = new Electrical("0", getString(R.string.electrical_name_1), getResources().getDrawable(R.drawable.ic_logo_nikola), getString(R.string.electrical_pitch_1), getString(R.string.electrical_info_1));
+        Electrical electrical2 = new Electrical("1", getString(R.string.electrical_name_2), getResources().getDrawable(R.drawable.ic_logo_brightspark), getString(R.string.electrical_pitch_2), getString(R.string.electrical_info_2));
+        Electrical electrical3 = new Electrical("2", getString(R.string.electrical_name_3), getResources().getDrawable(R.drawable.ic_logo_cell), getString(R.string.electrical_pitch_3), getString(R.string.electrical_info_3));
 
         mList.add(electrical1);
         mList.add(electrical2);

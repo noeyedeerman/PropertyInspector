@@ -73,8 +73,8 @@ public class Fragment_Walkthrough_2_Loan_Details extends Fragment {
         pitch.setText(Html.fromHtml(mLoan.getPitch()));
         info.setText(Html.fromHtml(mLoan.getInfo()));
 
-        Button buttonContinue = (Button) mView.findViewById(R.id.buttonContinue);
-        buttonContinue.setOnClickListener(new View.OnClickListener() {
+        Button button_select = (Button) mView.findViewById(R.id.button_select);
+        button_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.goTo_3_lawyer();

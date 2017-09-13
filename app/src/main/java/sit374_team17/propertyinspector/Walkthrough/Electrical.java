@@ -1,21 +1,15 @@
 package sit374_team17.propertyinspector.Walkthrough;
 
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Electrical implements Parcelable {
     private String id;
     private String name;
+    private Drawable logo;
     private String pitch;
     private String info;
-
-
-    public Electrical(String id, String name, String pitch, String info) {
-        this.id = id;
-        this.name = name;
-        this.pitch = pitch;
-        this.info = info;
-    }
 
     public void setId(String id) {this.id = id;}
     public String getId() {
@@ -25,6 +19,11 @@ public class Electrical implements Parcelable {
     public void setName(String name) {this.name = name;}
     public String getName() {
         return name;
+    }
+
+    public void setLogo(Drawable logo) {this.logo = logo;}
+    public Drawable getLogo() {
+        return logo;
     }
 
     public void setPitch(String pitch) {this.pitch = pitch;}
@@ -37,6 +36,13 @@ public class Electrical implements Parcelable {
         return info;
     }
 
+    public Electrical(String id, String name, Drawable logo, String pitch, String info) {
+        this.id = id;
+        this.name = name;
+        this.logo = logo;
+        this.pitch = pitch;
+        this.info = info;
+    }
 
     protected Electrical(Parcel in) {
         id = in.readString();
@@ -69,6 +75,5 @@ public class Electrical implements Parcelable {
             return new Electrical[size];
         }
     };
-
 
 }

@@ -73,9 +73,9 @@ public class Fragment_Walkthrough_2_Loan extends Fragment {
 
         mList = new ArrayList<>();
 
-        Loan loan1 = new Loan("0", getString(R.string.loan_name_1), getString(R.string.loan_pitch_1), getString(R.string.loan_info_1));
-        Loan loan2 = new Loan("1", getString(R.string.loan_name_2), getString(R.string.loan_pitch_2), getString(R.string.loan_info_2));
-        Loan loan3 = new Loan("2", getString(R.string.loan_name_3), getString(R.string.loan_pitch_3), getString(R.string.loan_info_3));
+        Loan loan1 = new Loan("0", getString(R.string.loan_name_1), getResources().getDrawable(R.drawable.ic_logo_loremipsum), getString(R.string.loan_pitch_1), getString(R.string.loan_info_1));
+        Loan loan2 = new Loan("1", getString(R.string.loan_name_2), getResources().getDrawable(R.drawable.ic_logo_tower), getString(R.string.loan_pitch_2), getString(R.string.loan_info_2));
+        Loan loan3 = new Loan("2", getString(R.string.loan_name_3), getResources().getDrawable(R.drawable.ic_logo_falcon), getString(R.string.loan_pitch_3), getString(R.string.loan_info_3));
 
         mList.add(loan1);
         mList.add(loan2);

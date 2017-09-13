@@ -12,10 +12,11 @@
         android:id="@+id/textView_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="64dp"
-        android:layout_marginRight="64dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
         android:layout_marginTop="200dp"
-        android:text="Would you like us to suggest some partners who can help you buy your house?"
+        android:text="@string/walkthrough_start"
+        android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="24sp"
         android:typeface="normal"
@@ -26,21 +27,31 @@
 
     <Button
         android:id="@+id/button_yes"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="64dp"
-        android:layout_marginTop="32dp"
-        android:text="Yes"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@color/colorAccent"
+        android:text="@string/yes"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="32dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/button_no"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="64dp"
-        android:layout_marginTop="32dp"
-        android:text="No"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="0dp"
+        android:background="@color/common_google_signin_btn_text_light_disabled"
+        android:text="@string/no"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

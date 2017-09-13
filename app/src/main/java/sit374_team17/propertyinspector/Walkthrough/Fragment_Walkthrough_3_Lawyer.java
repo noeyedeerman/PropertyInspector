@@ -68,8 +68,8 @@ public class Fragment_Walkthrough_3_Lawyer extends Fragment {
 
         ArrayList<Lawyer> mList = new ArrayList<>();
 
-        Lawyer lawyer1 = new Lawyer("0", getString(R.string.lawyer_name_1), getString(R.string.lawyer_pitch_1), getString(R.string.lawyer_info_1));
-        Lawyer lawyer2 = new Lawyer("1", getString(R.string.lawyer_name_2), getString(R.string.lawyer_pitch_2), getString(R.string.lawyer_info_2));
+        Lawyer lawyer1 = new Lawyer("0", getString(R.string.lawyer_name_1), getResources().getDrawable(R.drawable.ic_logo_hiernaman), getString(R.string.lawyer_pitch_1), getString(R.string.lawyer_info_1));
+        Lawyer lawyer2 = new Lawyer("1", getString(R.string.lawyer_name_2), getResources().getDrawable(R.drawable.ic_logo_goldenmile), getString(R.string.lawyer_pitch_2), getString(R.string.lawyer_info_2));
 
         mList.add(lawyer1);
         mList.add(lawyer2);

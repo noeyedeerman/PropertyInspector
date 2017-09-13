@@ -23,7 +23,7 @@
 
 
             <TextView
-                android:id="@+id/textView_streetNumber"
+                android:id="@+id/textView_address"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,98 +32,79 @@
 
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
-                android:text="41"
+                android:text="Address"
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toLeftOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView_streetName"
-                style="@style/TextAppearance.AppCompat.Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:text="@string/street"
-                android:textSize="@dimen/text_card"
-                card_view:layout_constraintBottom_toBottomOf="@+id/textView_streetNumber"
-                card_view:layout_constraintLeft_toRightOf="@+id/textView_streetNumber"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textView2"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:text=","
                 android:textSize="@dimen/text_card"
-                card_view:layout_constraintBottom_toBottomOf="@+id/textView_streetName"
-                card_view:layout_constraintLeft_toRightOf="@+id/textView_streetName"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.0" />
-
+                card_view:layout_constraintLeft_toRightOf="@+id/textView_state"
+                android:layout_marginLeft="0dp"
+                card_view:layout_constraintTop_toTopOf="@+id/textView_state"
+                android:layout_marginTop="0dp" />
 
             <TextView
                 android:id="@+id/textView_city"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:text="City"
                 android:textSize="@dimen/text_card"
-                card_view:layout_constraintBottom_toBottomOf="@+id/textView2"
-                card_view:layout_constraintLeft_toRightOf="@+id/textView2"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintLeft_toRightOf="@+id/textView19"
+                android:layout_marginLeft="8dp"
+                card_view:layout_constraintTop_toTopOf="@+id/textView19"
+                android:layout_marginTop="0dp" />
 
             <TextView
                 android:id="@+id/textView13"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:text=","
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/textView_city"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginLeft="0dp"
+                card_view:layout_constraintTop_toTopOf="@+id/textView_city"
+                android:layout_marginTop="0dp" />
 
             <TextView
-                android:id="@+id/textView_address"
+                android:id="@+id/textView_state"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:gravity="center_vertical|end"
                 android:text="@string/state"
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/textView13"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintTop_toTopOf="@+id/textView13"
+                android:layout_marginTop="0dp" />
 
             <TextView
                 android:id="@+id/textView19"
                 style="@style/TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:text=","
+
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/textView_address"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginLeft="0dp"
+                card_view:layout_constraintTop_toTopOf="@+id/textView_address"
+                android:layout_marginTop="0dp" />
 
             <TextView
                 android:id="@+id/textView_postCode"
@@ -132,12 +113,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:gravity="center_vertical|end"
                 android:text="@string/post"
                 android:textSize="@dimen/text_card"
-                card_view:layout_constraintLeft_toRightOf="@+id/textView19"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintLeft_toRightOf="@+id/textView2"
+                card_view:layout_constraintTop_toTopOf="@+id/textView2"
+                android:layout_marginTop="0dp" />
 
 
             <ImageView
@@ -151,7 +132,7 @@
                 android:src="@mipmap/ic_bed"
                 card_view:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="8dp"
-                card_view:layout_constraintTop_toBottomOf="@+id/textView_streetNumber" />
+                card_view:layout_constraintTop_toBottomOf="@+id/textView_address" />
 
             <TextView
                 android:id="@+id/textView_bedrooms"

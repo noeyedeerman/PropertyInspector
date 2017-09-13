@@ -86,9 +86,19 @@
     <string name="error_old_password">Your current password doesn\'t match</string>
     <string name="action_notes">action_notes</string>
 
+    <string name="walkthrough_start">Would you like us to suggest some partners who can help you buy your house?</string>
+    <string name="walkthrough_finish_1">Congratulations, you\'re finished sourcing services in properation for your new property.</string>
+    <string name="walkthrough_finish_2">Below is some important information you need to take a note of:</string>
+    <string name="walkthrough_finish_3">Your PI number is:</string>
+    <string name="walkthrough_finish_pi">PI-20170826-ab623f</string>
+    <string name="walkthrough_finish_4">Quote this number when reaching out to your selected service providers and say that the  "Flagg App" sent you :)</string>
+    <string name="walkthrough_finish_5">Don\'t worry, we have also forwarded this message to your email address so you can check this any time</string>
+    <string name="walkthrough_finish_6">To make things easier, we have provided contact details for the partners you have selected below:</string>
+
+
     // Loans
     <string name="loan">First, let\'s source a bank to get your loan. Have a look at our partners below by tapping on them, and if you find a package or offer you like, tap the "I like this" button with the offer page</string>
-    <string name="loan_no">No thanks, I can source my own! / This is not required for me</string>
+    <string name="loan_no">No thanks, I can source my own</string>
     <string name="select_loan">Select a loan</string>
 
     // Loan 1
@@ -284,7 +294,8 @@
     <string name="title_activity__walkthrough">Activity_Walkthrough</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
+    <string name="select">Select</string>
+    <string name="finish">Finish</string>
 
 
 </resources>

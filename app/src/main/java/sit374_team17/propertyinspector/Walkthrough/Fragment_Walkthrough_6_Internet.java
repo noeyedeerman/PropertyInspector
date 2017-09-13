@@ -64,9 +64,9 @@ public class Fragment_Walkthrough_6_Internet extends Fragment {
 
         ArrayList<Internet> mList = new ArrayList<>();
 
-        Internet internet1 = new Internet("0", getString(R.string.internet_name_1), getString(R.string.internet_pitch_1), getString(R.string.internet_info_1));
-        Internet internet2 = new Internet("1", getString(R.string.internet_name_2), getString(R.string.internet_pitch_2), getString(R.string.internet_info_2));
-        Internet internet3 = new Internet("2", getString(R.string.internet_name_3), getString(R.string.internet_pitch_3), getString(R.string.internet_info_3));
+        Internet internet1 = new Internet("0", getString(R.string.internet_name_1), getResources().getDrawable(R.drawable.ic_logo_bell), getString(R.string.internet_pitch_1), getString(R.string.internet_info_1));
+        Internet internet2 = new Internet("1", getString(R.string.internet_name_2), getResources().getDrawable(R.drawable.ic_logo_rocket), getString(R.string.internet_pitch_2), getString(R.string.internet_info_2));
+        Internet internet3 = new Internet("2", getString(R.string.internet_name_3), getResources().getDrawable(R.drawable.ic_logo_betternet), getString(R.string.internet_pitch_3), getString(R.string.internet_info_3));
 
         mList.add(internet1);
         mList.add(internet2);

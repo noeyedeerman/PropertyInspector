@@ -71,8 +71,8 @@ public class Fragment_Walkthrough_3_Lawyer_Details extends Fragment {
         pitch.setText(Html.fromHtml(mLawyer.getPitch()));
         info.setText(Html.fromHtml(mLawyer.getInfo()));
 
-        Button buttonContinue = (Button) mView.findViewById(R.id.buttonContinue);
-        buttonContinue.setOnClickListener(new View.OnClickListener() {
+        Button button_select = (Button) mView.findViewById(R.id.button_select);
+        button_select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.goTo_4_electrical();

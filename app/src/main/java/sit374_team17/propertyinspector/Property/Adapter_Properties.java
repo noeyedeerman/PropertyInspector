@@ -113,10 +113,9 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
 
     @Override
     public void onBindViewHolder(final Adapter_Properties.ViewHolder holder, final int position) {
-        holder.mStreetNumber.setText(String.valueOf(mPropertyList.get(position).getStreetNumber()));
-        holder.mStreetName.setText(String.valueOf(mPropertyList.get(position).getStreetName()));
+        holder.mDescription.setText(String.valueOf(mPropertyList.get(position).getDescription()));
+        holder.mAddress.setText(String.valueOf(mPropertyList.get(position).getAddress()));
         holder.mCity.setText(String.valueOf(mPropertyList.get(position).getCity()));
-        // holder.mState.setText(mPropertyList.get(position).getState());
         holder.mState.setText(String.valueOf(mPropertyList.get(position).getState().get(0)));
         holder.mPostCode.setText(String.valueOf(mPropertyList.get(position).getPostCode()));
         holder.mBedrooms.setText(String.valueOf(mPropertyList.get(position).getBedrooms().get(0)));
@@ -157,17 +156,17 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice;
+        private TextView mDescription, mAddress, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice;
         private ImageView mPhoto;
         private View mView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            mStreetNumber = (TextView) itemView.findViewById(R.id.textView_streetNumber);
-            mStreetName = (TextView) itemView.findViewById(R.id.textView_streetName);
+            mDescription = (TextView) itemView.findViewById(R.id.textView_description);
+            mAddress = (TextView) itemView.findViewById(R.id.textView_address);
             mCity = (TextView) itemView.findViewById(R.id.textView_city);
-            mState = (TextView) itemView.findViewById(R.id.textView_address);
+            mState = (TextView) itemView.findViewById(R.id.textView_state);
             mPostCode = (TextView) itemView.findViewById(R.id.textView_postCode);
             mBedrooms = (TextView) itemView.findViewById(R.id.textView_bedrooms);
             mBathrooms = (TextView) itemView.findViewById(R.id.textView_bathrooms);

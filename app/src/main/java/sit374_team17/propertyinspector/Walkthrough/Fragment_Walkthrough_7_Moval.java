@@ -64,9 +64,9 @@ public class Fragment_Walkthrough_7_Moval extends Fragment {
 
         ArrayList<Moval> mList = new ArrayList<>();
 
-        Moval moval1 = new Moval("0", getString(R.string.moval_name_1), getString(R.string.moval_pitch_1), getString(R.string.moval_info_1));
-        Moval moval2 = new Moval("1", getString(R.string.moval_name_2), getString(R.string.moval_pitch_2), getString(R.string.moval_info_2));
-        Moval moval3 = new Moval("2", getString(R.string.moval_name_3), getString(R.string.moval_pitch_3), getString(R.string.moval_info_3));
+        Moval moval1 = new Moval("0", getString(R.string.moval_name_1), getResources().getDrawable(R.drawable.ic_logo_traversal), getString(R.string.moval_pitch_1), getString(R.string.moval_info_1));
+        Moval moval2 = new Moval("1", getString(R.string.moval_name_2), getResources().getDrawable(R.drawable.ic_logo_roadrunner), getString(R.string.moval_pitch_2), getString(R.string.moval_info_2));
+        Moval moval3 = new Moval("2", getString(R.string.moval_name_3), getResources().getDrawable(R.drawable.ic_logo_fantastic), getString(R.string.moval_pitch_3), getString(R.string.moval_info_3));
 
         mList.add(moval1);
         mList.add(moval2);

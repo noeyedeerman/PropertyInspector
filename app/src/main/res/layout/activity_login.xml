@@ -133,7 +133,7 @@
         android:layout_marginTop="5dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_margin="32dp"
         android:text="Create an Account"
         android:textColor="@color/colorPrimary" />
 </RelativeLayout>
