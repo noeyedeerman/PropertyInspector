@@ -121,7 +121,7 @@
     <string name="lawyer_pitch_1"><![CDATA[With over 150 years of providing the community competitive legal advice at matching
     rates, it’s no wonder we are the number 1 law firm when it comes to topics pertaining to Real Estate, whether it be inspecting
     purchasing, leasing, and renting contracts, or construction law. We will investigate, and provide you advice on what to do with
-    your property, new or old, and only work to your best interest - because it’s ours too.]]></string>
+    your property.]]></string>
     <string name="lawyer_info_1"><![CDATA[<b>Rates</b><br/>Lawyers - Between $350 and $650 per hour<br/>Solicitors - $150 and $250 per hour]]></string>
 
 
@@ -138,19 +138,22 @@
     <string name="select_electrical">Select a electrical provider</string>
 
     // Electrical 1
-    <string name="electrical_name_1">Electrical 1</string>
-    <string name="electrical_pitch_1"><![CDATA[This is a cool pitch]]></string>
-    <string name="electrical_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="electrical_name_1">Nikola2You</string>
+    <string name="electrical_pitch_1"><![CDATA[Nikola2You is a sustainable energy provider that invests in the future. All profits are used to invest in our renewable
+    energy projects.]]></string>
+    <string name="electrical_info_1"><![CDATA[<b>Residential Peak Rates</b><br />Peak Usage of first 11.1781 kWh/Day - [27.975 Cents per kWh]<br/><br />Peak Usage - Balance kWh/Day - [31.010 Cents per kWh] <br/><br/> Daily Supply Charge - [127.100 Cents per Day]]]></string>
 
     // Electrical 2
-    <string name="electrical_name_2">Electrical 2</string>
-    <string name="electrical_pitch_2"><![CDATA[This is a cool pitch]]></string>
-    <string name="electrical_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="electrical_name_2">Bright Spark Electrical</string>
+    <string name="electrical_pitch_2"><![CDATA[Want a home utility service without lock-in contracts? We’re so confident in our services
+    that you will want to stay, and we won’t force you to either!]]></string>
+    <string name="electrical_info_2"><![CDATA[<b>Residential Peak Rates</b><br />Peak Usage of first 11.1781 kWh/Day - [28.943 Cents per kWh]<br/><br />Peak Usage - Balance kWh/Day - [32.089 Cents per kWh] <br/><br/> Daily Supply Charge - [127.162 Cents per Day]]]></string>
 
     // Electrical 3
-    <string name="electrical_name_3">Electrical 3</string>
-    <string name="electrical_pitch_3"><![CDATA[This is a cool pitch]]></string>
-    <string name="electrical_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="electrical_name_3">CELL Infrastructure</string>
+    <string name="electrical_pitch_3"><![CDATA[We believe in strength is in numbers - that’s why we offer cheaper bills when we hit
+    customer milestones and provide timed incentive programs to recommend friends and family. That’s the CELL philosophy.]]></string>
+    <string name="electrical_info_3"><![CDATA[<b>Residential Peak Rates</b><br />Peak Usage of first 11.1781 kWh/Day - [30.943 Cents per kWh]<br/><br />Peak Usage - Balance kWh/Day - [34.089 Cents per kWh] <br/><br/> Daily Supply Charge - [129.162 Cents per Day]]]></string>
 
 
     // Gas
@@ -158,19 +161,26 @@
     <string name="select_gas">Select a gas provider</string>
 
     // Gas 1
-    <string name="gas_name_1">Gas 1</string>
-    <string name="gas_pitch_1"><![CDATA[This is a cool pitch]]></string>
-    <string name="gas_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="gas_name_1">Noble Gases</string>
+    <string name="gas_pitch_1"><![CDATA[Providing a service fit for a king. Noble Gases, unlike most Gas providers, are available
+    in most metropolitan and suburban areas - and we are still growing. That means, if you move house, you can take you bill with
+    you, you don’t need to cancel!]]></string>
+    <string name="gas_info_1"><![CDATA[<b>Rates</b><br />~$122 every quarter, for homes with approximately 3 people with medium usage.<br />We offer 10% discounts for timely paid bills! :)]]></string>
 
     // Gas 2
-    <string name="gas_name_2">Gas 2</string>
-    <string name="gas_pitch_2"><![CDATA[This is a cool pitch]]></string>
-    <string name="gas_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="gas_name_2">AtMos Gases</string>
+    <string name="gas_pitch_2"><![CDATA[Attican and Mosely pioneered scalable, non-volatile gas harvesting and delivery systems as
+    part of a classified research project in 1961, and today this technology has been permitted for commercial use. Providing Gas
+    all across Australia, AtMos Gases utilizes these very delivery systems to provide cheaper than average gas that is harvest
+    efficiently.]]></string>
+    <string name="gas_info_2"><![CDATA[<b>Rates</b><br />~$120 every quarter, for homes with approximately 3 people, with medium usage]]></string>
 
     // Gas 3
-    <string name="gas_name_3">Gas 3</string>
-    <string name="gas_pitch_3"><![CDATA[This is a cool pitch]]></string>
-    <string name="gas_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="gas_name_3">CELL Infrastructure</string>
+    <string name="gas_pitch_3"><![CDATA[We believe in strength is in numbers - that’s why we offer cheaper bills when we hit
+    customer milestones and provide timed incentive programs to recommend friends and family - such as  $0.02 off you and your
+    recommended person’s bill for each quarter for the lifetime of the account when they pay on time. That’s the CELL philosophy.]]></string>
+    <string name="gas_info_3"><![CDATA[<b>Rates</b><br />~$130 every quarter, for homes with approximately 3 people, with medium usage.]]></string>
 
 
     // Internet
@@ -178,19 +188,23 @@
     <string name="select_internet">Select a internet provider</string>
 
     // Internet 1
-    <string name="internet_name_1">Internet 1</string>
-    <string name="internet_pitch_1"><![CDATA[This is a cool pitch]]></string>
-    <string name="internet_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="internet_name_1">Bell Services</string>
+    <string name="internet_pitch_1"><![CDATA[Starting off as a Telco for Melbourne, Bell Services has grown into a flexible
+    ISP with reach across 95% of Australia.]]></string>
+    <string name="internet_info_1"><![CDATA[<b>Rates</b><br /><b>-50Mb/s down package-</b><br />250GB Medium Bundle - $45.00/Month + $70 upfront<br/>500GB Heavy Bundle - $55.00/Month + $70 upfront<br/><b>-100Mb/s down package-</b><br/>250GB Medium Bundle - $59.99/Month + $70 upfront<br/>500GB Heavy Bundle - $69.99/Month + $70 upfront<br/>Unlimited Extreme Bundle - $89.99/Month + $70 upfront]]></string>
 
     // Internet 2
-    <string name="internet_name_2">Internet 2</string>
-    <string name="internet_pitch_2"><![CDATA[This is a cool pitch]]></string>
-    <string name="internet_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="internet_name_2">Rocket</string>
+    <string name="internet_pitch_2"><![CDATA[Internet that just goes fast, and supports configurations as complicated
+    as Rocket Science! We will help you support your configuration, from cheap one-off payment Static-IPs, to DMZ
+    configuration for smart homes.]]></string>
+    <string name="internet_info_2"><![CDATA[<b>Rates</b><br />(100Mbp/s Plans, 1Gbp/s plans available to selected areas)<br />500GB Bundle - $60/Month + $90 upfront<br/>Unlimited Bundle - $70/Month + $90 upfront]]></string>
 
     // Internet 3
-    <string name="internet_name_3">Internet 3</string>
-    <string name="internet_pitch_3"><![CDATA[This is a cool pitch]]></string>
-    <string name="internet_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="internet_name_3">BetterNet</string>
+    <string name="internet_pitch_3"><![CDATA[We offer affordable plans, for people who just want to use the internet
+    for the simpler things in life - browsing, and communicating with loved ones on the cheap - nothing fancy.]]></string>
+    <string name="internet_info_3"><![CDATA[<b>Rates</b><br />(Starting from 12Mbp/s Down packages)<br />120GB Light Bundle - $30.99/Month + $20 upfront<br/>250GB Medium Bundle - $49.99/Month + $20 upfront<br/>500GB Heavy Bundle - $59.99/Month + $20 upfront]]></string>
 
 
     // Moval
@@ -198,19 +212,25 @@
     <string name="select_moval">Select a moval provider</string>
 
     // Moval 1
-    <string name="moval_name_1">Moval 1</string>
-    <string name="moval_pitch_1"><![CDATA[This is a cool pitch]]></string>
-    <string name="moval_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="moval_name_1">Traversal</string>
+    <string name="moval_pitch_1"><![CDATA[The Uber of moving companies has come to Flagg. Use the provided
+    referral code in Flagg to get 5% off your move with us (in supported areas only, please consult our
+    website at www.TraversalMovals.com.au to determine if both locations are covered).]]></string>
+    <string name="moval_info_1"><![CDATA[<b>Rates</b><br />Weekdays -  $133/hr<br />Weekends - $140/hr<br/> For Home with 5+ bedrooms 15% increase of hourly rate]]></string>
 
     // Moval 2
-    <string name="moval_name_2">Moval 2</string>
-    <string name="moval_pitch_2"><![CDATA[This is a cool pitch]]></string>
-    <string name="moval_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="moval_name_2">Roadrunner Relocation</string>
+    <string name="moval_pitch_2"><![CDATA[A moving company with the efficiency and equipment of a roadie crew. We
+    specialize in long-distance, cross-country hauls, and have the prices to show for it. With centers all across
+    the nation, and close-knit partnerships with air-travel companies, we are THE express moval company for long distance.]]></string>
+    <string name="moval_info_2"><![CDATA[<b>Rates</b><br />Weekdays -  $160/hr/hr<br />Weekends - $180/hr/hr<br/> Homes with 1 bedroom get 10% discount]]></string>
 
     // Moval 3
-    <string name="moval_name_3">Moval 3</string>
-    <string name="moval_pitch_3"><![CDATA[This is a cool pitch]]></string>
-    <string name="moval_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+    <string name="moval_name_3">FANTASTIC Movers</string>
+    <string name="moval_pitch_3"><![CDATA[What started off as a Gumtree-based business, customers only had one word to say about
+    our services: FANTASTIC. And so the name stuck, and to this day that is all we provide - fantastic movals, at fantastic rates,
+    and with fantastic timing.]]></string>
+    <string name="moval_info_3"><![CDATA[<b>Rates</b><br />Weekdays -  $130/hr/hr<br />Weekends - $137/hr/hr<br/> For Home with 5+ bedrooms 20% increase of hourly rate]]></string>
 
 
 
