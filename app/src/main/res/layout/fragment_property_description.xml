@@ -5,229 +5,320 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView_property"
     android:layout_width="match_parent"
-    android:layout_height="1000dp">
+    android:background="#fafafa"
+    android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="2000dp">
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginBottom="271dp"
-            android:layout_marginLeft="8dp"
-
-            android:layout_marginStart="8dp"
-            android:backgroundTint="@color/colorAccent"
-            android:src="@mipmap/ic_bed"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
-        <TextView
-            android:id="@+id/textView_bedrooms"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-
-            android:gravity="center"
-            android:text="1"
-            android:textSize="@dimen/text_card"
-            card_view:layout_constraintBottom_toBottomOf="@+id/imageView3"
-            card_view:layout_constraintLeft_toRightOf="@+id/imageView3"
-            card_view:layout_constraintTop_toTopOf="@+id/imageView3"
-            card_view:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:src="@mipmap/ic_bath"
-            card_view:layout_constraintBottom_toBottomOf="@+id/textView_bedrooms"
-            card_view:layout_constraintLeft_toRightOf="@+id/textView_bedrooms"
-            card_view:layout_constraintTop_toTopOf="@+id/textView_bedrooms" />
-
-        <TextView
-            android:id="@+id/textView_bathrooms"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-
-            android:gravity="center"
-            android:text="1"
-            android:textSize="@dimen/text_card"
-            card_view:layout_constraintBottom_toBottomOf="@+id/imageView4"
-            card_view:layout_constraintLeft_toRightOf="@+id/imageView4"
-            card_view:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:src="@mipmap/ic_car"
-            card_view:layout_constraintBottom_toBottomOf="@+id/textView_bathrooms"
-            card_view:layout_constraintLeft_toRightOf="@+id/textView_bathrooms"
-            card_view:layout_constraintTop_toTopOf="@+id/textView_bathrooms" />
-
-        <TextView
-            android:id="@+id/textView_cars"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-
-            android:gravity="center"
-            android:text="1"
-            android:textSize="@dimen/text_card"
-            card_view:layout_constraintLeft_toRightOf="@+id/imageView5"
-            card_view:layout_constraintTop_toTopOf="@+id/imageView5"
-            card_view:layout_constraintBottom_toBottomOf="@+id/imageView5" />
-
-
-
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:text="@string/description"-->
-        <!--android:textSize="@dimen/text_descriptionTitle"-->
-        <!--android:textStyle="bold" />-->
-
-
-        <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:text="@string/address"-->
-        <!--android:textSize="@dimen/text_descriptionTitle"-->
-        <!--android:textStyle="bold" />-->
-
-        <TextView
-            android:id="@+id/textView_streetNumber"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-
-            android:gravity="center_vertical"
-            android:text="41"
-            android:textSize="@dimen/text_card"
-
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            android:layout_marginLeft="8dp"
+            card_view:cardCornerRadius="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2"
+            android:layout_marginRight="4dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="4dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginStart="8dp" />
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="0dp">
 
-        <TextView
-            android:id="@+id/textView_streetName"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:gravity="center_vertical"
-            android:text="@string/street"
-            android:textSize="@dimen/text_card"
-
-            app:layout_constraintLeft_toRightOf="@+id/textView_streetNumber"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintTop_toTopOf="@+id/textView_streetNumber"
-            android:layout_marginStart="8dp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text=","
-            android:textSize="@dimen/text_card"
-
-            app:layout_constraintLeft_toRightOf="@+id/textView_streetName"
-            app:layout_constraintTop_toTopOf="@+id/textView_streetName"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_streetName" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/textView_city"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@android:color/black"
 
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:gravity="center_vertical"
-            android:text="City"
-            android:textSize="@dimen/text_card"
+                    android:id="@+id/constraintLayout5"
 
-            app:layout_constraintLeft_toRightOf="@+id/textView2"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintTop_toTopOf="@+id/textView2"
-            app:layout_constraintBottom_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView13"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text=","
-            android:textSize="@dimen/text_card"
-
-            app:layout_constraintLeft_toRightOf="@+id/textView_city"
-            app:layout_constraintTop_toTopOf="@+id/textView_city"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_city" />
-
-        <TextView
-            android:id="@+id/textView_address"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="8dp"
-            android:gravity="center_vertical|end"
-            android:text="@string/state"
-            android:textSize="@dimen/text_card"
-            app:layout_constraintLeft_toRightOf="@+id/textView13"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintTop_toTopOf="@+id/textView13"
-            app:layout_constraintBottom_toBottomOf="@+id/textView13" />
-
-        <TextView
-            android:id="@+id/textView19"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text=","
-
-            android:textSize="@dimen/text_card"
-            app:layout_constraintLeft_toRightOf="@+id/textView_address"
-            app:layout_constraintTop_toTopOf="@+id/textView_address"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_address" />
-
-        <TextView
-            android:id="@+id/textView_postCode"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:gravity="center_vertical|end"
-            android:text="@string/post"
-            android:textSize="@dimen/text_card"
-            app:layout_constraintLeft_toRightOf="@+id/textView19"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintTop_toTopOf="@+id/textView19"
-            app:layout_constraintBottom_toBottomOf="@+id/textView19" />
+                    android:layout_marginRight="0dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginLeft="0dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="0dp">
 
 
+                    <TextView
+                        android:id="@+id/textView_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+
+                        android:gravity="center"
+                        android:text="Description"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_card"
+
+                        card_view:layout_constraintVertical_bias="0.0"
+                        android:layout_marginLeft="8dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp" />
+
+                    <Button
+                        android:id="@+id/button_buyInfo"
+                        android:text="Buy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:background="@color/colorAccent"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+
+                        app:layout_constraintRight_toRightOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginBottom="271dp"
+                    android:layout_marginLeft="8dp"
+
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/colorAccent"
+                    android:src="@mipmap/ic_bed"
+
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout5" />
+
+                <TextView
+                    android:id="@+id/textView_bedrooms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+
+                    android:gravity="center"
+                    android:text="1"
+                    android:textSize="@dimen/text_card"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                    card_view:layout_constraintLeft_toRightOf="@+id/imageView3"
+                    card_view:layout_constraintTop_toTopOf="@+id/imageView3"
+                    card_view:layout_constraintVertical_bias="0.0" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@mipmap/ic_bath"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/textView_bedrooms"
+                    card_view:layout_constraintLeft_toRightOf="@+id/textView_bedrooms"
+                    card_view:layout_constraintTop_toTopOf="@+id/textView_bedrooms" />
+
+                <TextView
+                    android:id="@+id/textView_bathrooms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+
+                    android:gravity="center"
+                    android:text="1"
+                    android:textSize="@dimen/text_card"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                    card_view:layout_constraintLeft_toRightOf="@+id/imageView4"
+                    card_view:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@mipmap/ic_car"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/textView_bathrooms"
+                    card_view:layout_constraintLeft_toRightOf="@+id/textView_bathrooms"
+                    card_view:layout_constraintTop_toTopOf="@+id/textView_bathrooms" />
+
+                <TextView
+                    android:id="@+id/textView_cars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+
+                    android:gravity="center"
+                    android:text="1"
+                    android:textSize="@dimen/text_card"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                    card_view:layout_constraintLeft_toRightOf="@+id/imageView5"
+                    card_view:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="@string/description"-->
+                <!--android:textSize="@dimen/text_descriptionTitle"-->
+                <!--android:textStyle="bold" />-->
+
+
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="@string/address"-->
+                <!--android:textSize="@dimen/text_descriptionTitle"-->
+                <!--android:textStyle="bold" />-->
+
+                <TextView
+                    android:id="@+id/textView_streetNumber"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+
+                    android:gravity="center_vertical"
+                    android:text="41"
+                    android:textSize="@dimen/text_card"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+                <TextView
+                    android:id="@+id/textView_streetName"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+
+                    android:text="@string/street"
+                    android:textSize="@dimen/text_card"
+                    app:layout_constraintLeft_toRightOf="@+id/textView_streetNumber"
+                    app:layout_constraintTop_toTopOf="@+id/textView_streetNumber" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text=","
+                    android:textSize="@dimen/text_card"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/textView_streetName"
+                    app:layout_constraintLeft_toRightOf="@+id/textView_streetName"
+                    app:layout_constraintTop_toTopOf="@+id/textView_streetName" />
+
+
+                <TextView
+                    android:id="@+id/textView_city"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:text="City"
+
+                    android:textSize="@dimen/text_card"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                    app:layout_constraintLeft_toRightOf="@+id/textView2"
+                    app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text=","
+                    android:textSize="@dimen/text_card"
+
+                    app:layout_constraintBottom_toBottomOf="@+id/textView_city"
+                    app:layout_constraintLeft_toRightOf="@+id/textView_city"
+                    app:layout_constraintTop_toTopOf="@+id/textView_city" />
+
+                <TextView
+                    android:id="@+id/textView_address"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical|end"
+                    android:text="@string/state"
+                    android:textSize="@dimen/text_card"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView13"
+                    app:layout_constraintLeft_toRightOf="@+id/textView13"
+                    app:layout_constraintTop_toTopOf="@+id/textView13" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text=","
+
+                    android:textSize="@dimen/text_card"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView_address"
+                    app:layout_constraintLeft_toRightOf="@+id/textView_address"
+                    app:layout_constraintTop_toTopOf="@+id/textView_address" />
+
+                <TextView
+                    android:id="@+id/textView_postCode"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="33dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical|end"
+                    android:text="@string/post"
+                    android:textSize="@dimen/text_card"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView19"
+                    app:layout_constraintLeft_toRightOf="@+id/textView19"
+                    app:layout_constraintTop_toTopOf="@+id/textView19" />
+
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/map"
+
+                    android:layout_marginLeft="0dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_streetNumber"
+                    android:layout_marginRight="0dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp">
+
+
+                </com.google.android.gms.maps.MapView>
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.v7.widget.CardView>
 
         <!--</LinearLayout>-->
         <!--<LinearLayout-->
@@ -247,18 +338,18 @@
         <!--</LinearLayout>-->
 
         <!--<MapView-->
-            <!--android:id="@+id/imageView_map"-->
-            <!--android:layout_width="0dp"-->
+        <!--android:id="@+id/imageView_map"-->
+        <!--android:layout_width="0dp"-->
 
-            <!--android:layout_height="0dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:src="@drawable/map"-->
-            <!--android:layout_marginTop="32dp"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/textView19"-->
-            <!--app:layout_constraintLeft_toLeftOf="parent"-->
-            <!--app:layout_constraintRight_toRightOf="parent"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--android:layout_marginBottom="32dp" />-->
+        <!--android:layout_height="0dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@drawable/map"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/textView19"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--android:layout_marginBottom="32dp" />-->
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardView2"
@@ -267,44 +358,25 @@
             card_view:cardCornerRadius="0dp"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewPager_property"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager_property"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-                    android:layout_marginLeft="-7dp"
-                    android:adjustViewBounds="true"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    tools:layout_editor_absoluteY="-44dp">
+                android:layout_marginLeft="-7dp"
+                android:adjustViewBounds="true"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:layout_editor_absoluteY="-44dp">
 
-                </android.support.v4.view.ViewPager>
+            </android.support.v4.view.ViewPager>
 
 
         </android.support.v7.widget.CardView>
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/map"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_postCode"
-            app:layout_constraintVertical_bias="0.259">
-
-
-        </com.google.android.gms.maps.MapView>
-
 
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+
+    </ScrollView>

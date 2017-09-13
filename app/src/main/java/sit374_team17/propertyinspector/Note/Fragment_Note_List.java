@@ -37,7 +37,7 @@ public class Fragment_Note_List extends Fragment {
     private static final String ARG_PROPERTY = "comment";
 
     protected List<Note> result;
-    protected DynamoDBMapper mapper ;
+    protected DynamoDBMapper mapper;
     private Note mComment;
     private Property mProperty;
     private Listener mListener;
@@ -46,7 +46,7 @@ public class Fragment_Note_List extends Fragment {
     RecyclerView mRecyclerView;
     private Adapter_Note mCommentsAdapter;
     List<Comment> mCommentsList;
-    protected static String PROPERTY_ID="";
+    protected static String PROPERTY_ID = "";
     private StackView stackView;
 
     @Override
@@ -78,12 +78,13 @@ public class Fragment_Note_List extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //mDB_comments = new DB_CommentHandler(getContext());
-     //   mProperty = new DB_PropertyHandler(getContext());
+        //   mProperty = new DB_PropertyHandler(getContext());
         if (getArguments() != null) {
-           // mComment = getArguments().getParcelable(ARG_PROPERTY);
+            // mComment = getArguments().getParcelable(ARG_PROPERTY);
             mProperty = getArguments().getParcelable((ARG_PROPERTY));
         }
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,13 +95,13 @@ public class Fragment_Note_List extends Fragment {
 
         initViews();
 
-        PROPERTY_ID=mProperty.getId();
+        PROPERTY_ID = mProperty.getId();
 
-       // stackView = (StackView) mView.findViewById(R.id.stackView_note);
+        // stackView = (StackView) mView.findViewById(R.id.stackView_note);
 
-   //     Adapter_Note_Stack noteStackAdapter = new Adapter_Note_Stack(getContext(), result);
+        //     Adapter_Note_Stack noteStackAdapter = new Adapter_Note_Stack(getContext(), result);
 //stackView.setAdapter(noteStackAdapter);
-     //   noteStackAdapter.notifyDataSetChanged();
+        //   noteStackAdapter.notifyDataSetChanged();
 
 
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
@@ -117,7 +118,7 @@ public class Fragment_Note_List extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager;
 
-layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new LinearLayoutManager(getContext());
 //        layoutManager = new LinearLayoutManager(getContext()) {
 //            @Override
 //            public boolean canScrollVertically() {
@@ -125,7 +126,7 @@ layoutManager = new LinearLayoutManager(getContext());
 //            }
 //        };
 //
-      mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
 
 
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
@@ -135,7 +136,7 @@ layoutManager = new LinearLayoutManager(getContext());
             public void run() {
                 //DynamoDB calls go here
                 DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-                scanExpression.addFilterCondition("PropertyID",new Condition()
+                scanExpression.addFilterCondition("PropertyID", new Condition()
                         .withComparisonOperator(ComparisonOperator.EQ)
                         .withAttributeValueList(new AttributeValue().withS(Fragment_Note_List.PROPERTY_ID)));
                 scanExpression.addFilterCondition("CommentType",

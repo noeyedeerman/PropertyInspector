@@ -86,6 +86,41 @@
     <string name="error_old_password">Your current password doesn\'t match</string>
     <string name="action_notes">action_notes</string>
 
+    // Loans
+
+    // Loan 1
+    <string name="loan_name_1">Lorem Ipsum</string>
+    <string name="loan_pitch_1"><![CDATA[This is a cool pitch]]></string>
+    <string name="loan_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Loan 2
+    <string name="loan_name_2">Lorem Ipsum</string>
+    <string name="loan_pitch_2"><![CDATA[This is a cool pitch]]></string>
+    <string name="loan_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Loan 3
+    <string name="loan_name_3">Lorem Ipsum</string>
+    <string name="loan_pitch_3"><![CDATA[This is a cool pitch]]></string>
+    <string name="loan_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Lawyers
+
+    // Lawyer 1
+    <string name="lawyer_name_1">Lorem Ipsum</string>
+    <string name="lawyer_pitch_1"><![CDATA[This is a cool pitch]]></string>
+    <string name="lawyer_info_1"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Lawyer 2
+    <string name="lawyer_name_2">Lorem Ipsum</string>
+    <string name="lawyer_pitch_2"><![CDATA[This is a cool pitch]]></string>
+    <string name="lawyer_info_2"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+    // Lawyer 3
+    <string name="lawyer_name_3">Lorem Ipsum</string>
+    <string name="lawyer_pitch_3"><![CDATA[This is a cool pitch]]></string>
+    <string name="lawyer_info_3"><![CDATA[<b>Some Information</b><br />A really cool line break<br />and another]]></string>
+
+
     <string-array name="months">
         <item>January</item>
         <item>February</item>
@@ -127,6 +162,12 @@
     <string name="CreatePropertyActivity">title_create_property</string>
     <string name="title_activity__create_note">Create Note</string>
     <string name="action_camera" />
+    <string name="action_property" />
+    <string name="action_criteria" />
+    <string name="title_activity__walkthrough">Activity_Walkthrough</string>
+    <string name="loan">Would you like to source a bank for a loan?</string>
+    <string name="lawyer">Would you like to source a lawyer/solicitor?</string>
+
 
 
 </resources>

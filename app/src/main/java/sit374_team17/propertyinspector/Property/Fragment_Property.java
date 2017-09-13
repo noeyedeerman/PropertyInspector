@@ -42,7 +42,7 @@ private View mView;
      */
     private PagerAdapter mPagerAdapter;
     private MenuItem mSearchItem;
-    private MenuItem mNotesItem;
+    private MenuItem mPropertyItem, mNotesItem, mCriteriaItem;
     private Listener mListener;
 
     public Fragment_Property() {
@@ -225,7 +225,10 @@ private View mView;
 
     public void onBackPressed() {
         if (mPager.getCurrentItem() > 0) {
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+            mPager.setCurrentItem(0);
+            mPropertyItem.setVisible(false);
+            mNotesItem.setVisible(true);
+            mCriteriaItem.setVisible(true);
         } else {
        mListener.popBackStack(true);
 
@@ -332,24 +335,54 @@ private View mView;
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setVisible(false);
 
+        mPropertyItem = menu.findItem(R.id.action_property);
+        mPropertyItem.setVisible(false);
+
         mNotesItem = menu.findItem(R.id.action_notes);
         mNotesItem.setVisible(true);
+
+        mCriteriaItem = menu.findItem(R.id.action_criteria);
+        mCriteriaItem.setVisible(true);
+
+        mPropertyItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                mPager.setCurrentItem(0);
+                mNotesItem.setVisible(true);
+                mCriteriaItem.setVisible(true);
+                mPropertyItem.setVisible(false);
+                return true;
+            }
+        });
+
         mNotesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (mPager.getCurrentItem() == 0) {
+
                     mPager.setCurrentItem(1);
-                }
-                else if (mPager.getCurrentItem() == 1){
-                    mPager.setCurrentItem(0);
-                }
-                //mListener.addToBackStack();
+                    mNotesItem.setVisible(false);
+                mCriteriaItem.setVisible(true);
+                    mPropertyItem.setVisible(true);
 
                 return true;
             }
         });
 
+        mCriteriaItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                    mPager.setCurrentItem(2);
+                    mCriteriaItem.setVisible(false);
+                mNotesItem.setVisible(true);
+                    mPropertyItem.setVisible(true);
+                return true;
+            }
+        });
     }
 
 

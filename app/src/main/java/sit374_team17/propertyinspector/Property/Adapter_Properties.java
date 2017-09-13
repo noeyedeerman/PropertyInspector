@@ -156,12 +156,12 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
         });
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice;
         private ImageView mPhoto;
         private View mView;
 
-        ViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
             mStreetNumber = (TextView) itemView.findViewById(R.id.textView_streetNumber);

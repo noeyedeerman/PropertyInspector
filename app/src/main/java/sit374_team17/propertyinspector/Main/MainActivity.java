@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     private int viewPagerCount;
     private boolean popBackStack;
     private FragmentManager fm;
+    private MenuItem mNotesItem, mPropertyItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -365,6 +366,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+      //  mNotesItem = menu.findItem(R.id.action_notes);
+     //   mNotesItem.setVisible(false);
+      //  mPropertyItem = menu.findItem(R.id.action_property);
+        //mNotesItem.setVisible(false);
         return true;
     }
 

@@ -8,18 +8,23 @@
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
+    <item android:id="@+id/action_property"
+        android:title="@string/action_property"
+        android:icon="@drawable/ic_action_property"
+        app:showAsAction="ifRoom|collapseActionView"
+        />
+
     <item android:id="@+id/action_notes"
         android:title="@string/action_notes"
-        android:icon="@android:drawable/ic_media_previous"
+        android:icon="@drawable/ic_action_note"
         app:showAsAction="ifRoom|collapseActionView"
-         />
+        />
 
-    <!--<item  android:id="@+id/action_camera"-->
-        <!--android:title="@string/camera"-->
-        <!--android:icon="@android:drawable/ic_menu_camera"-->
-        <!--app:showAsAction="ifRoom"-->
-
-        <!--/>-->
+    <item android:id="@+id/action_criteria"
+        android:title="@string/action_criteria"
+        android:icon="@drawable/ic_action_note"
+        app:showAsAction="ifRoom|collapseActionView"
+        />
 
 
 </menu>

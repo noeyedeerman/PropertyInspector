@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,14 +29,9 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,6 +47,7 @@ import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Note.Adapter_Note;
 import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.R;
+import sit374_team17.propertyinspector.Walkthrough.Activity_Walkthrough;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -72,7 +65,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
     Adapter_Note mAdapter_note;
     TextView mStreetNumber, mStreetName, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice, mDescription, propertyInspectionDate;
     Button button_post, button_save;
-    ImageButton button_camera;
+    Button mButton_buy;
     EditText editText_comment;
     Fragment mFragment_tabs;
     Comment mComment;
@@ -141,7 +134,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_property_description, container, false);
 
@@ -150,7 +143,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         mViewPager_property = (ViewPager) mView.findViewById(R.id.viewPager_property);
         // button_camera = (ImageButton) mView.findViewById(R.id.button_camera);
         //  button_post = (Button) mView.findViewById(R.id.button_post);
-        button_save = (Button) mView.findViewById(R.id.button_save);
+      mButton_buy = (Button) mView.findViewById(R.id.button_buyInfo);
 
         //   if(googleServicesAvailable()){
         //      Toast.makeText(getContext(), "Google services available", Toast.LENGTH_SHORT).show();
@@ -174,12 +167,13 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
 
         // initViews();
-//        button_camera.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dispatchTakePictureIntent();
-//            }
-//        });
+        mButton_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Activity_Walkthrough.class);
+                startActivity(intent);
+            }
+        });
 
 //        button_post.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -284,72 +278,72 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(getContext());
-
-        mGoogleMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        //googleMap.addMarker(new MarkerOptions().position(new LatLng(40.689247, -74.044502)).title("Statue of Liberty").snippet("I hope to go there someday"));
-
-
-
-        //String location = "41 Cathcart Street Maidstone";
-        String location = mProperty.getStreetNumber() + " " + mProperty.getStreetName() + ", " + mProperty.getCity();
-
-
-        List<Address> addressList = null;
-
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(getContext());
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            Address address = null;
-
-            if (addressList != null) {
-                address = addressList.get(0);
-                LatLng latLng = null;
-                if (address != null) {
-                    latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                }
-                if (latLng != null) {
-                    googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
-
-                }
-                CameraPosition myHouse = null;
-                if (address != null) {
-                    myHouse = CameraPosition.builder().target(new LatLng(address.getLatitude(), address.getLongitude())).zoom(16).build();
-                }
-                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(myHouse));
-            }
-
-
-
-
-googleMap.setBuildingsEnabled(true);
-            googleMap.setContentDescription("cool description?");
-            googleMap.getUiSettings().setMapToolbarEnabled(true);
-            googleMap.getUiSettings().setTiltGesturesEnabled(false);
-
-     //       CameraPosition myHouse = CameraPosition.builder().target(new LatLng(address.getLatitude(), address.getLongitude())).zoom(16).bearing(0).tilt(45).build();
-
-//googleMap.getUiSettings().isZoomControlsEnabled();
-            googleMap.getUiSettings().setScrollGesturesEnabled(false);
-            //googleMap.setMaxZoomPreference(25);
-            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    Toast.makeText(getContext(), "Open Google Maps", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            //CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247, -74.044502)).zoom(16).bearing(0).tilt(45).build();
-
-            // googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
-        }
+//        MapsInitializer.initialize(getContext());
+//
+//        mGoogleMap = googleMap;
+//        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//        //googleMap.addMarker(new MarkerOptions().position(new LatLng(40.689247, -74.044502)).title("Statue of Liberty").snippet("I hope to go there someday"));
+//
+//
+//
+//        //String location = "41 Cathcart Street Maidstone";
+//        String location = mProperty.getStreetNumber() + " " + mProperty.getStreetName() + ", " + mProperty.getCity();
+//
+//
+//        List<Address> addressList = null;
+//
+//        if (location != null || !location.equals("")) {
+//            Geocoder geocoder = new Geocoder(getContext());
+//            try {
+//                addressList = geocoder.getFromLocationName(location, 1);
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            Address address = null;
+//
+//            if (addressList != null) {
+//                address = addressList.get(0);
+//                LatLng latLng = null;
+//                if (address != null) {
+//                    latLng = new LatLng(address.getLatitude(), address.getLongitude());
+//                }
+//                if (latLng != null) {
+//                    googleMap.addMarker(new MarkerOptions().position(latLng).title(location));
+//
+//                }
+//                CameraPosition myHouse = null;
+//                if (address != null) {
+//                    myHouse = CameraPosition.builder().target(new LatLng(address.getLatitude(), address.getLongitude())).zoom(16).build();
+//                }
+//                googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(myHouse));
+//            }
+//
+//
+//
+//
+//googleMap.setBuildingsEnabled(true);
+//            googleMap.setContentDescription("cool description?");
+//            googleMap.getUiSettings().setMapToolbarEnabled(true);
+//            googleMap.getUiSettings().setTiltGesturesEnabled(false);
+//
+//     //       CameraPosition myHouse = CameraPosition.builder().target(new LatLng(address.getLatitude(), address.getLongitude())).zoom(16).bearing(0).tilt(45).build();
+//
+////googleMap.getUiSettings().isZoomControlsEnabled();
+//            googleMap.getUiSettings().setScrollGesturesEnabled(false);
+//            //googleMap.setMaxZoomPreference(25);
+//            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//                @Override
+//                public void onMapClick(LatLng latLng) {
+//                    Toast.makeText(getContext(), "Open Google Maps", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//
+//            //CameraPosition Liberty = CameraPosition.builder().target(new LatLng(40.689247, -74.044502)).zoom(16).bearing(0).tilt(45).build();
+//
+//            // googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Liberty));
+//        }
     }
 
 //

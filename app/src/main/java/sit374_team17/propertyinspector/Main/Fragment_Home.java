@@ -168,6 +168,10 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
 
+        MenuItem propertyItem = menu.findItem(R.id.action_property);
+        propertyItem.setVisible(false);
+        MenuItem criteriaItem = menu.findItem(R.id.action_criteria);
+        criteriaItem.setVisible(false);
         MenuItem notesItem = menu.findItem(R.id.action_notes);
         notesItem.setVisible(false);
 
