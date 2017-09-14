@@ -4,12 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.StackView;
+import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
@@ -46,7 +48,7 @@ public class Fragment_Note_List extends Fragment {
     RecyclerView mRecyclerView;
     private Adapter_Note mCommentsAdapter;
     List<Comment> mCommentsList;
-    protected static String PROPERTY_ID = "";
+    public static String PROPERTY_ID = "";
     private StackView stackView;
 
     @Override
@@ -84,12 +86,12 @@ public class Fragment_Note_List extends Fragment {
             mProperty = getArguments().getParcelable((ARG_PROPERTY));
         }
     }
-
+    private SwipeRefreshLayout mySwipeRefreshLayout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_note_list, container, false);
-
+        mySwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swiperefresh);
 
         mCommentsList = new ArrayList<>();
 
@@ -158,6 +160,51 @@ public class Fragment_Note_List extends Fragment {
         };
         Thread mythread = new Thread(runnable);
         mythread.start();
+          /*
+ * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+ * performs a swipe-to-refresh gesture.
+ */
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        // This method performs the actual data-refresh operation.
+                        // The method calls setRefreshing(false) when it's finished.
+                        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+                        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+                        mapper = new DynamoDBMapper(ddbClient);
+                        Runnable runnable = new Runnable() {
+                            public void run() {
+                                //DynamoDB calls go here
+                                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                                scanExpression.addFilterCondition("PropertyID", new Condition()
+                                        .withComparisonOperator(ComparisonOperator.EQ)
+                                        .withAttributeValueList(new AttributeValue().withS(Fragment_Note_List.PROPERTY_ID)));
+                                scanExpression.addFilterCondition("CommentType",
+                                        new Condition()
+                                                .withComparisonOperator(ComparisonOperator.EQ)
+                                                .withAttributeValueList(new AttributeValue().withS("private")));
+                                result = mapper.scan(Note.class, scanExpression);
+                                if (result.size() >= 0) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mCommentsAdapter = new Adapter_Note(mListener);
+                                            mCommentsAdapter.setNoteList(result);
+                                            mRecyclerView.setAdapter(mCommentsAdapter);
+                                            mySwipeRefreshLayout.setRefreshing(false);
+                                            Toast.makeText(getActivity(),"Updated",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        };
+                        Thread mythread = new Thread(runnable);
+                        mythread.start();
+
+                    }
+                }
+        );
     }
 
 }

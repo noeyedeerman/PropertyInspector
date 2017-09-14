@@ -127,8 +127,8 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
     public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String s) {
         Log.d(LOG_TAG,"Authentication is required and submitted successfully");
         Toast.makeText(getApplicationContext(),"Checking credentials please wait..  ",Toast.LENGTH_LONG).show();
-        AuthenticationDetails authenticationDetails = new AuthenticationDetails(edt_email.getText().toString(), edt_password.getText().toString(), null);
-        //  AuthenticationDetails authenticationDetails = new AuthenticationDetails("John", "JohnSmith123", null);
+      //  AuthenticationDetails authenticationDetails = new AuthenticationDetails(edt_email.getText().toString(), edt_password.getText().toString(), null);
+        AuthenticationDetails authenticationDetails = new AuthenticationDetails("John", "JohnSmith12", null);
         // Pass the user sign-in credentials to the continuation
         authenticationContinuation.setAuthenticationDetails(authenticationDetails);
         // Allow the sign-in to continue

@@ -4,44 +4,41 @@ package sit374_team17.propertyinspector;
  * Created by rileymills on 24/5/17.
  */
 
-import java.util.HashMap;
-import java.util.List;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
-import android.media.Image;
-import android.media.Rating;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageButton;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.EditText;
-import android.widget.Toast;
-import android.text.TextWatcher;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
 import java.util.ArrayList;
-import android.widget.Button;
-import android.view.View.OnClickListener;
-import android.support.v7.app.AlertDialog;
-import android.content.DialogInterface;
-import android.widget.RatingBar;
-import android.support.v7.app.ActionBar.LayoutParams;
-import android.widget.LinearLayout;
+import java.util.HashMap;
+import java.util.List;
+
+import sit374_team17.propertyinspector.Property.Inspection;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> expandableListTitle;
     private HashMap<String, List<String>> expandableListDetail;
-
+    Inspection.Actions actionsInspections;
+    HashMap<String,List<String>> inspectionList;
     private ArrayList<EditText> editTextList = new ArrayList<EditText>();
 
     public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                       HashMap<String, List<String>> expandableListDetail) {
+                                       HashMap<String, List<String>> expandableListDetail, Inspection.Actions actionsInspections,HashMap<String,List<String>> inspectionList) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
+        this.actionsInspections = actionsInspections;
+        this.inspectionList = inspectionList;
     }
 
     @Override
@@ -66,6 +63,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         ImageButton commentButton = (ImageButton) convertView
                 .findViewById(R.id.commentButton);
+
         commentButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -92,6 +90,24 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         });
 
 
+
+        ImageButton img_like= (ImageButton) convertView.findViewById(R.id.img_like);
+        img_like.setTag(listPosition);
+        img_like.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionsInspections.addLikeDislike(2,1,expandableListTitle.get((int)view.getTag()));
+
+            }
+        });
+       ImageButton img_dislike= (ImageButton) convertView.findViewById(R.id.img_dislike);
+        img_dislike.setTag(listPosition);
+        img_dislike.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionsInspections.addLikeDislike(3,1,expandableListTitle.get((int)view.getTag()));
+            }
+        });
 
         return convertView;
     }
@@ -128,6 +144,12 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView listTitleTextView = (TextView) convertView
                 .findViewById(R.id.listTitle);
+       TextView likeNo = (TextView) convertView
+                .findViewById(R.id.likeNo);
+       TextView dislikeNo = (TextView) convertView
+                .findViewById(R.id.dislikeNo);
+        likeNo.setText(inspectionList.get(listTitle).get(2));
+        dislikeNo.setText(inspectionList.get(listTitle).get(3));
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
 

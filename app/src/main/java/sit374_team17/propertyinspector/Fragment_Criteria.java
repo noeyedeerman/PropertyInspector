@@ -10,14 +10,28 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBSaveExpression;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import sit374_team17.propertyinspector.Main.Fragment_Home;
 import sit374_team17.propertyinspector.Main.Listener;
+import sit374_team17.propertyinspector.Note.Fragment_Note_List;
+import sit374_team17.propertyinspector.Property.Inspection;
 import sit374_team17.propertyinspector.Property.Property;
 
-public class Fragment_Criteria extends Fragment {
+
+public class Fragment_Criteria extends Fragment implements Inspection.Actions {
 
 
 
@@ -107,6 +121,12 @@ public class Fragment_Criteria extends Fragment {
 
 
     }
+    public List<Inspection> inspectionList;
+    public static HashMap<String,List<String>> customInspection=new HashMap<>();
+    List<Inspection> createInspections;
+    DynamoDBMapper mapper;
+
+
 
     @Nullable
     @Override
@@ -114,14 +134,98 @@ public class Fragment_Criteria extends Fragment {
         mView = inflater.inflate(R.layout.fragment_criteria, container, false);
 
         expandableListView = (ExpandableListView) mView.findViewById(R.id.expandableListView);
-        expandableListDetail = ExpandableListDataPump.getData();
-        expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+
         //java.util.Collections.sort(expandableListTitle);
 
-        expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail);
-        expandableListView.setAdapter(expandableListAdapter);
+
+
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                scanExpression.addFilterCondition("PropertyID", new Condition()
+                        .withComparisonOperator(ComparisonOperator.EQ).withAttributeValueList(new AttributeValue().withS(Fragment_Note_List.PROPERTY_ID)));
+                        inspectionList = mapper.scan(Inspection.class, scanExpression);
+                if (inspectionList.size() >= 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            expandableListDetail = ExpandableListDataPump.getData(inspectionList);
+                            expandableListTitle = new ArrayList<>(expandableListDetail.keySet());
+                            expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail,Fragment_Criteria.this,customInspection);
+                            expandableListView.setAdapter(expandableListAdapter);
+                        }
+                    });
+                }
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
         return mView;
 
+
+    }
+
+
+    @Override
+    public void addLikeDislike(int position, int values, String conditions) {
+        int prev_value=0;
+        try{
+            prev_value=Integer.parseInt(customInspection.get(conditions).get(position));
+            customInspection.get(conditions).set(position,String.valueOf(values+prev_value));
+        }catch (Exception e){
+            customInspection.get(conditions).set(position,String.valueOf(values));
+        }
+        expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail,Fragment_Criteria.this,customInspection);
+        expandableListView.setAdapter(expandableListAdapter);
+        updateInspections();
+
+    }
+
+    void updateInspections()
+    {
+        final Inspection inspections_result=new Inspection();
+        inspections_result.setAttic_Basement(customInspection.get("Attic/ Basement"));
+        inspections_result.setBackyard(customInspection.get("Backyard"));
+        inspections_result.setBathroom(customInspection.get("Bathrooms"));
+        inspections_result.setExterior(customInspection.get("Exterior Surface"));
+        inspections_result.setInterior(customInspection.get("Interior Rooms"));
+        inspections_result.setGrounds(customInspection.get("Grounds"));
+        inspections_result.setKitchen(customInspection.get("Kitchen"));
+        inspections_result.setMiscellaneous(customInspection.get("Miscellaneous"));
+        inspections_result.setRoof(customInspection.get("Roof"));
+        inspections_result.setStructure(customInspection.get("Structure"));
+        inspections_result.setWindows_Doors_Trim(customInspection.get("Windows, Doors and Wood Trim"));
+
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                try {
+                    AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+                    ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+                    DynamoDBSaveExpression scanExpression = new DynamoDBSaveExpression();
+                    mapper = new DynamoDBMapper(ddbClient);
+
+                    mapper.save(scanExpression);
+                    expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail,Fragment_Criteria.this,customInspection);
+                    expandableListView.setAdapter(expandableListAdapter);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                          //  Toast.makeText(getActivity(),"Something went wrong",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
 
     }
 
@@ -140,7 +244,7 @@ public class Fragment_Criteria extends Fragment {
 
 
     public static class ExpandableListDataPump {
-        public static HashMap<String, List<String>> getData() {
+        public static HashMap<String, List<String>> getData(List<Inspection> inspections) {
             HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
 
 
@@ -203,23 +307,37 @@ public class Fragment_Criteria extends Fragment {
             List<String> other = new ArrayList<String>();
             other.add("Comments:");
 
-
-            expandableListDetail.put("Grounds", A_grounds);
-            expandableListDetail.put("Structure", B_structure);
-            expandableListDetail.put("Exterior Surface", C_exterior);
-            expandableListDetail.put("Environment", D_environment);
-            expandableListDetail.put("Interior Rooms", E_interior);
-            expandableListDetail.put("Roof", F_roof);
-            expandableListDetail.put("Windows, Doors and Wood Trim", G_windows);
-            expandableListDetail.put("Kitchen", H_kitchen);
-            expandableListDetail.put("Bathrooms", I_bathroom);
             expandableListDetail.put("Attic/ Basement", J_attic);
-            expandableListDetail.put("Garage", K_garage);
-            expandableListDetail.put("Plumbing", L_plumbing);
+            expandableListDetail.put("Backyard", I_bathroom);
+            expandableListDetail.put("Bathrooms", I_bathroom);
+            expandableListDetail.put("Exterior Surface", C_exterior);
+            expandableListDetail.put("Grounds", A_grounds);
+          //  expandableListDetail.put("Heating/Cooling System", N_heating);
+            expandableListDetail.put("Interior Rooms", E_interior);
+            expandableListDetail.put("Kitchen", H_kitchen);
+            expandableListDetail.put("Miscellaneous", H_kitchen);
+         //   expandableListDetail.put("Plumbing/Electrical", L_plumbing);
+            expandableListDetail.put("Roof", F_roof);
+            expandableListDetail.put("Structure", B_structure);
+            expandableListDetail.put("Windows, Doors and Wood Trim", G_windows);
+         /*   expandableListDetail.put("Garage", K_garage);
             expandableListDetail.put("Electrical", M_electrical);
-            expandableListDetail.put("Heating/Cooling System", N_heating);
             expandableListDetail.put("Garden", O_garden);
-            expandableListDetail.put("Other", other);
+            expandableListDetail.put("Other", other);)*/
+            customInspection.put("Attic/ Basement", inspections.get(0).getAttic_Basement());
+            customInspection.put("Backyard", inspections.get(0).getBackyard());
+            customInspection.put("Bathrooms", inspections.get(0).getBathroom());
+            customInspection.put("Exterior Surface", inspections.get(0).getExterior());
+            customInspection.put("Grounds", inspections.get(0).getGrounds());
+            customInspection.put("Heating/Cooling System", inspections.get(0).getHeating_Cooling());
+            customInspection.put("Interior Rooms", inspections.get(0).getInterior());
+            customInspection.put("Kitchen", inspections.get(0).getKitchen());
+            customInspection.put("Miscellaneous", inspections.get(0).getMiscellaneous());
+            customInspection.put("Plumbing/Electrical", inspections.get(0).getPlumbing_Electrical());
+            customInspection.put("Roof", inspections.get(0).getRoof());
+            customInspection.put("Structure", inspections.get(0).getStructure());
+            customInspection.put("Windows, Doors and Wood Trim", inspections.get(0).getWindows_Doors_Trim());
+
             return expandableListDetail;
         }
     }

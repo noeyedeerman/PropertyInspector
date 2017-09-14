@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -31,8 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 import sit374_team17.propertyinspector.Activity_Login;
-import sit374_team17.propertyinspector.Property.Photo;
 import sit374_team17.propertyinspector.Property.Adapter_Properties;
+import sit374_team17.propertyinspector.Property.Photo;
 import sit374_team17.propertyinspector.Property.Property;
 import sit374_team17.propertyinspector.R;
 
@@ -41,6 +43,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String LOG_TAG = "home";
 
     public static  CognitoCachingCredentialsProvider credentialsProvider ;
     protected DynamoDBMapper mapper ;
@@ -53,6 +56,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
     View mView;
 
     private RecyclerView mRecyclerView;
+    private SwipeRefreshLayout mySwipeRefreshLayout;
     Adapter_Properties mPropertyAdapter;
     FloatingActionButton mFab;
    // DB_PropertyHandler mDB_properties;
@@ -118,6 +122,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
     }
 
     private void initViews() {
+        mySwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swiperefresh);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.card_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -158,6 +163,46 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
         };
         Thread mythread = new Thread(runnable);
         mythread.start();
+        /*
+ * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
+ * performs a swipe-to-refresh gesture.
+ */
+        mySwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
+                        // This method performs the actual data-refresh operation.
+                        // The method calls setRefreshing(false) when it's finished.
+                        Runnable runnable = new Runnable() {
+                            public void run() {
+                                //DynamoDB calls go here
+                                AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
+                                ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+                                mapper = new DynamoDBMapper(ddbClient);
+                                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                                result = mapper.scan(Property.class, scanExpression);
+                                results = mapper.scan(Photo.class, scanExpression);
+                                if (result.size() >= 0) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mPropertyAdapter = new Adapter_Properties(mListener, getContext(),credentialsProvider,results);
+                                            mPropertyAdapter.setPropertyList(result);
+                                            mRecyclerView.setAdapter(mPropertyAdapter);
+                                            mySwipeRefreshLayout.setRefreshing(false);
+                                            Toast.makeText(getActivity(),"Updated",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        };
+                        Thread mythread = new Thread(runnable);
+                        mythread.start();
+
+                    }
+                }
+        );
     }
 
     @Override
