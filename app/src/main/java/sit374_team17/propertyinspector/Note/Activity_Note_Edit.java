@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import sit374_team17.propertyinspector.R;
 public class Activity_Note_Edit extends AppCompatActivity {
 
     Property mProperty;
+    Note mNote;
     private MenuItem mCameraItem;
     private String mCurrentPhotoPath;
 
@@ -34,12 +36,13 @@ public class Activity_Note_Edit extends AppCompatActivity {
         setContentView(R.layout.activity_note_edit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         if(savedInstanceState == null)
         {
             Bundle extras = getIntent().getExtras();
             mProperty = getIntent().getExtras().getParcelable("property");
+            mNote = getIntent().getParcelableExtra("note");
 
             if (extras != null)
             {
@@ -52,13 +55,15 @@ public class Activity_Note_Edit extends AppCompatActivity {
         }
 
 
-goTo_EditNoteFragment();
+goTo_EditNoteFragment(mNote);
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
-    public void goTo_EditNoteFragment() {
-        Fragment_Note_Edit fragment = Fragment_Note_Edit.newInstance(mProperty);
+    public void goTo_EditNoteFragment(Note note) {
+        Fragment_Note_Edit fragment = Fragment_Note_Edit.newInstance(note);
         replaceFragment(fragment, "Fragment_Note_Edit");
 
 

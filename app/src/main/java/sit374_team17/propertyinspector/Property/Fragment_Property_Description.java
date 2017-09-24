@@ -28,9 +28,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -61,10 +65,11 @@ import static android.app.Activity.RESULT_OK;
 public class Fragment_Property_Description extends Fragment implements OnMapReadyCallback {
 
     private static final String ARG_PROPERTY = "property";
+    private static final String ARG_NOTELIST = "noteList";
 
     private Property mProperty;
     protected DynamoDBMapper mapper;
-    protected List<Note> result;
+    protected List<Note> mNoteList;
     Adapter_Note mCommentsAdapter;
     View mView;
     ViewPager mViewPager_property;
@@ -124,6 +129,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         Fragment_Property_Description fragment = new Fragment_Property_Description();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PROPERTY, property);
+      //  args.putParcelable(ARG_NOTELIST, (Parcelable) noteList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -133,11 +139,9 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
+           // mNoteList = getArguments().getParcelable(ARG_NOTELIST);
         }
-        //  mDB_comments = new DB_CommentHandler(getContext());
-        // if (getArguments() != null) {
-        //     mComment = getArguments().getParcelable(ARG_PROPERTY);
-        //  }
+
     }
 
     @Override
@@ -166,14 +170,12 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
 
 
         mPhotoList = new ArrayList<>();
-        mCommentsList = new ArrayList<>();
+        mNoteList = new ArrayList<>();
 
-        // mCommentsList = mDB_comments.getAllComments();
-        //  mAdapter = new Adapter_PropertySwipe(getContext());
+ initViews();
 
-        mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
 
-        // initViews();
+
         mButton_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,10 +211,10 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         //  mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
         //  mRecyclerView.setAdapter(mAdapter_note);
 
-        mPhotoList.add(mProperty.getPhoto());
 
-        mAdapter_slideShow.setPhotoList(mPhotoList);
-        mViewPager_property.setAdapter(mAdapter_slideShow);
+
+      //  mAdapter_slideShow.setPhotoList(mPhotoList);
+      //  mViewPager_property.setAdapter(mAdapter_slideShow);
 
 
         // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
@@ -409,7 +411,7 @@ googleMap.setBuildingsEnabled(true);
         mListener.onSaveComment();
     }
 //
-//    private void initViews() {
+   private void initViews() {
 //        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_commentPrivate);
 //        mRecyclerView.setHasFixedSize(true);
 //        RecyclerView.LayoutManager layoutManager;
@@ -425,36 +427,72 @@ googleMap.setBuildingsEnabled(true);
 //        mRecyclerView.setLayoutManager(layoutManager);
 //
 //
-//                AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
-//        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
-//        mapper = new DynamoDBMapper(ddbClient);
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                //DynamoDB calls go here
-//                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-//                scanExpression.addFilterCondition("PropertyID",new Condition()
-//                        .withComparisonOperator(ComparisonOperator.EQ)
-//                        .withAttributeValueList(new AttributeValue().withS(Fragment_Property_Description.PROPERTY_ID)));
-//                scanExpression.addFilterCondition("CommentType",
-//                        new Condition()
-//                                .withComparisonOperator(ComparisonOperator.EQ)
-//                                .withAttributeValueList(new AttributeValue().withS("private")));
-//                result = mapper.scan(Note.class, scanExpression);
-//                if (result.size() >= 0) {
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mCommentsAdapter = new Adapter_Note(mListener);
-//                            mCommentsAdapter.setCommentList(result);
-//                            mRecyclerView.setAdapter(mCommentsAdapter);
-//                        }
-//                    });
-//                }
-//            }
-//        };
-//        Thread mythread = new Thread(runnable);
-//        mythread.start();
-//    }
+//       Note note1 = new Note("0", "public", "Cool Title 1", "This is a note test 1", "1", mProperty.getPhoto());
+//       Note note2 = new Note("1", "public", "Cool Title 2", "This is a note test 2", "1", mProperty.getPhoto());
+//       Note note3 = new Note("2", "public", "Cool Title 3", "This is a note test 3", "1", mProperty.getPhoto());
+//
+//       mNoteList.add(note1);
+//       mNoteList.add(note2);
+//       mNoteList.add(note3);
+
+
+
+
+//       mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
+//       mAdapter_slideShow.setNoteList(mNoteList);
+//       //   mAdapter_slideShow.setPhotoList(mPhotoList);
+//       mViewPager_property.setAdapter(mAdapter_slideShow);
+//
+
+
+       // mCommentsList = mDB_comments.getAllComments();
+       //  mAdapter = new Adapter_PropertySwipe(getContext());
+
+
+                AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                scanExpression.addFilterCondition("PropertyID",new Condition()
+                        .withComparisonOperator(ComparisonOperator.EQ)
+                        .withAttributeValueList(new AttributeValue().withS(Fragment_Property_Description.PROPERTY_ID)));
+                scanExpression.addFilterCondition("CommentType",
+                        new Condition()
+                                .withComparisonOperator(ComparisonOperator.EQ)
+                                .withAttributeValueList(new AttributeValue().withS("private")));
+                mNoteList = mapper.scan(Note.class, scanExpression);
+                if (mNoteList.size() >= 0) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
+
+for(Note note : mNoteList){
+    note.setPhoto(mProperty.getPhoto());
+}
+                         //   mPhotoList.add(mProperty.getPhoto());
+
+                            mAdapter_slideShow.setNoteList(mNoteList);
+                          //  mAdapter_slideShow.setPhotoList(mPhotoList);
+                            mViewPager_property.setAdapter(mAdapter_slideShow);
+
+
+                        }
+                    });
+                }
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+
+
+      // mAdapter_slideShow.setNoteList(mNoteList);
+     //  mViewPager_property.setAdapter(mAdapter_slideShow);
+
+    }
 
 
 //

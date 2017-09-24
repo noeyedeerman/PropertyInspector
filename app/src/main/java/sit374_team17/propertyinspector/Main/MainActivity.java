@@ -38,6 +38,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.Calendar;
 
+import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.User.Activity_Login;
 import sit374_team17.propertyinspector.Activity_Settings;
 import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity
     private boolean popBackStack;
     private FragmentManager fm;
     private MenuItem mNotesItem, mPropertyItem;
+    private Note mNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,12 +119,12 @@ public class MainActivity extends AppCompatActivity
 
         mFab_TextNote.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                goTo_NoteEditActivity("don't");
+                goTo_NoteEditActivity(new Note(), "don't");
             }
         });
         mFab_PhotoNote.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                goTo_NoteEditActivity("do");
+                goTo_NoteEditActivity(new Note(), "do");
 
             }
         });
@@ -284,9 +286,10 @@ public class MainActivity extends AppCompatActivity
         mFabMenu_Note.showMenu(false);
     }
 
-    public void goTo_NoteEditActivity(String openCamera) {
+    public void goTo_NoteEditActivity(Note note, String openCamera) {
         Intent intent = new Intent(MainActivity.this, Activity_Note_Edit.class);
         intent.putExtra("property", mProperty);
+        intent.putExtra("note", note);
         intent.putExtra("methodName", openCamera);
         startActivity(intent);
         mFabMenu_Note.close(true);
@@ -459,9 +462,11 @@ public class MainActivity extends AppCompatActivity
     public void onPropertyClicked(Property property) {
         mProperty = property;
         goTo_PropertyFragment(property);
+    }
 
-        //   mFabProperty.hide();
-
+    @Override
+    public void onNoteClicked(Note note) {
+        goTo_NoteEditActivity(note, "don't");
     }
 
     AlertDialog alert;

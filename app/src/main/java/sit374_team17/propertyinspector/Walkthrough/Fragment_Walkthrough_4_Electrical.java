@@ -96,6 +96,11 @@ public class Fragment_Walkthrough_4_Electrical extends Fragment {
             public int getOrientation() {
                 return super.getOrientation();
             }
+
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
         };
 
         mRecyclerView.setLayoutManager(layoutManager);

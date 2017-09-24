@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -25,7 +26,7 @@ import sit374_team17.propertyinspector.R;
  */
 public class Fragment_Note_Edit extends Fragment {
 
-    private static final String ARG_PROPERTY = "property";
+    private static final String ARG_NOTE = "note";
 
 
     private String mParam1;
@@ -33,15 +34,16 @@ public class Fragment_Note_Edit extends Fragment {
 
     private MenuItem mNotesItem;
 
-    EditText editText_note;
     private View mView;
     private Note mNote;
     private DynamoDBMapper mapper;
     protected static String PROPERTY_ID="";
 
     private Property mProperty;
-    private Button button_save;
 
+    private Button button_save;
+    private EditText mEditText_title, mEditText_note;
+private ImageView imageView;
     private String mCurrentPhotoPath;
     private Parcelable mImageBitmap;
 
@@ -49,11 +51,10 @@ public class Fragment_Note_Edit extends Fragment {
     }
 
 
-
-    public static Fragment_Note_Edit newInstance(Property property) {
+    public static Fragment_Note_Edit newInstance(Note note) {
         Fragment_Note_Edit fragment = new Fragment_Note_Edit();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_PROPERTY, property);
+        args.putParcelable(ARG_NOTE, note);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,8 +62,9 @@ public class Fragment_Note_Edit extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            mProperty = getArguments().getParcelable(ARG_PROPERTY);
+            mNote = getArguments().getParcelable(ARG_NOTE);
         }
 
         //  mDB_comments = new DB_CommentHandler(getContext());
@@ -75,21 +77,32 @@ public class Fragment_Note_Edit extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView =  inflater.inflate(R.layout.fragment_note_edit, container, false);
 
-        button_save = (Button) mView.findViewById(R.id.button_save);
+        //  if (mNote.getCommentType() == "private") {
+          if ("private".equals(mNote.getCommentType())) {
+              mView = inflater.inflate(R.layout.fragment_note_text_edit, container, false);
+        } else  if ("public".equals(mNote.getCommentType())) {
+            mView = inflater.inflate(R.layout.fragment_note_photo_edit, container, false);
+                 imageView = (ImageView) mView.findViewById(R.id.imageView);
+        }
 
-        editText_note = (EditText) mView.findViewById(R.id.editText_note);
-        button_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveComment();
-                getActivity().finish();
-            }
-        });
+        if (mView != null) {
+            button_save = (Button) mView.findViewById(R.id.button_save);
+            mEditText_title = (EditText) mView.findViewById(R.id.editText_title);
+            mEditText_note = (EditText) mView.findViewById(R.id.editText_note);
 
+           // mEditText_title.setText(mNote.getCommentTitle());
+            mEditText_note.setText(mNote.getDescription());
 
+            button_save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveComment();
+                    getActivity().finish();
+                }
+            });
 
+        }
 
         //PROPERTY_ID=mProperty.getId();
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
@@ -104,8 +117,8 @@ public class Fragment_Note_Edit extends Fragment {
 
 
     private void saveComment() {
-        String note = editText_note.getText().toString();
-        mNote =new Note();
+        String note = mEditText_note.getText().toString();
+        mNote = new Note();
         mNote.setPropertyId(mProperty.getId());
         mNote.setDescription(note);
        // if (isPublic)mNote.setCommentType("public");

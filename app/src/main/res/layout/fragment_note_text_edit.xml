@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sit374_team17.propertyinspector.Note.Fragment_Note_Edit"
    >
 
     <!-- TODO: Update blank fragment layout -->
 
     <EditText
-        android:id="@+id/textView3"
+        android:id="@+id/editText_title"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:hint="Note Title"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" />
 
     <EditText
         android:id="@+id/editText_note"
@@ -32,20 +34,25 @@
         android:scrollbars="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/editText_title"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_save" />
+        app:layout_constraintBottom_toTopOf="@+id/button_save"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp" />
 
 
     <Button
         android:id="@+id/button_save"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="24dp"
+
         android:background="@color/colorAccent"
         android:text="Save"
         android:textColor="@android:color/white"
-        android:layout_marginRight="0dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp" />

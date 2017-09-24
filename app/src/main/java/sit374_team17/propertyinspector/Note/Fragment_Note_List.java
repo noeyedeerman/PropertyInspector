@@ -31,14 +31,11 @@ import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Property.Property;
 import sit374_team17.propertyinspector.R;
 
-/**
- * Created by callu on 2/05/2017.
- */
-
 public class Fragment_Note_List extends Fragment {
     private static final String ARG_PROPERTY = "comment";
+    private static final String ARG_NOTELIST = "noteList";
 
-    protected List<Note> result;
+    protected List<Note> mNoteList;
     protected DynamoDBMapper mapper;
     private Note mComment;
     private Property mProperty;
@@ -72,6 +69,7 @@ public class Fragment_Note_List extends Fragment {
         Fragment_Note_List fragment = new Fragment_Note_List();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PROPERTY, property);
+        //args.putParcelable(ARG_NOTELIST, (Parcelable) noteList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,8 +80,8 @@ public class Fragment_Note_List extends Fragment {
         //mDB_comments = new DB_CommentHandler(getContext());
         //   mProperty = new DB_PropertyHandler(getContext());
         if (getArguments() != null) {
-            // mComment = getArguments().getParcelable(ARG_PROPERTY);
             mProperty = getArguments().getParcelable((ARG_PROPERTY));
+         //   mNoteList = getArguments().getParcelable(ARG_NOTELIST);
         }
     }
     private SwipeRefreshLayout mySwipeRefreshLayout;
@@ -145,13 +143,13 @@ public class Fragment_Note_List extends Fragment {
                         new Condition()
                                 .withComparisonOperator(ComparisonOperator.EQ)
                                 .withAttributeValueList(new AttributeValue().withS("private")));
-                result = mapper.scan(Note.class, scanExpression);
-                if (result.size() >= 0) {
+                mNoteList = mapper.scan(Note.class, scanExpression);
+                if (mNoteList.size() >= 0) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mCommentsAdapter = new Adapter_Note(mListener);
-                            mCommentsAdapter.setNoteList(result);
+                            mCommentsAdapter.setNoteList(mNoteList);
                             mRecyclerView.setAdapter(mCommentsAdapter);
                         }
                     });
@@ -184,13 +182,13 @@ public class Fragment_Note_List extends Fragment {
                                         new Condition()
                                                 .withComparisonOperator(ComparisonOperator.EQ)
                                                 .withAttributeValueList(new AttributeValue().withS("private")));
-                                result = mapper.scan(Note.class, scanExpression);
-                                if (result.size() >= 0) {
+                                mNoteList = mapper.scan(Note.class, scanExpression);
+                                if (mNoteList.size() >= 0) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             mCommentsAdapter = new Adapter_Note(mListener);
-                                            mCommentsAdapter.setNoteList(result);
+                                            mCommentsAdapter.setNoteList(mNoteList);
                                             mRecyclerView.setAdapter(mCommentsAdapter);
                                             mySwipeRefreshLayout.setRefreshing(false);
                                             Toast.makeText(getActivity(),"Updated",Toast.LENGTH_SHORT).show();

@@ -88,6 +88,11 @@ public class Fragment_Walkthrough_6_Internet extends Fragment {
             public int getOrientation() {
                 return super.getOrientation();
             }
+
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
         };
 
         mRecyclerView.setLayoutManager(layoutManager);

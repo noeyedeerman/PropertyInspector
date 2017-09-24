@@ -1,5 +1,6 @@
 package sit374_team17.propertyinspector.Main;
 
+import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.Property.Property;
 
 /**
@@ -9,6 +10,8 @@ import sit374_team17.propertyinspector.Property.Property;
 public interface Listener {
     void onHomeInteraction();
     void onPropertyClicked(Property property);
+    void onNoteClicked(Note note);
+    void goTo_NoteEditActivity(Note note, String camera);
     void onSaveProperty();
     void onBackPressed();
     void addToBackStack();

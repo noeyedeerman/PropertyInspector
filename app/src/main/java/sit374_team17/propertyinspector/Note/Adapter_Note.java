@@ -29,8 +29,6 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         // mContext = context;
     }
 
-
-
     public void setNoteList(List<Note> notesList) {
         mNotesList.clear();
         mNotesList.addAll(notesList);
@@ -91,7 +89,13 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public int getItemViewType(int position) {
         // Just as an example, return 0 or 2 depending on position
         // Note that unlike in ListView adapters, types don't have to be contiguous
-       return position % 2 * 2;
+        if ("private".equals(mNotesList.get(position).getCommentType())) {
+            return 0;
+        } else {
+            return 1;
+        }
+
+      //eturn position % 2 * 2;
         //return position = 0;
     }
 
@@ -103,7 +107,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case 0:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note_text, parent, false);
                 return new ViewHolder_text(view);
-            case 2:
+            case 1:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note_photo, parent, false);
                 return new ViewHolder_photo(view);
            // case 2:
@@ -131,16 +135,31 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         switch (holder.getItemViewType()) {
             case 0:
-                ViewHolder_text viewHolder_text = (ViewHolder_text)holder;
+                final ViewHolder_text viewHolder_text = (ViewHolder_text)holder;
                 viewHolder_text.mTitle.setText(note_title);
                 viewHolder_text.mNote.setText(mNotesList.get(position).getDescription());
 
+                viewHolder_text.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Note note = mNotesList.get(viewHolder_text.getAdapterPosition());
+                        mListener.goTo_NoteEditActivity(note, "don't");
+                    }
+                });
                 break;
 
-            case 2:
-                ViewHolder_photo viewHolder_photo = (ViewHolder_photo)holder;
+            case 1:
+                final ViewHolder_photo viewHolder_photo = (ViewHolder_photo)holder;
                 viewHolder_photo.mTitle.setText(note_title);
                 viewHolder_photo.mNote.setText(mNotesList.get(position).getDescription());
+
+                viewHolder_photo.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Note note = mNotesList.get(viewHolder_photo.getAdapterPosition());
+                        mListener.goTo_NoteEditActivity(note, "don't");
+                    }
+                });
                 //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
                 //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
                 break;
@@ -152,6 +171,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 //                //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
 //                break;
         }
+
 
     }
 

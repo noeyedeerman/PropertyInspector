@@ -97,7 +97,13 @@ public class Fragment_Walkthrough_2_Loan extends Fragment {
             public int getOrientation() {
                 return super.getOrientation();
             }
+
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
         };
+
 
         mRecyclerView.setLayoutManager(layoutManager);
 

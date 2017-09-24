@@ -14,9 +14,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import sit374_team17.propertyinspector.Fragment_Criteria;
+import sit374_team17.propertyinspector.Main.Fragment_Home;
 import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Note.Fragment_Note_List;
+import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.R;
 
 
@@ -44,6 +58,9 @@ private View mView;
     private MenuItem mSearchItem;
     private MenuItem mPropertyItem, mNotesItem, mCriteriaItem;
     private Listener mListener;
+
+    protected List<Note> mNoteList;
+    protected DynamoDBMapper mapper;
 
     public Fragment_Property() {
     }
@@ -81,145 +98,23 @@ private View mView;
         if (getArguments() != null) {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
         }
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_property_holder, container, false);
         setHasOptionsMenu(true);
-
+mNoteList = new ArrayList<>();
+      //  loadNotes();
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) mView.findViewById(R.id.viewPager_property);
 
         mPager.setAdapter(new ScreenSlidePagerAdapter(getChildFragmentManager()));
 
+
         return mView;
     }
-
-       // mPagerAdapter = new ScreenSlidePagerAdapter(getChildFragmentManager());
-        //mPager.setAdapter(mPagerAdapter);
-
-
-
-
-//        mViewPager_property = (ViewPager) mView.findViewById(R.id.viewPager_property);
-//        button_camera = (ImageButton) mView.findViewById(R.id.button_camera);
-//        button_post = (Button) mView.findViewById(R.id.button_post);
-//        button_save = (Button) mView.findViewById(R.id.button_save);
-//
-//      //  ViewPager mViewPager = (ViewPager) mView.findViewById(R.id.view)
-//
-//        editText_comment = (EditText) mView.findViewById(R.id.editText_comment);
-//
-//        Fragment fragment_tabs = new Fragment_Tabs();
-//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//        transaction.add(R.id.tabHost_comments, fragment_tabs).commit();
-//
-//
-//        mPhotoList = new ArrayList<>();
-//        mCommentsList = new ArrayList<>();
-//
-//        //  mCommentsList = mDB_comments.getAllComments();
-//        //  mAdapter = new Adapter_PropertySwipe(getContext());
-//
-//        mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
-//
-//        button_camera.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dispatchTakePictureIntent();
-//            }
-//        });
-
-//        button_post.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                saveComment(true);
-//            }
-//        });
-//
-//        button_save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                saveComment(false);
-//            }
-//        });
-
-
-
-//initViews();
-//        if (mCommentsList.size() >= 0) {
-//            mAdapter_notes = new Adapter_Note(mListener);
-//            mAdapter_notes.setCommentList(mCommentsList);
-//            mRecyclerView.setAdapter(mAdapter_notes);
-//        }
-        //  mAdapter_notes = new Adapter_Note(mListener, getContext());
-        // mAdapter_notes.setCommentList(mCommentsList);
-        //  mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
-        //  mRecyclerView.setAdapter(mAdapter_notes);
-
-//        mPhotoList.add(mProperty.getPhoto());
-//        mAdapter_slideShow.setPhotoList(mPhotoList);
-//        mViewPager_property.setAdapter(mAdapter_slideShow);
-//
-//
-//        // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
-//
-//        mStreetNumber = (TextView) mView.findViewById(R.id.textView_streetNumber);
-//        mStreetName = (TextView) mView.findViewById(R.id.textView_streetName);
-//        mCity = (TextView) mView.findViewById(R.id.textView_city);
-//        mState = (TextView) mView.findViewById(R.id.textView_state);
-//        mPostCode = (TextView) mView.findViewById(R.id.textView_postCode);
-//        mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
-//        mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
-//        mCars = (TextView) mView.findViewById(R.id.textView_cars);
-//        //propertyInspectionDate = (TextView) mView.findViewById(R.id.propertyInspectionDate);
-//        // mPrice = (TextView) mView.findViewById(R.id.textView_price);
-//
-//
-//        mStreetNumber.setText(String.valueOf(mProperty.getStreetNumber()));
-//        mStreetName.setText(String.valueOf(mProperty.getStreetName()));
-//        mCity.setText(mProperty.getCity());
-//        //  mState.setText(mProperty.getState());
-//        mState.setText(mProperty.getState().get(0));
-//        mPostCode.setText(String.valueOf(mProperty.getPostCode()));
-//        mBedrooms.setText(String.valueOf(mProperty.getBedrooms().get(0)));
-//        mBathrooms.setText(String.valueOf(mProperty.getBathrooms().get(0)));
-//        mCars.setText(String.valueOf(mProperty.getCars().get(0)));
-//        if (mProperty.getInspection_date()!=null)
-//            propertyInspectionDate.setText(mProperty.getInspection_date());
-//        //  mPrice.setText(mProperty.getPrice());
-//        PROPERTY_ID=mProperty.getId();
-//        //  mPrice.setText(mProperty.getPrice());
-//
-//        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
-//        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
-//        mapper = new DynamoDBMapper(ddbClient);
-//
-//        //Opens up Inspection Notes page/ inspection criteria
-//        Button button_inspectionNotes = (Button)mView.findViewById(R.id.button_goToInspectionNotes);
-//        button_inspectionNotes.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Create new fragment and transaction
-//                Fragment newFragment = new Fragment_Criteria();
-//                // consider using Java coding conventions (upper first char class names!!!)
-//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//
-//                // Replace whatever is in the fragment_container view with this fragment,
-//                // and add the transaction to the back stack
-//                transaction.replace(R.id.content_main, newFragment);
-//                transaction.addToBackStack(null);
-//
-//                // Commit the transaction
-//                transaction.commit();
-//
-//            }
-//        });
-
 
 
 
@@ -234,15 +129,7 @@ private View mView;
 
         }
     }
-//    public int getItemPos() {
-//       return mPager.getCurrentItem();
-//    }
-//
 
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -262,15 +149,45 @@ private View mView;
                     return null;
             }
         }
-      //  android:background="#f1f1f1"
         @Override
         public int getCount() {
             return NUM_PAGES;
         }
 
-
     }
 
+
+    void loadNotes(){
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                scanExpression.addFilterCondition("PropertyID", new Condition()
+                        .withComparisonOperator(ComparisonOperator.EQ)
+                        .withAttributeValueList(new AttributeValue().withS(Fragment_Note_List.PROPERTY_ID)));
+                scanExpression.addFilterCondition("CommentType",
+                        new Condition()
+                                .withComparisonOperator(ComparisonOperator.EQ)
+                                .withAttributeValueList(new AttributeValue().withS("private")));
+                mNoteList = mapper.scan(Note.class, scanExpression);
+//                if (mNoteList.size() >= 0) {
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                          //  mCommentsAdapter = new Adapter_Note(mListener);
+//                            mCommentsAdapter.setNoteList(mNoteList);
+//                            mRecyclerView.setAdapter(mCommentsAdapter);
+//                        }
+//                    });
+//                }
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+    }
 
 //    private void saveComment(boolean isPublic) {
 //        String description = editText_comment.getText().toString();

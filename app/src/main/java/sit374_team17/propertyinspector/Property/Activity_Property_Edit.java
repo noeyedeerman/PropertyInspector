@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
@@ -42,6 +43,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         setContentView(R.layout.activity_property_edit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //  final FragmentManager fm = getSupportFragmentManager();
         fm = getSupportFragmentManager();
         mProperty = new Property();
@@ -53,24 +55,15 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         button_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // mListener.onContinue1();
-
                 switch (fm.getBackStackEntryCount()) {
                     case 0:
-
-
                         goTo_PropertyEditFragment2();
                         break;
                     case 1:
-
                         goTo_PropertyEditFragment3();
-
                         break;
 
                 }
-
-                //  fm.getBackStackEntryCount()
-                // goTo_CreatePropertyFragment2();
             }
         });
         button_save.setOnClickListener(new View.OnClickListener() {
