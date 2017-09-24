@@ -38,7 +38,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.Calendar;
 
-import sit374_team17.propertyinspector.Activity_Login;
+import sit374_team17.propertyinspector.User.Activity_Login;
 import sit374_team17.propertyinspector.Activity_Settings;
 import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
 import sit374_team17.propertyinspector.Property.Activity_Property_Edit;

@@ -32,11 +32,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activity_Create"
+            android:name=".User.Activity_User_Edit"
             android:label="@string/title_activity_create_activtiy"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activity_Login"
+            android:name=".User.Activity_Login"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- <activity -->

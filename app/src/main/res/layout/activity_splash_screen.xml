@@ -1,56 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="sit374_team17.propertyinspector.Activity_SplashScreen">
 
-
-    <!--<ImageView android:id="@+id/backgroundSplash"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-   <!---->
-     <!---->
-        <!--android:src="@drawable/splash"-->
-<!--/>-->
-
-    <TextView android:id="@+id/textView_splashText"
+    <TextView
+        android:id="@+id/textView_splashText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:textSize="25sp"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-       android:textColor="@color/colorAccent"
+        android:layout_centerVertical="true"
         android:gravity="center_horizontal"
-android:shadowColor="@color/colorLightGrey"
-android:shadowRadius="2"
+        android:shadowColor="@color/colorLightGrey"
         android:shadowDx="3"
         android:shadowDy="3"
-        android:text="@string/splash_text" />
-
-    <!--<ImageView android:id="@+id/line"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="4dp"-->
-        <!--android:src="@drawable/splash_line"-->
-       <!--android:layout_marginTop="10dp"-->
-
-        <!--android:layout_below="@id/textView_splashText"-->
-        <!--/>-->
-
-    <Button android:id="@+id/button_goToLoginActivity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/splash_button"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="25dp"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@android:color/white"
-        android:layout_alignParentBottom="true"
- />
+        android:shadowRadius="2"
+        android:text="@string/splash_text"
+        android:textColor="@color/colorAccent"
+        android:textSize="25sp" />
 
 </RelativeLayout>

@@ -24,6 +24,7 @@
     <string name="or">Or</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="retype">Retype Password</string>
     <string name="createAccount">Create an Account</string>
     <string name="facebook_app_id">838648392959547</string>
     <string name="fb_login_protocol_scheme">fb838648392959547</string>
@@ -32,7 +33,7 @@
     //Create Account
     <string name="first_name">First Name : </string>
     <string name="last_name">Surname : </string>
-    <string name="email">Email : </string>
+    <string name="email">Email</string>
     <string name="create_password">Password : </string>
     <string name="landline">Landline : </string>
     <string name="mobile">Mobile : </string>
@@ -296,6 +297,10 @@
     <string name="no">No</string>
     <string name="select">Select</string>
     <string name="finish">Finish</string>
+    <string name="firstName">First Name</string>
+    <string name="surname">Surname</string>
+    <string name="phone">Phone</string>
+    <string name="name">Name</string>
 
 
 </resources>

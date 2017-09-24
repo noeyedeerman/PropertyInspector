@@ -1,4 +1,4 @@
-package sit374_team17.propertyinspector;
+package sit374_team17.propertyinspector.User;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +30,7 @@ import com.amazonaws.services.cognitoidentityprovider.model.UserNotConfirmedExce
 import java.util.Map;
 
 import sit374_team17.propertyinspector.Main.MainActivity;
+import sit374_team17.propertyinspector.R;
 
 public class Activity_Login extends AppCompatActivity implements AuthenticationHandler {
 
@@ -39,6 +40,7 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
     public static String LOG_TAG="PropertyInspector";
     private String idToken="";
     private EditText edt_email,edt_password;
+    private User mUser;
     /**
      * Cognito Your Identity Pool ID
      */
@@ -53,6 +55,8 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
      * generated for the {@code clientId}.
      */
     public final static String clientSecret="1vtjn8qulev7dg5c51jb0kq31jo27h208uqa9grj1agmr8uvckd7";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,17 +83,24 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
             }
 
         });
-        //Instance of the "Create Account" labeled TextView created and on click method opens the Activity_Create activity
+
+
+        //Instance of the "Create user" labeled TextView created and on click method opens the Activity_User_Edit activity
         TextView text_goToCreateActivity = (TextView) findViewById(R.id.text_goToCreateActivity);
         text_goToCreateActivity.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Activity_Login.this, Activity_Create.class);
+                Intent intent = new Intent(Activity_Login.this, Activity_User_Edit.class);
                 startActivity(intent);
             }
 
         });
+
+
+    }
+
+    private void saveUser() {
     }
 
     // Implement callback handler for getting details
@@ -160,7 +171,7 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
     @Override
     public void onFailure(Exception e) {
         if (e instanceof UserNotConfirmedException)
-            Toast.makeText(getApplicationContext(),"User is not confirmed.Please confirm your account to proceed.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"User is not confirmed.Please confirm your user to proceed.",Toast.LENGTH_LONG).show();
         else if (e instanceof NotAuthorizedException)
             Toast.makeText(getApplicationContext(),"Either username or password is wrong ",Toast.LENGTH_LONG).show();
 
@@ -169,6 +180,7 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
     {
         return editText.getText().toString().equals("");
     }
+
 
 
 }

@@ -55,12 +55,12 @@ public class Fragment_Walkthrough_7_Moval extends Fragment {
 
         CardView cardView_no = (CardView) mView.findViewById(R.id.cardView_no);
 
-//        cardView_no.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mListener.goTo_5_gas();
-//            }
-//        });
+        cardView_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.goTo_8_finish();
+            }
+        });
 
         ArrayList<Moval> mList = new ArrayList<>();
 

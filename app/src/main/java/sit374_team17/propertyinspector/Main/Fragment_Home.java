@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sit374_team17.propertyinspector.Activity_Login;
+import sit374_team17.propertyinspector.User.Activity_Login;
 import sit374_team17.propertyinspector.Property.Adapter_Properties;
 import sit374_team17.propertyinspector.Property.Photo;
 import sit374_team17.propertyinspector.Property.Property;
