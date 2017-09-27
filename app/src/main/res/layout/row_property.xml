@@ -47,9 +47,7 @@
                 android:text=","
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/textView_state"
-                android:layout_marginLeft="0dp"
-                card_view:layout_constraintTop_toTopOf="@+id/textView_state"
-                android:layout_marginTop="0dp" />
+                card_view:layout_constraintTop_toTopOf="@+id/textView_state" />
 
             <TextView
                 android:id="@+id/textView_city"
@@ -62,7 +60,7 @@
                 card_view:layout_constraintLeft_toRightOf="@+id/textView19"
                 android:layout_marginLeft="8dp"
                 card_view:layout_constraintTop_toTopOf="@+id/textView19"
-                android:layout_marginTop="0dp" />
+                android:layout_marginStart="8dp" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -73,9 +71,7 @@
                 android:text=","
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/textView_city"
-                android:layout_marginLeft="0dp"
-                card_view:layout_constraintTop_toTopOf="@+id/textView_city"
-                android:layout_marginTop="0dp" />
+                card_view:layout_constraintTop_toTopOf="@+id/textView_city" />
 
             <TextView
                 android:id="@+id/textView_state"
@@ -89,8 +85,7 @@
                 android:text="@string/state"
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/textView13"
-                card_view:layout_constraintTop_toTopOf="@+id/textView13"
-                android:layout_marginTop="0dp" />
+                card_view:layout_constraintTop_toTopOf="@+id/textView13" />
 
             <TextView
                 android:id="@+id/textView19"
@@ -102,9 +97,7 @@
 
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/textView_address"
-                android:layout_marginLeft="0dp"
-                card_view:layout_constraintTop_toTopOf="@+id/textView_address"
-                android:layout_marginTop="0dp" />
+                card_view:layout_constraintTop_toTopOf="@+id/textView_address" />
 
             <TextView
                 android:id="@+id/textView_postCode"
@@ -117,8 +110,7 @@
                 android:text="@string/post"
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/textView2"
-                card_view:layout_constraintTop_toTopOf="@+id/textView2"
-                android:layout_marginTop="0dp" />
+                card_view:layout_constraintTop_toTopOf="@+id/textView2" />
 
 
             <ImageView
@@ -192,14 +184,12 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
 
-                android:layout_marginTop="0dp"
                 android:gravity="center"
                 android:text="1"
                 android:textSize="@dimen/text_card"
                 card_view:layout_constraintLeft_toRightOf="@+id/imageView5"
                 card_view:layout_constraintTop_toTopOf="@+id/imageView5"
-                card_view:layout_constraintBottom_toBottomOf="@+id/imageView5"
-                android:layout_marginBottom="0dp" />
+                card_view:layout_constraintBottom_toBottomOf="@+id/imageView5" />
 
 
         </android.support.constraint.ConstraintLayout>
@@ -241,14 +231,11 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginRight="0dp"
     card_view:layout_constraintRight_toRightOf="@+id/imageView_property"
-    android:layout_marginLeft="0dp"
     android:background="@color/colorTransparentBlack"
 
     card_view:layout_constraintLeft_toLeftOf="@+id/imageView_property"
-    card_view:layout_constraintBottom_toBottomOf="@+id/imageView_property"
-    android:layout_marginBottom="0dp">
+    card_view:layout_constraintBottom_toBottomOf="@+id/imageView_property">
 
 
                 <TextView
@@ -266,24 +253,66 @@
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintLeft_toLeftOf="parent" />
 
-                <RatingBar
-                    android:id="@+id/ratingBar_property"
-                    style="@android:style/Widget.DeviceDefault.Light.RatingBar.Indicator"
+
+    <ImageView
+        android:id="@+id/image_Thumbsup"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="80dp"
+        android:layout_weight="0.05"
+        android:tint="@color/colorAccent"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintLeft_toRightOf="@+id/textView_Like"
+        card_view:layout_constraintRight_toRightOf="parent"
+        card_view:srcCompat="@mipmap/ic_like2"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="80dp"
+        card_view:layout_constraintHorizontal_bias="0.545" />
+
+    <TextView
+        android:id="@+id/textView_Like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="130dp"
+        android:layout_weight="0.06"
+        android:text="0"
+        android:textColor="@android:color/white"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintRight_toRightOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent"
+        card_view:layout_constraintVertical_bias="0.5"
+        android:layout_marginEnd="130dp" />
+
+                <ImageView
+                    android:id="@+id/imageThumbsDown"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:numStars="5"
-                    android:rating="2"
-                    android:scaleX="-1"
-                    android:stepSize="0.5"
-                    android:theme="@style/RatingBar"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.05"
+                    android:rotation="180"
+                    android:tint="@color/colorAccent"
+                    card_view:srcCompat="@mipmap/ic_like2"
+                    card_view:layout_constraintTop_toTopOf="@+id/image_Thumbsup"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/image_Thumbsup"
+                    card_view:layout_constraintVertical_bias="0.0"
+                    android:layout_marginRight="15dp"
                     card_view:layout_constraintRight_toRightOf="parent"
-                    card_view:layout_constraintTop_toTopOf="@+id/textView_price"
-                    card_view:layout_constraintVertical_bias="0.0" />
+                    android:layout_marginEnd="15dp" />
+
+    <TextView
+        android:id="@+id/textView_Dislike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="60dp"
+        android:layout_weight="1"
+        android:text="0"
+        android:textColor="@android:color/white"
+        card_view:layout_constraintBottom_toBottomOf="@+id/textView_Like"
+        card_view:layout_constraintRight_toRightOf="parent"
+        card_view:layout_constraintTop_toTopOf="@+id/textView_Like"
+        android:layout_marginEnd="60dp"
+        card_view:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
                 <TextView
