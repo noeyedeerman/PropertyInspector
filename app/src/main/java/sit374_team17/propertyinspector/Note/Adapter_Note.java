@@ -1,6 +1,7 @@
 package sit374_team17.propertyinspector.Note;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.StackView;
 import android.widget.TextView;
+
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +26,17 @@ import sit374_team17.propertyinspector.R;
 public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Note> mNotesList;
     private Adapter_Note_Stack mNoteStack;
-
+    private String MY_BUCKET="https://s3-ap-southeast-2.amazonaws.com/propertyinspector-userfiles-mobilehub-4404653/";
+    AmazonS3 s3Client;
     private Listener mListener;
     Context mContext;
 
-    Adapter_Note(Listener listener) {
+    Adapter_Note(Context context,Listener listener,CognitoCachingCredentialsProvider credentialsProvider) {
         mNotesList = new ArrayList<>();
         mNoteStack = new Adapter_Note_Stack((Context) listener, mNotesList);
         mListener = listener ;
+        mContext = context ;
+        s3Client = new AmazonS3Client(credentialsProvider);
         // mContext = context;
     }
 
@@ -89,7 +100,7 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public int getItemViewType(int position) {
         // Just as an example, return 0 or 2 depending on position
         // Note that unlike in ListView adapters, types don't have to be contiguous
-        if ("private".equals(mNotesList.get(position).getCommentType())) {
+        if ("text".equals(mNotesList.get(position).getCommentType())) {
             return 0;
         } else {
             return 1;
@@ -160,6 +171,15 @@ public class Adapter_Note extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         mListener.goTo_NoteEditActivity(note, "don't");
                     }
                 });
+                Glide.with(mContext)
+                        .load(MY_BUCKET.concat(mNotesList.get(position).getPhoto()))
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>(200,200) {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                viewHolder_photo.mImage.setImageBitmap(resource); // Possibly runOnUiThread()
+                            }
+                        });
                 //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
                 //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
                 break;

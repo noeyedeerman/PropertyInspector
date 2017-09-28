@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 import sit374_team17.propertyinspector.Main.MainActivity;
 import sit374_team17.propertyinspector.R;
+import sit374_team17.propertyinspector.SavedPreference;
 
 public class Activity_Login extends AppCompatActivity implements AuthenticationHandler {
 
@@ -40,7 +42,9 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
     public static String LOG_TAG="PropertyInspector";
     private String idToken="";
     private EditText edt_email,edt_password;
-    private User mUser;
+    private CheckBox remember;
+    private SavedPreference savedPreference;
+    public static String mUser;
     /**
      * Cognito Your Identity Pool ID
      */
@@ -64,6 +68,8 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
         setContentView(R.layout.activity_login);
         edt_email=(EditText) findViewById(R.id.editText_username);
         edt_password=(EditText) findViewById(R.id.editText_password);
+        remember=(CheckBox) findViewById(R.id.checkBox);
+        savedPreference = new SavedPreference(this);
         Button button_goToLoginActivity = (Button) findViewById(R.id.button_goToMainActivity);
         button_goToLoginActivity.setOnClickListener(new View.OnClickListener() {
 
@@ -83,8 +89,6 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
             }
 
         });
-
-
         //Instance of the "Create user" labeled TextView created and on click method opens the Activity_User_Edit activity
         TextView text_goToCreateActivity = (TextView) findViewById(R.id.text_goToCreateActivity);
         text_goToCreateActivity.setOnClickListener(new View.OnClickListener() {
@@ -97,10 +101,21 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
 
         });
 
+        //Automatic Login
+        if (getIntent().getStringExtra("username")!=null)
+        {
+            edt_email.setText(getIntent().getStringExtra("username"));
+            edt_password.setText(getIntent().getStringExtra("password"));
+            edt_email.setEnabled(false);
+            edt_password.setEnabled(false);
+            ClientConfiguration clientConfiguration = new ClientConfiguration();
+            // Create a CognitoUserPool object to refer to your user pool
+            userPool = new CognitoUserPool(Activity_Login.this, userPoolId, clientId, clientSecret, clientConfiguration, Regions.AP_SOUTHEAST_2);
+            // Create a CognitoUserPool object to refer to your user pool
+            cognitoUser = userPool.getUser();
+            cognitoUser.getSessionInBackground(Activity_Login.this);
+        }
 
-    }
-
-    private void saveUser() {
     }
 
     // Implement callback handler for getting details
@@ -112,10 +127,16 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
             Log.d(LOG_TAG,"Phone Number"+mDetails.get("phone_number"));
             Log.d(LOG_TAG,"Email "+mDetails.get("email"));
             Log.d(LOG_TAG,"Family Name"+mDetails.get("family_name"));
+            mUser=edt_email.getText().toString();
+            //For remember me
+            if (remember.isChecked())
+            savedPreference.updateCredentials(edt_email.getText().toString(), edt_password.getText().toString());
+            //Redirect to main activity
             Intent intent = new Intent(Activity_Login.this, MainActivity.class);
             intent.putExtra("tokens",idToken);
             intent.putExtra("password",edt_password.getText().toString());
             startActivity(intent);
+            finish();
         }
 
         @Override
@@ -138,8 +159,8 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
     public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String s) {
         Log.d(LOG_TAG,"Authentication is required and submitted successfully");
         Toast.makeText(getApplicationContext(),"Checking credentials please wait..  ",Toast.LENGTH_LONG).show();
-      //  AuthenticationDetails authenticationDetails = new AuthenticationDetails(edt_email.getText().toString(), edt_password.getText().toString(), null);
-        AuthenticationDetails authenticationDetails = new AuthenticationDetails("John", "JohnSmith12", null);
+         AuthenticationDetails authenticationDetails = new AuthenticationDetails(edt_email.getText().toString(), edt_password.getText().toString(), null);
+      //  AuthenticationDetails authenticationDetails = new AuthenticationDetails("John", "JohnSmith12", null);
         // Pass the user sign-in credentials to the continuation
         authenticationContinuation.setAuthenticationDetails(authenticationDetails);
         // Allow the sign-in to continue

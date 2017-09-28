@@ -1,14 +1,17 @@
 package sit374_team17.propertyinspector.Property;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -31,11 +34,10 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
     private String MY_BUCKET = "propertyinspector-userfiles-mobilehub-4404653";
     private String OBJECT_KEY = "uploads/propertyinspector_image" + SystemClock.currentThreadTimeMillis();
     private File MY_FILE;
-
-
     private Property mProperty;
     private FragmentManager fm;
     private Button button_save, button_continue;
+    public static String propertyId="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        propertyId="";
         //  final FragmentManager fm = getSupportFragmentManager();
         fm = getSupportFragmentManager();
         mProperty = new Property();
@@ -95,32 +98,64 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         mapper = new DynamoDBMapper(ddbClient);
     }
 
+
     private void saveProperty() {
 
-        Runnable runnable = new Runnable() {
-            public void run() {
-                //DynamoDB calls go here
-                try {
-                    // mapper.save(mProperty);
-                    //  mPhotos.setPropertyId((mProperty.getId()));
-                    //  if (MY_FILE != null)
-                    //   mapper.save(mPhotos);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                finish();
-
+        Log.e("Property Inspector","Property Saved"+mProperty.getCategory()+mProperty.getAddress());
+        if (propertyId.equals("")) {
+            if (mProperty.getCity().equals("") || mProperty.getState().isEmpty() || mProperty.getPostCode() == 0)
+                Toast.makeText(getApplicationContext(), "Enter proper address", Toast.LENGTH_LONG).show();
+            else if (mProperty.getPrice().get(0) == 0)
+                Toast.makeText(getApplicationContext(), "Enter proper price", Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(getApplicationContext(), "Saving property please wait", Toast.LENGTH_LONG).show();
+                Runnable runnable = new Runnable() {
+                    public void run() {
+                        //DynamoDB calls go here
+                        try {
+                            mapper.save(mProperty);
+                            propertyId = mProperty.getId();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showAlert();
+                                }
+                            });
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Failed to create property", Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Thread myThread = new Thread(runnable);
+                myThread.start();
             }
-        };
-        Thread mythread = new Thread(runnable);
-        mythread.start();
-        //  mListener.onSaveProperty();
+        }
     }
 
+    public void showAlert()
+    {
+        AlertDialog.Builder alertDialog=new AlertDialog.Builder(this);
+        alertDialog.setTitle("Message");
+        alertDialog.setMessage("Property created successfully. Do you want to create notes ?");
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+            }
+        });
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alertDialog.show();
+    }
 
     // Passes "CreateGroupFragment" fragment to the "replaceFragment" method.
     public void goTo_PropertyEditFragment1() {
-        Fragment_Property_Edit_1 fragment = new Fragment_Property_Edit_1();
+        Fragment_Property_Edit_1 fragment = Fragment_Property_Edit_1.newInstance(mProperty);
         replaceFragment(fragment, "Fragment_Property_Edit_1");
     }
 
@@ -128,8 +163,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
     public void goTo_PropertyEditFragment2() {
         Fragment_Property_Edit_1 fragment_property_edit_1 = (Fragment_Property_Edit_1) fm.findFragmentById(R.id.content_property_edit);
         fragment_property_edit_1.getDetails_1();
-
-        Fragment_Property_Edit_2 fragment = new Fragment_Property_Edit_2();
+        Fragment_Property_Edit_2 fragment = Fragment_Property_Edit_2.newInstance(mProperty);
         replaceFragment(fragment, "Fragment_Property_Edit_2");
     }
 
@@ -273,6 +307,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         mProperty.setBedrooms(property.getBedrooms());
         mProperty.setBathrooms(property.getBathrooms());
         mProperty.setCars(property.getCars());
+        mProperty.setCategory(property.getCategory());
     }
 
     @Override
@@ -283,5 +318,6 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         mProperty.setState(property.getState());
         mProperty.setPostCode(property.getPostCode());
         mProperty.setUnitNumber(property.getUnitNumber());
+        mProperty.setAddress(property.getAddress());
     }
 }

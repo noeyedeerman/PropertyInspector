@@ -29,6 +29,7 @@ import java.util.List;
 
 import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
+import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.R;
 
 public class Fragment_Property_Edit_3 extends Fragment {
@@ -96,14 +97,18 @@ public class Fragment_Property_Edit_3 extends Fragment {
         button_textNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               if (!Activity_Property_Edit.propertyId.equals(""))
                 goTo_NoteEditActivity("don't");
+               else Toast.makeText(getActivity(),"Save the property first",Toast.LENGTH_SHORT).show();
             }
         });
 
         button_PhotoNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!Activity_Property_Edit.propertyId.equals(""))
                 goTo_NoteEditActivity("do");
+                else Toast.makeText(getActivity(),"Save the property first",Toast.LENGTH_SHORT).show();
             }
         });
 //        final RadioButton radioButton_sale = (RadioButton) mView.findViewById(R.id.radioButton_sale);
@@ -142,6 +147,7 @@ public class Fragment_Property_Edit_3 extends Fragment {
         mTextView_city.setText(mProperty.getCity());
         mTextView_state.setText(String.valueOf(mProperty.getState()));
         mTextView_postCode.setText(String.valueOf(mProperty.getPostCode()));
+
 
       //  mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
       //  file_path = (TextView) mView.findViewById(R.id.file_path);
@@ -248,8 +254,15 @@ public class Fragment_Property_Edit_3 extends Fragment {
         return mView;
     }
 
+    Note mNotes;
     public void goTo_NoteEditActivity(String openCamera) {
+        mNotes=new Note();
         Intent intent = new Intent(getContext(), Activity_Note_Edit.class);
+        if (openCamera.equals("do"))
+            mNotes.setCommentType("photo");
+        else
+            mNotes.setCommentType("text");
+        intent.putExtra("note",mNotes);
         intent.putExtra("property", mProperty);
         intent.putExtra("methodName", openCamera);
         startActivity(intent);

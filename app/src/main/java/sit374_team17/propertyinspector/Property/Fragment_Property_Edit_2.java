@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -91,11 +92,12 @@ public class Fragment_Property_Edit_2 extends Fragment {
             if (state.isEmpty()) state.add("None");
             if (postCode <= 0) postCode = 0;
 
-        mProperty.setAddress(address);
+            mProperty.setAddress(address);
             mProperty.setCity(city);
             mProperty.setState(state);
             mProperty.setPostCode(postCode);
             mProperty.setUnitNumber(0);
+
 
 
         mListener.setDetails_2(mProperty);

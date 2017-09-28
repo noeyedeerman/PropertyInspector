@@ -124,7 +124,7 @@ public class Activity_User_Edit extends AppCompatActivity implements Listener_Us
 
         userPool.signUpInBackground(mUser.getEmail(), mUser.getPassword(), userAttributes, null, Activity_User_Edit.this);
 
-finish();
+       // finish();
       //  Intent intent = new Intent(Activity_User_Edit.this, MainActivity.class);
       //  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
        // startActivity(intent);
@@ -184,7 +184,11 @@ finish();
 
     @Override
     public void onFailure(Exception e) {
-        Log.e(LOG_TAG, e.getMessage());
+       Log.e(LOG_TAG,e.getMessage());
+        if (e.getMessage().contains("User already exists"))
+            Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_SHORT).show();
+        if (e.getMessage().contains("Value at 'username' failed to satisfy constraint"))
+            Toast.makeText(getApplicationContext(), "Username is invalid", Toast.LENGTH_SHORT).show();
     }
 
     // Passes "CreateGroupFragment" fragment to the "replaceFragment" method.
@@ -196,20 +200,22 @@ finish();
     // Passes "CreateGroupFragment" fragment to the "replaceFragment" method.
     public void goTo_UserEditFragment2() {
         Fragment_User_Edit_1 fragment_user_edit_1 = (Fragment_User_Edit_1) fm.findFragmentById(R.id.content_user_edit);
-        fragment_user_edit_1.getDetails_1();
-
-        Fragment_User_Edit_2 fragment = new Fragment_User_Edit_2();
-        replaceFragment(fragment, "Fragment_User_Edit_2");
+        if (fragment_user_edit_1.getDetails_1())
+        {
+            Fragment_User_Edit_2 fragment = Fragment_User_Edit_2.newInstance(mUser);
+            replaceFragment(fragment, "Fragment_User_Edit_2");
+        }
     }
 
     // Passes "CreateGroupFragment" fragment to the "replaceFragment" method.
     public void goTo_UserEditFragment3() {
         Fragment_User_Edit_2 fragment_user_edit_2 = (Fragment_User_Edit_2) fm.findFragmentById(R.id.content_user_edit);
-        fragment_user_edit_2.getDetails_2();
-        Fragment_User_Edit_3 fragment = Fragment_User_Edit_3.newInstance(mUser);
-        replaceFragment(fragment, "Fragment_User_Edit_3");
-        button_continue.setVisibility(View.GONE);
-        button_save.setVisibility(View.VISIBLE);
+       if(fragment_user_edit_2.getDetails_2()) {
+           Fragment_User_Edit_3 fragment = Fragment_User_Edit_3.newInstance(mUser);
+           replaceFragment(fragment, "Fragment_User_Edit_3");
+           button_continue.setVisibility(View.GONE);
+           button_save.setVisibility(View.VISIBLE);
+       }
     }
 //
 //    // Passes "AddPersonFragment" fragment to the "replaceFragment" method.

@@ -11,7 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,6 +57,7 @@ public class Fragment_Property_Edit_1 extends Fragment {
     int pickerMin = 0;
     int pickerMax = 100;
     int SELECT_IMAGE = 103;
+    String PropertyCategory="Sale";
 Listener_Property_Edit mListener;
     //private Listener mListener;
 //private CreatePropertyListener mListener;
@@ -92,13 +95,9 @@ Listener_Property_Edit mListener;
         mProperty.setBedrooms(bedrooms);
         mProperty.setBathrooms(bathrooms);
         mProperty.setCars(garages);
-
-      //  mProperty.setUnitNumber(0);
-
-
-  mListener.setDetails_1(mProperty);
-
-
+        RadioButton radioButton= (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+        mProperty.setCategory(radioButton.getText().toString());
+        mListener.setDetails_1(mProperty);
     }
 
 
@@ -137,6 +136,7 @@ Listener_Property_Edit mListener;
         }
     }
     private ProgressDialog progress;
+    private RadioGroup radioGroup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -164,8 +164,8 @@ Listener_Property_Edit mListener;
 
         RadioButton radioButton_lease = (RadioButton) mView.findViewById(R.id.radioButton_lease);
 
-        RadioGroup radioGroup = (RadioGroup) mView.findViewById(R.id.radioGroup_category);
-radioButton_sale.setChecked(true);
+        radioGroup = (RadioGroup) mView.findViewById(R.id.radioGroup_category);
+        radioButton_sale.setChecked(true);
 
 //        Button button_continue = (Button) mView.findViewById(R.id.button_continue);
 //button_continue.setOnClickListener(new View.OnClickListener() {

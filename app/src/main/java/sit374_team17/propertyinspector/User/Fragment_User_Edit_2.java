@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -53,15 +55,28 @@ public class Fragment_User_Edit_2 extends Fragment {
     public Fragment_User_Edit_2() {
     }
 
-    public void getDetails_2() {
+    public boolean getDetails_2() {
         String firstName = mEditText_firstName.getText().toString();
 
         String lastName = mEditText_lastName.getText().toString();
         String phone = mEditText_phone.getText().toString();
 
-        if (firstName.isEmpty() || firstName == "") firstName = "None";
-        if (lastName.isEmpty() || lastName == "") lastName = "None";
-        if (phone.isEmpty() || phone == "") phone = "None";
+        if (firstName.isEmpty() || firstName == "") {
+            Toast.makeText(getActivity(),"First Name cannot be empty",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (lastName.isEmpty() || lastName == "") {
+            Toast.makeText(getActivity(),"Last Name cannot be empty",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (phone.isEmpty() || phone == "") {
+            Toast.makeText(getActivity(),"Phone number cannot be empty",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (phone.length()<11|| !phone.contains("+61")) {
+            Toast.makeText(getActivity(),"Invalid phone number or add country code",Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         mUser = new User();
         mUser.setFirstName(firstName);
@@ -69,6 +84,8 @@ public class Fragment_User_Edit_2 extends Fragment {
         mUser.setPhone(phone);
 
         mListener.setDetails_2(mUser);
+
+        return true;
     }
 
 
@@ -118,6 +135,12 @@ public class Fragment_User_Edit_2 extends Fragment {
         mEditText_firstName = (EditText) mView.findViewById(R.id.editText_firstName);
         mEditText_lastName = (EditText) mView.findViewById(R.id.editText_lastName);
         mEditText_phone = (EditText) mView.findViewById(R.id.editText_phone);
+
+        try{
+            mEditText_firstName.setText(mUser.getFirstName());
+            mEditText_lastName.setText(mUser.getLastName());
+            mEditText_phone.setText(mUser.getPhone());
+        }catch(NullPointerException e){Log.e("","");};
 
         return mView;
     }

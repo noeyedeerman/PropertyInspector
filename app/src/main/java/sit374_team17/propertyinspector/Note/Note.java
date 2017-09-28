@@ -16,16 +16,18 @@ public class Note implements Parcelable {
     private String Description;
     private String PropertyID;
     private String photo;
+    private String user;
 
     public Note(){}
 
-    public Note(String CommentID, String CommentType, String CommentTitle, String Description, String PropertyID, String photo){
+    public Note(String CommentID, String CommentType, String CommentTitle, String Description, String PropertyID, String photo, String user){
         this.CommentID = CommentID;
         this.CommentType = CommentType;
         this.CommentTitle = CommentTitle;
         this.Description = Description;
         this.PropertyID = PropertyID;
         this.photo = photo;
+        this.user = user;
     }
 
 
@@ -37,11 +39,10 @@ public class Note implements Parcelable {
         CommentType = commentType;
     }
 
-    @DynamoDBAttribute(attributeName = "CommentTitle")
+    @DynamoDBAttribute(attributeName = "Title")
     public String getCommentTitle() {
         return CommentTitle;
     }
-
     public void setCommentTitle(String commentTitle) {
         CommentTitle = commentTitle;
     }
@@ -50,7 +51,6 @@ public class Note implements Parcelable {
     public String getDescription() {
         return Description;
     }
-
     public void setDescription(String description) {
         Description = description;
     }
@@ -60,7 +60,6 @@ public class Note implements Parcelable {
     public String getCommentID() {
         return CommentID;
     }
-
     public void setCommentID(String commentID) {
         CommentID = commentID;
     }
@@ -69,17 +68,23 @@ public class Note implements Parcelable {
     public String getPropertyId() {
         return PropertyID;
     }
-
     public void setPropertyId(String propertyId) {
         PropertyID = propertyId;
     }
 
     public void setPhoto(String photo) {this.photo = photo;}
-    @DynamoDBAttribute(attributeName = "Title")
+    @DynamoDBAttribute(attributeName = "PhotoID")
     public String getPhoto() {
         return photo;
     }
 
+    @DynamoDBAttribute(attributeName = "Username")
+    public String getUser() {
+        return user;
+    }
+    public void setUser(String user) {
+        this.user = user;
+    }
 
     protected Note(Parcel in) {
         CommentID = in.readString();
@@ -88,6 +93,7 @@ public class Note implements Parcelable {
         Description = in.readString();
         PropertyID = in.readString();
         photo = in.readString();
+        user = in.readString();
     }
 
     @Override
@@ -98,6 +104,7 @@ public class Note implements Parcelable {
         dest.writeString(Description);
         dest.writeString(PropertyID);
         dest.writeString(photo);
+        dest.writeString(user);
     }
 
     @Override

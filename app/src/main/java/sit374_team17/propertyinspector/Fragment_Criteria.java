@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBSaveExpression;
@@ -65,6 +66,7 @@ public class Fragment_Criteria extends Fragment implements Inspection.Actions {
     @Override
     public void onDetach() {
         super.onDetach();
+        updateInspections();
         mListener = null;
     }
 
@@ -132,13 +134,16 @@ public class Fragment_Criteria extends Fragment implements Inspection.Actions {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_criteria, container, false);
-
         expandableListView = (ExpandableListView) mView.findViewById(R.id.expandableListView);
-
         //java.util.Collections.sort(expandableListTitle);
+        checkInspection();
+        return mView;
 
 
+    }
 
+    void checkInspection()
+    {
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
         ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
         mapper = new DynamoDBMapper(ddbClient);
@@ -148,8 +153,9 @@ public class Fragment_Criteria extends Fragment implements Inspection.Actions {
                 DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
                 scanExpression.addFilterCondition("PropertyID", new Condition()
                         .withComparisonOperator(ComparisonOperator.EQ).withAttributeValueList(new AttributeValue().withS(Fragment_Note_List.PROPERTY_ID)));
-                        inspectionList = mapper.scan(Inspection.class, scanExpression);
-                if (inspectionList.size() >= 0) {
+                inspectionList = mapper.scan(Inspection.class, scanExpression);
+
+                if (inspectionList.size()>0) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -159,14 +165,13 @@ public class Fragment_Criteria extends Fragment implements Inspection.Actions {
                             expandableListView.setAdapter(expandableListAdapter);
                         }
                     });
+                }else{
+                    addInspection();
                 }
             }
         };
         Thread mythread = new Thread(runnable);
         mythread.start();
-        return mView;
-
-
     }
 
 
@@ -184,6 +189,51 @@ public class Fragment_Criteria extends Fragment implements Inspection.Actions {
         updateInspections();
 
     }
+
+    Inspection inspection;
+    List<String> values=new ArrayList<>();
+    void addInspection()
+    {
+        inspection=new Inspection();
+        values.add("Damages");
+        values.add("Risks");
+        values.add("Likes");
+        values.add("Dislikes");
+        inspection.setAttic_Basement(values);
+        inspection.setBackyard(values);
+        inspection.setBathroom(values);
+        inspection.setExterior(values);
+        inspection.setGrounds(values);
+        inspection.setHeating_Cooling(values);
+        inspection.setInterior(values);
+        inspection.setKitchen(values);
+        inspection.setMiscellaneous(values);
+        inspection.setPlumbing_Electrical(values);
+        inspection.setRoof(values);
+        inspection.setPropertyId(Fragment_Note_List.PROPERTY_ID);
+        inspection.setStructure(values);
+        inspection.setWindows_Doors_Trim(values);
+
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                try {
+                    mapper.save(inspection);
+                    checkInspection();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Thread myThread = new Thread(runnable);
+        myThread.start();
+    }
+
+
+
 
     void updateInspections()
     {
@@ -206,21 +256,18 @@ public class Fragment_Criteria extends Fragment implements Inspection.Actions {
                 try {
                     AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
                     ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
-                    DynamoDBSaveExpression scanExpression = new DynamoDBSaveExpression();
+                    inspections_result.setPropertyId(Fragment_Note_List.PROPERTY_ID);
                     mapper = new DynamoDBMapper(ddbClient);
-
-                    mapper.save(scanExpression);
-                    expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListTitle, expandableListDetail,Fragment_Criteria.this,customInspection);
-                    expandableListView.setAdapter(expandableListAdapter);
-                }catch (Exception e){
-                    e.printStackTrace();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                          //  Toast.makeText(getActivity(),"Something went wrong",Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+                    mapper.save(inspections_result);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                              //  Toast.makeText(getActivity(),"Something went wrong",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
 
             }
         };
@@ -246,67 +293,38 @@ public class Fragment_Criteria extends Fragment implements Inspection.Actions {
     public static class ExpandableListDataPump {
         public static HashMap<String, List<String>> getData(List<Inspection> inspections) {
             HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
-
-
             List<String> A_grounds = new ArrayList<String>();
             A_grounds.add("Comments:");
-
             List<String> B_structure = new ArrayList<String>();
             B_structure.add("Comments:");
-
             List<String> C_exterior = new ArrayList<String>();
             C_exterior.add("Comments:");
-
             List<String> D_environment = new ArrayList<String>();
             D_environment.add("Comments:");
-
             List<String> E_interior = new ArrayList<String>();
             E_interior.add("Comments:");
-
-
             List<String> F_roof = new ArrayList<String>();
             F_roof.add("Comments:");
-
-
             List<String> G_windows = new ArrayList<String>();
             G_windows.add("Comments:");
-
-
             List<String> H_kitchen = new ArrayList<String>();
             H_kitchen.add("Comments:");
-
-
             List<String> I_bathroom = new ArrayList<String>();
             I_bathroom.add("Comments:");
-
-
             List<String> J_attic = new ArrayList<String>();
             J_attic.add("Comments:");
-
-
             List<String> K_garage = new ArrayList<String>();
             K_garage.add("Comments:");
-
-
             List<String> L_plumbing = new ArrayList<String>();
             L_plumbing.add("Comments:");
-
-
             List<String> M_electrical = new ArrayList<String>();
             M_electrical.add("Comments:");
-
-
             List<String> N_heating = new ArrayList<String>();
             N_heating.add("Comments:");
-
-
             List<String> O_garden = new ArrayList<String>();
             O_garden.add("Comments:");
-
-
             List<String> other = new ArrayList<String>();
             other.add("Comments:");
-
             expandableListDetail.put("Attic/ Basement", J_attic);
             expandableListDetail.put("Backyard", I_bathroom);
             expandableListDetail.put("Bathrooms", I_bathroom);
@@ -324,19 +342,21 @@ public class Fragment_Criteria extends Fragment implements Inspection.Actions {
             expandableListDetail.put("Electrical", M_electrical);
             expandableListDetail.put("Garden", O_garden);
             expandableListDetail.put("Other", other);)*/
-            customInspection.put("Attic/ Basement", inspections.get(0).getAttic_Basement());
-            customInspection.put("Backyard", inspections.get(0).getBackyard());
-            customInspection.put("Bathrooms", inspections.get(0).getBathroom());
-            customInspection.put("Exterior Surface", inspections.get(0).getExterior());
-            customInspection.put("Grounds", inspections.get(0).getGrounds());
-            customInspection.put("Heating/Cooling System", inspections.get(0).getHeating_Cooling());
-            customInspection.put("Interior Rooms", inspections.get(0).getInterior());
-            customInspection.put("Kitchen", inspections.get(0).getKitchen());
-            customInspection.put("Miscellaneous", inspections.get(0).getMiscellaneous());
-            customInspection.put("Plumbing/Electrical", inspections.get(0).getPlumbing_Electrical());
-            customInspection.put("Roof", inspections.get(0).getRoof());
-            customInspection.put("Structure", inspections.get(0).getStructure());
-            customInspection.put("Windows, Doors and Wood Trim", inspections.get(0).getWindows_Doors_Trim());
+            if(!inspections.isEmpty()) {
+                customInspection.put("Attic/ Basement", inspections.get(0).getAttic_Basement());
+                customInspection.put("Backyard", inspections.get(0).getBackyard());
+                customInspection.put("Bathrooms", inspections.get(0).getBathroom());
+                customInspection.put("Exterior Surface", inspections.get(0).getExterior());
+                customInspection.put("Grounds", inspections.get(0).getGrounds());
+                customInspection.put("Heating/Cooling System", inspections.get(0).getHeating_Cooling());
+                customInspection.put("Interior Rooms", inspections.get(0).getInterior());
+                customInspection.put("Kitchen", inspections.get(0).getKitchen());
+                customInspection.put("Miscellaneous", inspections.get(0).getMiscellaneous());
+                customInspection.put("Plumbing/Electrical", inspections.get(0).getPlumbing_Electrical());
+                customInspection.put("Roof", inspections.get(0).getRoof());
+                customInspection.put("Structure", inspections.get(0).getStructure());
+                customInspection.put("Windows, Doors and Wood Trim", inspections.get(0).getWindows_Doors_Trim());
+            }
 
             return expandableListDetail;
         }

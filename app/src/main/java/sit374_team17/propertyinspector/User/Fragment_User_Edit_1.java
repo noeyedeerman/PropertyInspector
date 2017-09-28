@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -52,21 +55,46 @@ Listener_User_Edit mListener;
     public Fragment_User_Edit_1() {
     }
 
-    public void getDetails_1() {
+    public boolean getDetails_1() {
         String email = mEditText_email.getText().toString();
 
         String password1 = mEditText_password1.getText().toString();
         String password2 = mEditText_password2.getText().toString();
 
-        if (email.isEmpty() || email == "") email = "None";
-        if (password1.isEmpty() || password1 == "") password1 = "None";
-        if (password2.isEmpty() || password2 == "") password2 = "None";
+
+
+        if (email.isEmpty() || email == "") {
+            Toast.makeText(getActivity(),"Email cannot be empty",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (password1.isEmpty() || password1 == "") {
+            Toast.makeText(getActivity(),"Password cannot be empty",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (password1.length()<8)
+        {
+            Toast.makeText(getActivity(),"Password  must have length greater than or equal to 8",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (!password1.matches(".*\\d.*")|| !password1.matches(".*[A-Z].*")) {
+            Toast.makeText(getActivity(),"Password  must have number and uppercase alphabets",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (password2.isEmpty() || password2 == ""||!password1.equals(password2)) {
+            Toast.makeText(getActivity(),"Password doesn't match",Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         mUser = new User();
         mUser.setEmail(email);
         mUser.setPassword(password2);
 
         mListener.setDetails_1(mUser);
+
+        return true;
     }
 
 
@@ -117,6 +145,7 @@ Listener_User_Edit mListener;
         mEditText_email = (EditText) mView.findViewById(R.id.editText_email);
         mEditText_password1 = (EditText) mView.findViewById(R.id.editText_password1);
         mEditText_password2 = (EditText) mView.findViewById(R.id.editText_password2);
+
 
 //
 //        credentialsProvider = new CognitoCachingCredentialsProvider(getActivity(), IDENTITY_POOL_ID, Regions.AP_SOUTHEAST_2);

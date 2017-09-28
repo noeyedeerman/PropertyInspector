@@ -35,6 +35,7 @@ public class Property implements Parcelable {
     private String Inspection_date;
     private String Inspection_time;
     private String photo;
+    private String category;
 
     public Property(){};
 
@@ -165,6 +166,14 @@ public class Property implements Parcelable {
         this.ratings = ratings;
     }
 
+    @DynamoDBAttribute(attributeName = "Category")
+    public String getCategory() {
+        return category;
+    }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     protected Property(Parcel in) {
         id = in.readString();
         address = in.readString();
@@ -182,6 +191,7 @@ public class Property implements Parcelable {
         Inspection_date = in.readString();
         Inspection_time = in.readString();
         photo = in.readString();
+        category = in.readString();
     }
 
     @Override
@@ -202,6 +212,7 @@ public class Property implements Parcelable {
         dest.writeString(Inspection_date);
         dest.writeString(Inspection_time);
         dest.writeString(photo);
+        dest.writeString(category);
     }
 
     @Override

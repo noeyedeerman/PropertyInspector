@@ -1,5 +1,6 @@
 package sit374_team17.propertyinspector.Note;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import sit374_team17.propertyinspector.Main.Fragment_Home;
 import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Property.Property;
 import sit374_team17.propertyinspector.R;
+import sit374_team17.propertyinspector.User.Activity_Login;
 
 public class Fragment_Note_List extends Fragment {
     private static final String ARG_PROPERTY = "comment";
@@ -92,23 +94,15 @@ public class Fragment_Note_List extends Fragment {
         mySwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swiperefresh);
 
         mCommentsList = new ArrayList<>();
-
-        initViews();
-
         PROPERTY_ID = mProperty.getId();
-
+        initViews();
         // stackView = (StackView) mView.findViewById(R.id.stackView_note);
-
         //     Adapter_Note_Stack noteStackAdapter = new Adapter_Note_Stack(getContext(), result);
-//stackView.setAdapter(noteStackAdapter);
+        //stackView.setAdapter(noteStackAdapter);
         //   noteStackAdapter.notifyDataSetChanged();
-
-
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
         ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
         mapper = new DynamoDBMapper(ddbClient);
-
-
         return mView;
     }
 
@@ -117,7 +111,6 @@ public class Fragment_Note_List extends Fragment {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_notes);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager;
-
         layoutManager = new LinearLayoutManager(getContext());
 //        layoutManager = new LinearLayoutManager(getContext()) {
 //            @Override
@@ -127,7 +120,6 @@ public class Fragment_Note_List extends Fragment {
 //        };
 //
         mRecyclerView.setLayoutManager(layoutManager);
-
 
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
         ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
@@ -139,16 +131,16 @@ public class Fragment_Note_List extends Fragment {
                 scanExpression.addFilterCondition("PropertyID", new Condition()
                         .withComparisonOperator(ComparisonOperator.EQ)
                         .withAttributeValueList(new AttributeValue().withS(Fragment_Note_List.PROPERTY_ID)));
-                scanExpression.addFilterCondition("CommentType",
+                scanExpression.addFilterCondition("Username",
                         new Condition()
                                 .withComparisonOperator(ComparisonOperator.EQ)
-                                .withAttributeValueList(new AttributeValue().withS("private")));
+                                .withAttributeValueList(new AttributeValue().withS(Activity_Login.mUser)));
                 mNoteList = mapper.scan(Note.class, scanExpression);
                 if (mNoteList.size() >= 0) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mCommentsAdapter = new Adapter_Note(mListener);
+                            mCommentsAdapter = new Adapter_Note(getActivity(),mListener,Fragment_Home.credentialsProvider);
                             mCommentsAdapter.setNoteList(mNoteList);
                             mRecyclerView.setAdapter(mCommentsAdapter);
                         }
@@ -178,16 +170,16 @@ public class Fragment_Note_List extends Fragment {
                                 scanExpression.addFilterCondition("PropertyID", new Condition()
                                         .withComparisonOperator(ComparisonOperator.EQ)
                                         .withAttributeValueList(new AttributeValue().withS(Fragment_Note_List.PROPERTY_ID)));
-                                scanExpression.addFilterCondition("CommentType",
+                                scanExpression.addFilterCondition("Username",
                                         new Condition()
                                                 .withComparisonOperator(ComparisonOperator.EQ)
-                                                .withAttributeValueList(new AttributeValue().withS("private")));
+                                                .withAttributeValueList(new AttributeValue().withS(Activity_Login.mUser)));
                                 mNoteList = mapper.scan(Note.class, scanExpression);
                                 if (mNoteList.size() >= 0) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            mCommentsAdapter = new Adapter_Note(mListener);
+                                            mCommentsAdapter = new Adapter_Note(getActivity(),mListener,Fragment_Home.credentialsProvider);
                                             mCommentsAdapter.setNoteList(mNoteList);
                                             mRecyclerView.setAdapter(mCommentsAdapter);
                                             mySwipeRefreshLayout.setRefreshing(false);

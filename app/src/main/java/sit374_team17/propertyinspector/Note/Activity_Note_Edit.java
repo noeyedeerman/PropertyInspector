@@ -1,19 +1,27 @@
 package sit374_team17.propertyinspector.Note;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +36,7 @@ public class Activity_Note_Edit extends AppCompatActivity {
     Property mProperty;
     Note mNote;
     private MenuItem mCameraItem;
-    private String mCurrentPhotoPath;
+    public static String mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +45,6 @@ public class Activity_Note_Edit extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         if(savedInstanceState == null)
         {
             Bundle extras = getIntent().getExtras();
@@ -49,32 +56,55 @@ public class Activity_Note_Edit extends AppCompatActivity {
                 String method = extras.getString("methodName");
 
                 if (method.equals("do")) {
-                    dispatchTakePictureIntent();
+                    if (ContextCompat.checkSelfPermission(getApplicationContext(),  Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED &&
+                            ContextCompat.checkSelfPermission(getApplicationContext(),  Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED  )
+                    {
+                        dispatchTakePictureIntent();
+                    }
+                    else {
+                        cameraRequest();
+                    }
                 }
             }
         }
-
-
-goTo_EditNoteFragment(mNote);
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        goTo_EditNoteFragment(mNote);
     }
 
+    private void cameraRequest() {
+
+        ActivityCompat.requestPermissions(this, new String[]
+                {      Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                }, 101);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+       if (requestCode==101) {
+           if (grantResults.length > 0) {
+               boolean CameraPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+               boolean WritePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+               if (WritePermission && CameraPermission) {
+                   Toast.makeText(Activity_Note_Edit.this, "Permission Granted. Click again", Toast.LENGTH_LONG).show();
+               } else {
+                   Toast.makeText(Activity_Note_Edit.this, "Permission Denied", Toast.LENGTH_LONG).show();
+               }
+           }
+       }
+    }
 
     public void goTo_EditNoteFragment(Note note) {
         Fragment_Note_Edit fragment = Fragment_Note_Edit.newInstance(note);
         replaceFragment(fragment, "Fragment_Note_Edit");
-
-
     }
 
     private void replaceFragment(Fragment fragment, String tag) {
         try {
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
             //    fragmentTransaction.addToBackStack(null);
-
             fragmentTransaction.replace(R.id.content_note_edit, fragment, tag);
             fragmentTransaction.commit();
 
@@ -111,11 +141,8 @@ goTo_EditNoteFragment(mNote);
 //        super.onCreateOptionsMenu(menu, inflater);
 //
 //
-
-
-
-
     private void dispatchTakePictureIntent() {
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
@@ -129,11 +156,11 @@ goTo_EditNoteFragment(mNote);
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "sit374_team17.propertyinspector",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, 1);
+             //   Uri photoURI = FileProvider.getUriForFile(this,
+              //          "sit374_team17.propertyinspector",
+             //           photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, 102);
             }
         }
     }
@@ -148,14 +175,12 @@ goTo_EditNoteFragment(mNote);
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
 
-//
 //   private void setPic() {
 //        // Get the dimensions of the View
 //       int targetW = mViewPager_property.getWidth();
@@ -197,33 +222,34 @@ goTo_EditNoteFragment(mNote);
 //
 //    }
 
-
-
     private void handleBigCameraPhoto() {
 
         if (mCurrentPhotoPath != null) {
             // setPic();
             galleryAddPic();
-            mCurrentPhotoPath = null;
         }
-
     }
 
     private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(mCurrentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == 1 && resultCode == RESULT_OK) {
-//            handleBigCameraPhoto();
-//
-//        }
-//
-//    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+         if (resultCode==RESULT_CANCELED)
+         {
+             File f=new File(mCurrentPhotoPath);
+             f.delete();
+             finish();
+         }else {
+             Intent intent=new Intent("images");
+             intent.putExtra("path",mCurrentPhotoPath);
+             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+         }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 }

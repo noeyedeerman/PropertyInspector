@@ -11,65 +11,64 @@
         android:id="@+id/textView_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="34dp"
         android:text="Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp" />
 
     <TextView
         android:id="@+id/textView_pitch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="Pitch"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="14sp"
+        android:textSize="24sp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_name" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_name"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp" />
 
     <TextView
         android:id="@+id/textView_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="Info"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="14sp"
+        android:textSize="24sp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_pitch" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_pitch"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp" />
 
     <Button
         android:id="@+id/button_select"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="0dp"
         android:background="@color/colorAccent"
         android:text="@string/select"
         android:textColor="@android:color/white"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_marginBottom="32dp" />
 
 </android.support.constraint.ConstraintLayout>

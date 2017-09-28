@@ -120,6 +120,7 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
         holder.mPostCode.setText(String.valueOf(mPropertyList.get(position).getPostCode()));
         holder.mBedrooms.setText(String.valueOf(mPropertyList.get(position).getBedrooms().get(0)));
         holder.mBathrooms.setText(String.valueOf(mPropertyList.get(position).getBathrooms().get(0)));
+        if (!mPropertyList.get(position).getCars().isEmpty())
         holder.mCars.setText(String.valueOf(mPropertyList.get(position).getCars().get(0)));
         holder.mPrice.setText("$".concat(String.valueOf(mPropertyList.get(position).getPrice().get(0))));
         picDetails="";

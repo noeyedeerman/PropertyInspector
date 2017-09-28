@@ -148,8 +148,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.likeNo);
        TextView dislikeNo = (TextView) convertView
                 .findViewById(R.id.dislikeNo);
-        likeNo.setText(inspectionList.get(listTitle).get(2));
-        dislikeNo.setText(inspectionList.get(listTitle).get(3));
+        if (!inspectionList.isEmpty()) {
+            likeNo.setText(inspectionList.get(listTitle).get(2));
+            dislikeNo.setText(inspectionList.get(listTitle).get(3));
+        }
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
 

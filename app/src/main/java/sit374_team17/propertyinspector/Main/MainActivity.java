@@ -39,6 +39,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import java.util.Calendar;
 
 import sit374_team17.propertyinspector.Note.Note;
+import sit374_team17.propertyinspector.SavedPreference;
 import sit374_team17.propertyinspector.User.Activity_Login;
 import sit374_team17.propertyinspector.Activity_Settings;
 import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
@@ -116,15 +117,17 @@ public class MainActivity extends AppCompatActivity
 
 
         mFabMenu_Note.hideMenu(false);
-
+        mNote=new Note();
         mFab_TextNote.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                goTo_NoteEditActivity(new Note(), "don't");
+                mNote.setCommentType("text");
+                goTo_NoteEditActivity(mNote, "don't");
             }
         });
         mFab_PhotoNote.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                goTo_NoteEditActivity(new Note(), "do");
+                mNote.setCommentType("photo");
+                goTo_NoteEditActivity(mNote, "do");
 
             }
         });
@@ -257,7 +260,6 @@ public class MainActivity extends AppCompatActivity
         userPool = new CognitoUserPool(this, Activity_Login.userPoolId, Activity_Login.clientId, Activity_Login.clientSecret, clientConfiguration, Regions.AP_SOUTHEAST_2);
         // Create a CognitoUserPool object to refer to your user pool
         cognitoUser = userPool.getCurrentUser();
-
     }
 
 
@@ -271,6 +273,7 @@ public class MainActivity extends AppCompatActivity
 
     public void goTo_EditPropertyActivity() {
         Intent intent = new Intent(MainActivity.this, Activity_Property_Edit.class);
+        intent.putExtra("tokens",getIntent().getStringExtra("tokens"));
         startActivity(intent);
         mFabMenu_CreateProperty.close(true);
     }
@@ -429,6 +432,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_help) {
 
         } else if (id == R.id.nav_logout) {
+            SavedPreference savedPreference=new SavedPreference(this);
+            savedPreference.deleteCredentials();
             Intent intent = new Intent(MainActivity.this, Activity_Login.class);
             startActivity(intent);
         }

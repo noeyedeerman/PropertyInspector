@@ -58,6 +58,7 @@ import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Note.Adapter_Note;
 import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.R;
+import sit374_team17.propertyinspector.User.Activity_Login;
 import sit374_team17.propertyinspector.Walkthrough.Activity_Walkthrough;
 
 import static android.app.Activity.RESULT_OK;
@@ -171,8 +172,8 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
 
         mPhotoList = new ArrayList<>();
         mNoteList = new ArrayList<>();
-
- initViews();
+        PROPERTY_ID = mProperty.getId();
+        initViews();
 
 
 
@@ -240,11 +241,12 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         mPostCode.setText(String.valueOf(mProperty.getPostCode()));
         mBedrooms.setText(String.valueOf(mProperty.getBedrooms().get(0)));
         mBathrooms.setText(String.valueOf(mProperty.getBathrooms().get(0)));
+        if (!mProperty.getCars().isEmpty())
         mCars.setText(String.valueOf(mProperty.getCars().get(0)));
         if (mProperty.getInspection_date() != null)
             propertyInspectionDate.setText(mProperty.getInspection_date());
         //  mPrice.setText(mProperty.getPrice());
-        PROPERTY_ID = mProperty.getId();
+
         //  mPrice.setText(mProperty.getPrice());
 
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
@@ -449,34 +451,27 @@ googleMap.setBuildingsEnabled(true);
        //  mAdapter = new Adapter_PropertySwipe(getContext());
 
 
-                AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
         ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
         mapper = new DynamoDBMapper(ddbClient);
         Runnable runnable = new Runnable() {
             public void run() {
                 //DynamoDB calls go here
                 DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-                scanExpression.addFilterCondition("PropertyID",new Condition()
+                scanExpression.addFilterCondition("PropertyID", new Condition()
                         .withComparisonOperator(ComparisonOperator.EQ)
-                        .withAttributeValueList(new AttributeValue().withS(Fragment_Property_Description.PROPERTY_ID)));
-                scanExpression.addFilterCondition("CommentType",
+                        .withAttributeValueList(new AttributeValue().withS(PROPERTY_ID)));
+                scanExpression.addFilterCondition("Username",
                         new Condition()
                                 .withComparisonOperator(ComparisonOperator.EQ)
-                                .withAttributeValueList(new AttributeValue().withS("private")));
+                                .withAttributeValueList(new AttributeValue().withS(Activity_Login.mUser)));
                 mNoteList = mapper.scan(Note.class, scanExpression);
                 if (mNoteList.size() >= 0) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
-
-for(Note note : mNoteList){
-    note.setPhoto(mProperty.getPhoto());
-}
-                         //   mPhotoList.add(mProperty.getPhoto());
-
                             mAdapter_slideShow.setNoteList(mNoteList);
-                          //  mAdapter_slideShow.setPhotoList(mPhotoList);
                             mViewPager_property.setAdapter(mAdapter_slideShow);
 
 
