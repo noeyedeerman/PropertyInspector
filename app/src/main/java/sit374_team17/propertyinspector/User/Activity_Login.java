@@ -70,8 +70,8 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
         edt_password=(EditText) findViewById(R.id.editText_password);
         remember=(CheckBox) findViewById(R.id.checkBox);
         savedPreference = new SavedPreference(this);
-        Button button_goToLoginActivity = (Button) findViewById(R.id.button_goToMainActivity);
-        button_goToLoginActivity.setOnClickListener(new View.OnClickListener() {
+        Button button_signIn = (Button) findViewById(R.id.button_signIn);
+        button_signIn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -85,17 +85,22 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
                     // Create a CognitoUserPool object to refer to your user pool
                     cognitoUser = userPool.getUser();
                     cognitoUser.getSessionInBackground(Activity_Login.this);
+
                 }
             }
 
         });
         //Instance of the "Create user" labeled TextView created and on click method opens the Activity_User_Edit activity
-        TextView text_goToCreateActivity = (TextView) findViewById(R.id.text_goToCreateActivity);
+        final TextView text_goToCreateActivity = (TextView) findViewById(R.id.text_goToCreateActivity);
         text_goToCreateActivity.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Activity_Login.this, Activity_User_Edit.class);
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                    Animator anim = ViewAnimationUtils.createCircularReveal(,100, 100, 100, 0);
+//                    anim.start();
+//                }
                 startActivity(intent);
             }
 

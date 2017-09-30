@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.FileProvider;
@@ -46,16 +47,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import sit374_team17.propertyinspector.Comment;
 import sit374_team17.propertyinspector.Fragment_Tabs;
 import sit374_team17.propertyinspector.Main.Fragment_Home;
 import sit374_team17.propertyinspector.Main.Listener;
-import sit374_team17.propertyinspector.Note.Adapter_Note;
+import sit374_team17.propertyinspector.Note.Adapter_Notes;
 import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.R;
 import sit374_team17.propertyinspector.User.Activity_Login;
@@ -71,14 +76,14 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
     private Property mProperty;
     protected DynamoDBMapper mapper;
     protected List<Note> mNoteList;
-    Adapter_Note mCommentsAdapter;
+    Adapter_Notes mCommentsAdapter;
     View mView;
     ViewPager mViewPager_property;
     Adapter_PropertySwipe mAdapter_slideShow;
-    Adapter_Note mAdapter_note;
-    TextView mDescription, mAddress, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice, propertyInspectionDate;
+    Adapter_Notes mAdapter_note;
+    TextView mTextView_description, mTextView_address, mTextView_city, mTextView_state, mTextView_postCode, mTextView_bedrooms, mTextView_bathrooms, mTextView_cars, mTextView_price;
     Button button_post, button_save;
-    Button mButton_buy;
+    FloatingActionButton mFab_walktrhough;
     EditText editText_comment;
     Fragment mFragment_tabs;
     Comment mComment;
@@ -155,7 +160,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         mViewPager_property = (ViewPager) mView.findViewById(R.id.viewPager_property);
         // button_camera = (ImageButton) mView.findViewById(R.id.button_camera);
         //  button_post = (Button) mView.findViewById(R.id.button_post);
-      mButton_buy = (Button) mView.findViewById(R.id.button_buyInfo);
+      mFab_walktrhough= (FloatingActionButton) mView.findViewById(R.id.fab_walkthrough);
 
         //   if(googleServicesAvailable()){
         //      Toast.makeText(getContext(), "Google services available", Toast.LENGTH_SHORT).show();
@@ -177,13 +182,14 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
 
 
 
-        mButton_buy.setOnClickListener(new View.OnClickListener() {
+        mFab_walktrhough.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Activity_Walkthrough.class);
                 startActivity(intent);
             }
         });
+
 
 //        button_post.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -203,11 +209,11 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
 
 //initViews();
 //        if (mCommentsList.size() >= 0) {
-//            mAdapter_note = new Adapter_Note(mListener);
+//            mAdapter_note = new Adapter_Notes(mListener);
 //            mAdapter_note.setCommentList(mCommentsList);
 //            mRecyclerView.setAdapter(mAdapter_note);
 //        }
-        //  mAdapter_note = new Adapter_Note(mListener, getContext());
+        //  mAdapter_note = new Adapter_Notes(mListener, getContext());
         // mAdapter_note.setCommentList(mCommentsList);
         //  mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_comment);
         //  mRecyclerView.setAdapter(mAdapter_note);
@@ -220,34 +226,49 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
 
         // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
 
-        mDescription = (TextView) mView.findViewById(R.id.textView_description);
-        mAddress = (TextView) mView.findViewById(R.id.textView_address);
+        mTextView_description = mView.findViewById(R.id.textView_description);
+        mTextView_price = mView.findViewById(R.id.textView_price);
+        mTextView_address = (TextView) mView.findViewById(R.id.textView_address);
+        mTextView_city = mView.findViewById(R.id.textView_city);
+        mTextView_state =  mView.findViewById(R.id.textView_state);
+        mTextView_postCode = mView.findViewById(R.id.textView_postCode);
+        mTextView_bedrooms =  mView.findViewById(R.id.textView_bedrooms);
+        mTextView_bathrooms = mView.findViewById(R.id.textView_bathrooms);
+        mTextView_cars = mView.findViewById(R.id.textView_cars);
 
+        if (mProperty.getDescription() != null && !Objects.equals(mProperty.getDescription(), "None"))
+            mTextView_description.setText(mProperty.getDescription());
 
-        mCity = (TextView) mView.findViewById(R.id.textView_city);
-        mState = (TextView) mView.findViewById(R.id.textView_state);
-        mPostCode = (TextView) mView.findViewById(R.id.textView_postCode);
-        mBedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
-        mBathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
-        mCars = (TextView) mView.findViewById(R.id.textView_cars);
-        //propertyInspectionDate = (TextView) mView.findViewById(R.id.propertyInspectionDate);
-        // mPrice = (TextView) mView.findViewById(R.id.textView_price);
+        if (mProperty.getPrice() != null && mProperty.getPrice().get(0) != 0) {
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+            DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
+            decimalFormatSymbols.setCurrencySymbol("");
+            numberFormat.setMaximumFractionDigits(0);
+            ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
+            mTextView_price.setText(numberFormat.format(mProperty.getPrice().get(0)));
+        }
 
-        mDescription.setText(String.valueOf(mProperty.getDescription()));
-        mAddress.setText(String.valueOf(mProperty.getAddress()));
-        mCity.setText(mProperty.getCity());
-        //  mState.setText(mProperty.getState());
-        mState.setText(mProperty.getState().get(0));
-        mPostCode.setText(String.valueOf(mProperty.getPostCode()));
-        mBedrooms.setText(String.valueOf(mProperty.getBedrooms().get(0)));
-        mBathrooms.setText(String.valueOf(mProperty.getBathrooms().get(0)));
-        if (!mProperty.getCars().isEmpty())
-        mCars.setText(String.valueOf(mProperty.getCars().get(0)));
-        if (mProperty.getInspection_date() != null)
-            propertyInspectionDate.setText(mProperty.getInspection_date());
-        //  mPrice.setText(mProperty.getPrice());
+        if (mProperty.getBedrooms() != null && mProperty.getBedrooms().size() > 0 && !Objects.equals(mProperty.getBedrooms().get(0), ""))
+            mTextView_bedrooms.setText(String.valueOf(mProperty.getBedrooms().get(0)));
 
-        //  mPrice.setText(mProperty.getPrice());
+        if (mProperty.getBathrooms() != null && mProperty.getBathrooms().size() > 0 && !Objects.equals(mProperty.getBathrooms().get(0), ""))
+            mTextView_bathrooms.setText(String.valueOf(mProperty.getBathrooms().get(0)));
+
+        if (mProperty.getCars() != null && mProperty.getCars().size() > 0 && !Objects.equals(mProperty.getCars().get(0), ""))
+            mTextView_cars.setText(String.valueOf(mProperty.getCars().get(0)));
+
+        if (mProperty.getAddress() != null && !Objects.equals(mProperty.getAddress(), "None"))
+            mTextView_address.setText(mProperty.getAddress() + ",");
+
+        if (mProperty.getCity() != null && !Objects.equals(mProperty.getCity(), "None"))
+            mTextView_city.setText(mProperty.getCity() + ",");
+
+        if (mProperty.getState().size() > 0 && !Objects.equals(mProperty.getState().get(0), "None"))
+            mTextView_state.setText(mProperty.getState().get(0) + ",");
+
+        if (mProperty.getPostCode() != null && mProperty.getPostCode() > 0)
+            mTextView_postCode.setText(String.valueOf(mProperty.getPostCode()));
+
 
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
         ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));

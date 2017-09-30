@@ -33,7 +33,7 @@
 //    private DB_CommentHandler mDB_comments;
 //    private View mView;
 //    RecyclerView mRecyclerView;
-//    private Adapter_Note mCommentsAdapter;
+//    private Adapter_Notes mCommentsAdapter;
 //
 //    @Override
 //    public void onAttach(Context context) {
@@ -113,7 +113,7 @@
 ////                    getActivity().runOnUiThread(new Runnable() {
 ////                        @Override
 ////                        public void run() {
-////                            mCommentsAdapter = new Adapter_Note(mListener);
+////                            mCommentsAdapter = new Adapter_Notes(mListener);
 ////                            mCommentsAdapter.setCommentList(result);
 ////                            mRecyclerView.setAdapter(mCommentsAdapter);
 ////                        }

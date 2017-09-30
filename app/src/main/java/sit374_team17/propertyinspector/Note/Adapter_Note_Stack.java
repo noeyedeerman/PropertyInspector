@@ -52,7 +52,7 @@ class Adapter_Note_Stack extends BaseAdapter {
             holder = new ViewHolder();
 
             holder.text = (TextView) view.findViewById(R.id.textView_note);
-            holder.image = (ImageView) view.findViewById(R.id.imageView_image);
+            holder.image = (ImageView) view.findViewById(R.id.imageView_photo);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();

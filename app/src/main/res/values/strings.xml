@@ -301,6 +301,15 @@
     <string name="surname">Surname</string>
     <string name="phone">Phone</string>
     <string name="name">Name</string>
+    <string name="zero">0</string>
+    <string name="blank">-</string>
+    <string name="no_description">No description</string>
+    <string name="enterDescription">Enter description</string>
+    <string name="enterPrice">Enter price</string>
+    <string name="noPrice">No price</string>
+    <string name="addressComma">Address,</string>
+    <string name="cityComma">City,</string>
+    <string name="stateComma">State,</string>
 
 
 </resources>

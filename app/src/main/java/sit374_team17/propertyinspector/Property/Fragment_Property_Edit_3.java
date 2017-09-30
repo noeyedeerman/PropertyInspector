@@ -3,6 +3,7 @@ package sit374_team17.propertyinspector.Property;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +27,12 @@ import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Objects;
 
-import sit374_team17.propertyinspector.Main.Listener;
-import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
 import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.R;
 
@@ -55,11 +59,31 @@ public class Fragment_Property_Edit_3 extends Fragment {
     int pickerMin = 0;
     int pickerMax = 100;
     int SELECT_IMAGE = 103;
+    Note mNote;
 
-    private Listener mListener;
+    Listener_Property_Edit mListener;
 
     public Fragment_Property_Edit_3() {
     }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Listener_Property_Edit) {
+            mListener = (Listener_Property_Edit) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement Listener_Property_Edit");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
 
     // public interface CreatePropertyListener {
     //    void onSaveProperty();
@@ -90,25 +114,43 @@ public class Fragment_Property_Edit_3 extends Fragment {
         mView = inflater.inflate(R.layout.fragment_property_edit_3, container, false);
         setHasOptionsMenu(true);
 
-        ImageButton button_textNote = (ImageButton) mView.findViewById(R.id.button_textNote);
-        ImageButton button_PhotoNote = (ImageButton) mView.findViewById(R.id.button_photoNote);
+        ImageButton imageButton_textNote = mView.findViewById(R.id.imageButton_textNote);
+        ImageButton imageButton_ohotoNote = mView.findViewById(R.id.imageButton_photoNote);
 
+        ConstraintLayout layout_details = mView.findViewById(R.id.layout_details);
+        ConstraintLayout layout_address = mView.findViewById(R.id.layout_address);
 
-        button_textNote.setOnClickListener(new View.OnClickListener() {
+        imageButton_textNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                if (!Activity_Property_Edit.propertyId.equals(""))
-                goTo_NoteEditActivity("don't");
+                   mListener.goTo_NoteEditActivity(new Note(), "don't");
                else Toast.makeText(getActivity(),"Save the property first",Toast.LENGTH_SHORT).show();
             }
         });
 
-        button_PhotoNote.setOnClickListener(new View.OnClickListener() {
+        imageButton_ohotoNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!Activity_Property_Edit.propertyId.equals(""))
-                goTo_NoteEditActivity("do");
+                    mListener.goTo_NoteEditActivity(new Note(), "do");
                 else Toast.makeText(getActivity(),"Save the property first",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+        layout_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.goBackTo_Details();
+            }
+        });
+
+        layout_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.goBackTo_Address();
             }
         });
 //        final RadioButton radioButton_sale = (RadioButton) mView.findViewById(R.id.radioButton_sale);
@@ -135,18 +177,47 @@ public class Fragment_Property_Edit_3 extends Fragment {
         //mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
         mTextView_description = (TextView) mView.findViewById(R.id.textView_description);
         mTextView_price = (TextView) mView.findViewById(R.id.textView_price);
+        mTextView_bedrooms = (TextView) mView.findViewById(R.id.textView_bedrooms);
+        mTextView_bathrooms = (TextView) mView.findViewById(R.id.textView_bathrooms);
+        mTextView_cars = (TextView) mView.findViewById(R.id.textView_cars);
         mTextView_address = (TextView) mView.findViewById(R.id.textView_address);
         mTextView_city = (TextView) mView.findViewById(R.id.textView_city);
         mTextView_state = (TextView) mView.findViewById(R.id.textView_state);
         mTextView_postCode = (TextView) mView.findViewById(R.id.textView_postCode);
 
+        if (mProperty.getDescription() != null && !Objects.equals(mProperty.getDescription(), "None"))
+            mTextView_description.setText(mProperty.getDescription());
 
-        mTextView_description.setText(mProperty.getDescription());
-        mTextView_price.setText(String.valueOf(mProperty.getPrice()));
-        mTextView_address.setText(mProperty.getAddress());
-        mTextView_city.setText(mProperty.getCity());
-        mTextView_state.setText(String.valueOf(mProperty.getState()));
-        mTextView_postCode.setText(String.valueOf(mProperty.getPostCode()));
+        if (mProperty.getPrice() != null && mProperty.getPrice().get(0) != 0) {
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+            DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
+            decimalFormatSymbols.setCurrencySymbol("");
+            numberFormat.setMaximumFractionDigits(0);
+            ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
+            mTextView_price.setText(numberFormat.format(mProperty.getPrice().get(0)));
+        }
+
+        if (mProperty.getBedrooms() != null && mProperty.getBedrooms().size() > 0 && !Objects.equals(mProperty.getBedrooms().get(0), ""))
+            mTextView_bedrooms.setText(String.valueOf(mProperty.getBedrooms().get(0)));
+
+        if (mProperty.getBathrooms() != null && mProperty.getBathrooms().size() > 0 && !Objects.equals(mProperty.getBathrooms().get(0), ""))
+            mTextView_bathrooms.setText(String.valueOf(mProperty.getBathrooms().get(0)));
+
+        if (mProperty.getCars() != null && mProperty.getCars().size() > 0 && !Objects.equals(mProperty.getCars().get(0), ""))
+            mTextView_cars.setText(String.valueOf(mProperty.getCars().get(0)));
+
+
+        if (mProperty.getAddress() != null && !Objects.equals(mProperty.getAddress(), "None"))
+            mTextView_address.setText(mProperty.getAddress() + ",");
+
+        if (mProperty.getCity() != null && !Objects.equals(mProperty.getCity(), "None"))
+            mTextView_city.setText(mProperty.getCity() + ",");
+
+        if (mProperty.getState().size() > 0 && !Objects.equals(mProperty.getState().get(0), "None"))
+            mTextView_state.setText(mProperty.getState().get(0) + ",");
+
+        if (mProperty.getPostCode() != null && mProperty.getPostCode() > 0)
+            mTextView_postCode.setText(String.valueOf(mProperty.getPostCode()));
 
 
       //  mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
@@ -254,20 +325,20 @@ public class Fragment_Property_Edit_3 extends Fragment {
         return mView;
     }
 
-    Note mNotes;
-    public void goTo_NoteEditActivity(String openCamera) {
-        mNotes=new Note();
-        Intent intent = new Intent(getContext(), Activity_Note_Edit.class);
-        if (openCamera.equals("do"))
-            mNotes.setCommentType("photo");
-        else
-            mNotes.setCommentType("text");
-        intent.putExtra("note",mNotes);
-        intent.putExtra("property", mProperty);
-        intent.putExtra("methodName", openCamera);
-        startActivity(intent);
-
-    }
+//
+//    public void goTo_NoteEditActivity(String openCamera) {
+//        mNotes=new Note();
+//        Intent intent = new Intent(getContext(), Activity_Note_Edit.class);
+//        if (openCamera.equals("do"))
+//            mNotes.setCommentType("photo");
+//        else
+//            mNotes.setCommentType("text");
+//        intent.putExtra("note",mNotes);
+//        intent.putExtra("property", mProperty);
+//        intent.putExtra("methodName", openCamera);
+//        startActivity(intent);
+//
+//    }
 
 
 //    private void onRadioButtonClicked(RadioButton button) {

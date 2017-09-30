@@ -18,6 +18,6 @@
     <dimen name="text_description_large">26sp</dimen>
     <dimen name="text_description">20sp</dimen>
     <dimen name="text_card">17sp</dimen>
-    <dimen name="text_price">30sp</dimen>
+    <dimen name="text_price">26sp</dimen>
 
 </resources>

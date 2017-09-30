@@ -231,19 +231,19 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
     }
 
 
-
     @Override
     public boolean onQueryTextChange(String query) {
         query = query.toLowerCase();
 
         final List<Property> filteredModelList = new ArrayList<>();
         for (Property property : result) {
-            final String text = property.getAddress() + property.getCity() + property.getState() +  property.getPostCode();
-            if (text.contains(query)) {
+            final String text = property.getDescription() + property.getAddress() + property.getCity() + property.getState() +  property.getPostCode();
+            if (text.toLowerCase().contains(query)) {
                 filteredModelList.add(property);
             }
         }
-        mPropertyAdapter.animateTo(filteredModelList);
+      // mPropertyAdapter.animateTo(filteredModelList);
+         mPropertyAdapter.setPropertyList(filteredModelList);
         mRecyclerView.scrollToPosition(0);
         return true;
     }

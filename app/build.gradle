@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
     defaultConfig {
         applicationId "sit374_team17.propertyinspector"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -46,6 +47,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.github.clans:fab:1.6.2'
-   compile 'com.google.android.gms:play-services:11.0.4'
+    compile 'com.google.android.gms:play-services:11.0.4'
     testCompile 'junit:junit:4.12'
 }

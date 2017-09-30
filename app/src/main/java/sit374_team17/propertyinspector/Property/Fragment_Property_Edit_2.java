@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +29,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import sit374_team17.propertyinspector.R;
 
@@ -38,19 +38,19 @@ public class Fragment_Property_Edit_2 extends Fragment {
     private static final String ARG_PROPERTY = "property";
 
     private Property mProperty;
-    private Photo mPhotos=new Photo();
+    private Photo mPhotos = new Photo();
     TextView file_path;
     View mView;
-    Button mButton_save,mButton_upload;
-   // DB_PropertyHandler mDB_properties;
+    Button mButton_save, mButton_upload;
+    // DB_PropertyHandler mDB_properties;
     List<Property> mPropertyList;
     EditText mEditText_address, mEditText_streetName, mEditText_city, mEditText_state, mEditText_post, mEditText_price, mEditText_description;
     NumberPicker mNumberPicker_bedrooms, mNumberPicker_bathrooms, mNumberPicker_cars;
-    protected CognitoCachingCredentialsProvider credentialsProvider ;
-    protected DynamoDBMapper mapper ;
-    private String IDENTITY_POOL_ID="ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
-    private String MY_BUCKET="propertyinspector-userfiles-mobilehub-4404653";
-    private String OBJECT_KEY="uploads/propertyinspector_image"+ SystemClock.currentThreadTimeMillis();
+    protected CognitoCachingCredentialsProvider credentialsProvider;
+    protected DynamoDBMapper mapper;
+    private String IDENTITY_POOL_ID = "ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
+    private String MY_BUCKET = "propertyinspector-userfiles-mobilehub-4404653";
+    private String OBJECT_KEY = "uploads/propertyinspector_image" + SystemClock.currentThreadTimeMillis();
     private File MY_FILE;
     int pickerMin = 0;
     int pickerMax = 100;
@@ -60,52 +60,6 @@ public class Fragment_Property_Edit_2 extends Fragment {
 
     public Fragment_Property_Edit_2() {
     }
-
-    public void getDetails_2() {
-        mProperty = new Property();
-
-      //  if (!mEditText_streetNumber.getText().toString().equals(""))
-         //   streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
-        //String streetName = mEditText_streetName.getText().toString();
-        String address = mEditText_address.getText().toString();
-        String city = mEditText_city.getText().toString();
-        List<String> state = new ArrayList<>();
-        if (!mEditText_state.getText().toString().equals(""))
-            state.add(mEditText_state.getText().toString());
-
-        String postCodeString = mEditText_post.getText().toString();
-        Integer postCode = 0;
-        if (!postCodeString.isEmpty() && postCodeString !="") {
-            postCode = Integer.parseInt(postCodeString);
-        }
-
-
-        String empty = "--";
-        //if (streetNumber>0 && !streetName.isEmpty()) {
-      //  String address = editText_address;
-       // if (
-           // mProperty.setStreetNumber(streetNumber);
-           // mProperty.setStreetName(streetName);
-
-        if (address.isEmpty() || address == "") address = "None";
-            if (city.isEmpty() || city == "") city = "None";
-            if (state.isEmpty()) state.add("None");
-            if (postCode <= 0) postCode = 0;
-
-            mProperty.setAddress(address);
-            mProperty.setCity(city);
-            mProperty.setState(state);
-            mProperty.setPostCode(postCode);
-            mProperty.setUnitNumber(0);
-
-
-
-        mListener.setDetails_2(mProperty);
-    }
-
-
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -125,6 +79,46 @@ public class Fragment_Property_Edit_2 extends Fragment {
     }
 
 
+    public void getDetails_2() {
+        mProperty = new Property();
+
+        //  if (!mEditText_streetNumber.getText().toString().equals(""))
+        //   streetNumber = Integer.parseInt(mEditText_streetNumber.getText().toString());
+        //String streetName = mEditText_streetName.getText().toString();
+        String address = mEditText_address.getText().toString();
+        String city = mEditText_city.getText().toString();
+        List<String> state = new ArrayList<>();
+        if (!mEditText_state.getText().toString().equals(""))
+            state.add(mEditText_state.getText().toString());
+
+        String postCodeString = mEditText_post.getText().toString();
+        Integer postCode = 0;
+        if (!postCodeString.isEmpty() && postCodeString != "") {
+            postCode = Integer.parseInt(postCodeString);
+        }
+
+
+        String empty = "--";
+        //if (streetNumber>0 && !streetName.isEmpty()) {
+        //  String address = editText_address;
+        // if (
+        // mProperty.setStreetNumber(streetNumber);
+        // mProperty.setStreetName(streetName);
+
+        if (address.isEmpty() || address == "") address = "None";
+        if (city.isEmpty() || city == "") city = "None";
+        if (state.isEmpty()) state.add("None");
+        if (postCode <= 0) postCode = 0;
+
+        mProperty.setAddress(address);
+        mProperty.setCity(city);
+        mProperty.setState(state);
+        mProperty.setPostCode(postCode);
+       // mProperty.setUnitNumber(0);
+
+
+        mListener.setDetails_2(mProperty);
+    }
 
 
     public static Fragment_Property_Edit_2 newInstance(Property property) {
@@ -143,6 +137,7 @@ public class Fragment_Property_Edit_2 extends Fragment {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
         }
     }
+
     private ProgressDialog progress;
 
     @Override
@@ -150,15 +145,41 @@ public class Fragment_Property_Edit_2 extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_property_edit_2, container, false);
 
-          //mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
+        //mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
         mEditText_address = (EditText) mView.findViewById(R.id.editText_address);
-          // mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
-         mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
-          mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
-          mEditText_post = (EditText) mView.findViewById(R.id.editText_post);
+        // mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
+        mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
+        mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
+        mEditText_post = (EditText) mView.findViewById(R.id.editText_post);
+
+        if (mProperty != null) {
+
+            if (mProperty.getAddress() != null && !Objects.equals(mProperty.getAddress(), "None"))
+                mEditText_address.setText(mProperty.getAddress());
+
+            if (mProperty.getCity() != null && !Objects.equals(mProperty.getCity(), "None"))
+                mEditText_city.setText(mProperty.getCity());
+
+            if (mProperty.getState().size() > 0 && !Objects.equals(mProperty.getState().get(0), "None"))
+                mEditText_state.setText(mProperty.getState().get(0));
+
+            if (mProperty.getPostCode() != null && mProperty.getPostCode() > 0)
+                mEditText_post.setText(String.valueOf(mProperty.getPostCode()));
+        }
         return mView;
     }
 
+    @Override
+    public void onDestroyView() {
+        getDetails_2();
+        super.onDestroyView();
+    }
+
+//    @Override
+//    public void onDestroy() {
+//
+//        super.onPause();
+//    }
 //    private void onRadioButtonClicked(RadioButton button) {
 //
 //        // Is the button now checked?
@@ -252,35 +273,35 @@ public class Fragment_Property_Edit_2 extends Fragment {
 //        MenuItem camera = menu.findItem(R.id.action_camera);
 //        camera.setVisible(true);
 
-      //  MenuItem searchItem = menu.findItem(R.id.action_search);
+        //  MenuItem searchItem = menu.findItem(R.id.action_search);
 //        searchItem.setVisible(false);
 
 
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {     if (requestCode == SELECT_IMAGE) {
-        if (resultCode == Activity.RESULT_OK) {
-            try {
-                if (data != null) {
-                    Uri selectedImageUri = data.getData();
-                    if (Build.VERSION.SDK_INT < 20)
-                        MY_FILE = new File(getPath(selectedImageUri));
-                    else
-                        MY_FILE = new File(PathFromURI(selectedImageUri));
-                    file_path.setText(MY_FILE.getName());
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SELECT_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    if (data != null) {
+                        Uri selectedImageUri = data.getData();
+                        if (Build.VERSION.SDK_INT < 20)
+                            MY_FILE = new File(getPath(selectedImageUri));
+                        else
+                            MY_FILE = new File(PathFromURI(selectedImageUri));
+                        file_path.setText(MY_FILE.getName());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
-    } else if (resultCode == Activity.RESULT_CANCELED)
-        Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
+        } else if (resultCode == Activity.RESULT_CANCELED)
+            Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
@@ -288,7 +309,7 @@ public class Fragment_Property_Edit_2 extends Fragment {
     }
 
     @SuppressLint("NewApi")
-    public String PathFromURI( Uri contentURI){
+    public String PathFromURI(Uri contentURI) {
         Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
         if (cursor == null) { // Source is Dropbox or other similar local file
             // path

@@ -9,7 +9,8 @@
     <color name="colorAccent">#f9b000</color>
     <color name="colorWhite">#ffffff</color>
 
-    <color name="colorTransparentBlack">#66000000</color>
+    <color name="colorTransparentBlack">#3b000000</color>
+    <color name="colorDarkGrey">#292929</color>
 
     <color name="color">#000000</color>
 

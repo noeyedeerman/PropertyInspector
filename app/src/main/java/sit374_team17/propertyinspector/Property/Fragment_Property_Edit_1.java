@@ -11,9 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +30,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import sit374_team17.propertyinspector.R;
 
@@ -40,64 +39,29 @@ public class Fragment_Property_Edit_1 extends Fragment {
     private static final String ARG_PROPERTY = "property";
 
     private Property mProperty;
-    private Photo mPhotos=new Photo();
+    private Photo mPhotos = new Photo();
     TextView file_path;
     View mView;
-    Button mButton_save,mButton_upload;
+    Button mButton_save, mButton_upload;
     //DB_PropertyHandler mDB_properties;
     List<Property> mPropertyList;
     EditText mEditText_address, mEditText_streetName, mEditText_city, mEditText_state, mEditText_postCode, mEditText_price, mEditText_description;
     EditText mEditText_bedrooms, mEditText_bathrooms, mEditText_cars;
-    protected CognitoCachingCredentialsProvider credentialsProvider ;
-    protected DynamoDBMapper mapper ;
-    private String IDENTITY_POOL_ID="ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
-    private String MY_BUCKET="propertyinspector-userfiles-mobilehub-4404653";
-    private String OBJECT_KEY="uploads/propertyinspector_image"+ SystemClock.currentThreadTimeMillis();
+    protected CognitoCachingCredentialsProvider credentialsProvider;
+    protected DynamoDBMapper mapper;
+    private String IDENTITY_POOL_ID = "ap-southeast-2:da48cacc-60b6-41ee-8dc6-4ae3c3abf13a";
+    private String MY_BUCKET = "propertyinspector-userfiles-mobilehub-4404653";
+    private String OBJECT_KEY = "uploads/propertyinspector_image" + SystemClock.currentThreadTimeMillis();
     private File MY_FILE;
     int pickerMin = 0;
     int pickerMax = 100;
     int SELECT_IMAGE = 103;
-    String PropertyCategory="Sale";
-Listener_Property_Edit mListener;
+    String PropertyCategory = "Sale";
+    Listener_Property_Edit mListener;
     //private Listener mListener;
 //private CreatePropertyListener mListener;
 
     public Fragment_Property_Edit_1() {
-    }
-
-    public void getDetails_1() {
-
-        String description=mEditText_description.getText().toString();
-
-        String priceRaw = mEditText_price.getText().toString();
-
-        List<Integer> price = new ArrayList<>();
-        if (!priceRaw.isEmpty() && priceRaw !="") {
-            String priceTemp = priceRaw.replace(",","");
-            price.add(Integer.parseInt(priceTemp));
-        }
-        List<String> bedrooms =  new ArrayList<>();
-        bedrooms.add(String.valueOf(mEditText_bedrooms.getText()));
-        List<String>  bathrooms = new ArrayList<>();
-        bathrooms.add(String.valueOf(mEditText_bathrooms.getText()));
-        List<String> garages =  new ArrayList<>();
-        garages.add(String.valueOf(mEditText_cars.getText()));
-
-        if (description.isEmpty())description="None";
-        if (price.isEmpty()) price.add(0);
-        if (bedrooms.isEmpty()) bedrooms.add("None");
-        if (bathrooms.isEmpty()) bathrooms.add("None");
-        if (garages.isEmpty()) garages .add("None");
-
-        mProperty = new Property();
-        mProperty.setDescription(description);
-        mProperty.setPrice(price);
-        mProperty.setBedrooms(bedrooms);
-        mProperty.setBathrooms(bathrooms);
-        mProperty.setCars(garages);
-        RadioButton radioButton= (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
-        mProperty.setCategory(radioButton.getText().toString());
-        mListener.setDetails_1(mProperty);
     }
 
 
@@ -119,6 +83,42 @@ Listener_Property_Edit mListener;
     }
 
 
+    public void getDetails_1() {
+
+        String description = mEditText_description.getText().toString();
+
+        String priceRaw = mEditText_price.getText().toString();
+
+        List<Integer> price = new ArrayList<>();
+        if (!priceRaw.isEmpty() && priceRaw != "") {
+            String priceTemp = priceRaw.replace(",", "");
+            price.add(Integer.parseInt(priceTemp));
+        }
+        List<String> bedrooms = new ArrayList<>();
+        bedrooms.add(String.valueOf(mEditText_bedrooms.getText()));
+        List<String> bathrooms = new ArrayList<>();
+        bathrooms.add(String.valueOf(mEditText_bathrooms.getText()));
+        List<String> garages = new ArrayList<>();
+        garages.add(String.valueOf(mEditText_cars.getText()));
+
+        if (description.isEmpty()) description = "None";
+        if (price.isEmpty()) price.add(0);
+        if (bedrooms.isEmpty()) bedrooms.add("0");
+        if (bathrooms.isEmpty()) bathrooms.add("0");
+        if (garages.isEmpty()) garages.add("0");
+
+        mProperty = new Property();
+        mProperty.setDescription(description);
+        mProperty.setPrice(price);
+        mProperty.setBedrooms(bedrooms);
+        mProperty.setBathrooms(bathrooms);
+        mProperty.setCars(garages);
+        RadioButton radioButton = (RadioButton) radioGroup.findViewById(radioGroup.getCheckedRadioButtonId());
+        mProperty.setCategory(radioButton.getText().toString());
+        mListener.setDetails_1(mProperty);
+    }
+
+
     public static Fragment_Property_Edit_1 newInstance(Property property) {
         Fragment_Property_Edit_1 fragment = new Fragment_Property_Edit_1();
         Bundle args = new Bundle();
@@ -130,11 +130,12 @@ Listener_Property_Edit mListener;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // mDB_properties = new DB_PropertyHandler(getContext());
+        // mDB_properties = new DB_PropertyHandler(getContext());
         if (getArguments() != null) {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
         }
     }
+
     private ProgressDialog progress;
     private RadioGroup radioGroup;
 
@@ -150,7 +151,7 @@ Listener_Property_Edit mListener;
         radioButton_sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  onRadioButtonClicked(radioButton_sale);
+                //  onRadioButtonClicked(radioButton_sale);
             }
         });
         final RadioButton radioButton_auction = (RadioButton) mView.findViewById(R.id.radioButton_auction);
@@ -158,7 +159,7 @@ Listener_Property_Edit mListener;
         radioButton_auction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  onRadioButtonClicked(radioButton_auction);
+                //  onRadioButtonClicked(radioButton_auction);
             }
         });
 
@@ -175,23 +176,41 @@ Listener_Property_Edit mListener;
 //    }
 //});
 
-      //  mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
-      //  mEditText_address = (EditText) mView.findViewById(R.id.editText_address);
-     //   mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
-       // mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
-      //  mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
-      //  mEditText_postCode = (EditText) mView.findViewById(R.id.editText_postCode);
-      //  mNumberPicker_bedrooms = (NumberPicker) mView.findViewById(R.id.editText_bedrooms);
-      //  mNumberPicker_bathrooms = (NumberPicker) mView.findViewById(R.id.editText_bathrooms);
-      //  mNumberPicker_cars = (NumberPicker) mView.findViewById(R.id.editText_cars);
+        //  mEditText_streetNumber = (EditText) mView.findViewById(R.id.editText_streetNumber);
+        //  mEditText_address = (EditText) mView.findViewById(R.id.editText_address);
+        //   mEditText_streetName = (EditText) mView.findViewById(R.id.editText_streetName);
+        // mEditText_city = (EditText) mView.findViewById(R.id.editText_city);
+        //  mEditText_state = (EditText) mView.findViewById(R.id.editText_state);
+        //  mEditText_postCode = (EditText) mView.findViewById(R.id.editText_postCode);
+        //  mNumberPicker_bedrooms = (NumberPicker) mView.findViewById(R.id.editText_bedrooms);
+        //  mNumberPicker_bathrooms = (NumberPicker) mView.findViewById(R.id.editText_bathrooms);
+        //  mNumberPicker_cars = (NumberPicker) mView.findViewById(R.id.editText_cars);
 
         mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
         mEditText_price = (EditText) mView.findViewById(R.id.editText_price);
         mEditText_bedrooms = (EditText) mView.findViewById(R.id.editText_bedrooms);
         mEditText_bathrooms = (EditText) mView.findViewById(R.id.editText_bathrooms);
         mEditText_cars = (EditText) mView.findViewById(R.id.editText_cars);
+
+
+        if (mProperty != null) {
+            if (mProperty.getDescription() != null && !Objects.equals(mProperty.getDescription(), "None"))
+                mEditText_description.setText(mProperty.getDescription());
+
+            if (mProperty.getPrice() != null && mProperty.getPrice().get(0) != 0)
+                mEditText_price.setText(String.valueOf(mProperty.getPrice().get(0)));
+
+            if (mProperty.getBedrooms() != null)
+                mEditText_bedrooms.setText(String.valueOf(mProperty.getBedrooms()));
+
+            if (mProperty.getBathrooms() != null)
+                mEditText_bathrooms.setText(String.valueOf(mProperty.getBathrooms()));
+
+            if (mProperty.getCars() != null)
+                mEditText_cars.setText(String.valueOf(mProperty.getCars()));
+        }
         //  mEditText_description = (EditText) mView.findViewById(R.id.editText_description);
-      //  file_path = (TextView) mView.findViewById(R.id.file_path);
+        //  file_path = (TextView) mView.findViewById(R.id.file_path);
 
 //
 //        Spinner spinner_currency = (Spinner) mView.findViewById(R.id.spinner_currency);
@@ -205,7 +224,7 @@ Listener_Property_Edit mListener;
 //        spinner_currency.setAdapter(adapter);
 //spinner_currency.setSelection(0);
 
-     mEditText_price.addTextChangedListener(new NumberTextWatcherForThousand(mEditText_price));
+        mEditText_price.addTextChangedListener(new NumberTextWatcherForThousand(mEditText_price));
 
 //        mNumberPicker_bedrooms.setMinValue(pickerMin);
 //        mNumberPicker_bedrooms.setMaxValue(pickerMax);
@@ -299,6 +318,12 @@ Listener_Property_Edit mListener;
         return mView;
     }
 
+
+    @Override
+    public void onDestroyView() {
+        getDetails_1();
+        super.onDestroyView();
+    }
 //    private void onRadioButtonClicked(RadioButton button) {
 //
 //        // Is the button now checked?
@@ -319,8 +344,6 @@ Listener_Property_Edit mListener;
 //                    break;
 //        }
 //    }
-
-
 
 
 //    Integer streetNumber;
@@ -387,7 +410,6 @@ Listener_Property_Edit mListener;
 //    }
 
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -395,35 +417,35 @@ Listener_Property_Edit mListener;
 //        MenuItem camera = menu.findItem(R.id.action_camera);
 //        camera.setVisible(true);
 
-      //  MenuItem searchItem = menu.findItem(R.id.action_search);
+        //  MenuItem searchItem = menu.findItem(R.id.action_search);
 //        searchItem.setVisible(false);
 
 
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {     if (requestCode == SELECT_IMAGE) {
-        if (resultCode == Activity.RESULT_OK) {
-            try {
-                if (data != null) {
-                    Uri selectedImageUri = data.getData();
-                    if (Build.VERSION.SDK_INT < 20)
-                        MY_FILE = new File(getPath(selectedImageUri));
-                    else
-                        MY_FILE = new File(PathFromURI(selectedImageUri));
-                    file_path.setText(MY_FILE.getName());
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SELECT_IMAGE) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    if (data != null) {
+                        Uri selectedImageUri = data.getData();
+                        if (Build.VERSION.SDK_INT < 20)
+                            MY_FILE = new File(getPath(selectedImageUri));
+                        else
+                            MY_FILE = new File(PathFromURI(selectedImageUri));
+                        file_path.setText(MY_FILE.getName());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }
-    } else if (resultCode == Activity.RESULT_CANCELED)
-        Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
+        } else if (resultCode == Activity.RESULT_CANCELED)
+            Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
+        String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = getActivity().managedQuery(uri, projection, null, null, null);
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
@@ -431,7 +453,7 @@ Listener_Property_Edit mListener;
     }
 
     @SuppressLint("NewApi")
-    public String PathFromURI( Uri contentURI){
+    public String PathFromURI(Uri contentURI) {
         Cursor cursor = getActivity().getContentResolver().query(contentURI, null, null, null, null);
         if (cursor == null) { // Source is Dropbox or other similar local file
             // path

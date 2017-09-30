@@ -11,7 +11,7 @@ public interface Listener {
     void onHomeInteraction();
     void onPropertyClicked(Property property);
     void onNoteClicked(Note note);
-    void goTo_NoteEditActivity(Note note, String camera);
+    void goTo_NoteEditActivity(Note note, String openCamera);
     void onSaveProperty();
     void onBackPressed();
     void addToBackStack();
@@ -19,4 +19,5 @@ void viewPagerCount(int count);
     void popBackStack(boolean bool);
     void onSaveComment();
     // void onPropertySelected();
+    void refreshNotes();
 }

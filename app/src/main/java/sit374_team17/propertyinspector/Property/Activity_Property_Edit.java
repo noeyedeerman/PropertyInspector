@@ -1,6 +1,7 @@
 package sit374_team17.propertyinspector.Property;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +24,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
+import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.R;
 
 public class Activity_Property_Edit extends AppCompatActivity implements Listener_Property_Edit {
@@ -176,6 +179,20 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         button_continue.setVisibility(View.GONE);
         button_save.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public void goTo_NoteEditActivity(Note note, String openCamera) {
+        Intent intent = new Intent(Activity_Property_Edit.this, Activity_Note_Edit.class);
+        if (openCamera.equals("do"))
+            note.setCommentType("photo");
+        else
+            note.setCommentType("text");
+        intent.putExtra("property", mProperty);
+        intent.putExtra("note", note);
+        intent.putExtra("methodName", openCamera);
+        startActivityForResult(intent, 1);
+    }
+
 //
 //    // Passes "AddPersonFragment" fragment to the "replaceFragment" method.
 //    public void goTo_AddPersonFragment(Person person) {
@@ -209,10 +226,17 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         }
     }
 
-
-    private void buttonVisability() {
-
+    @Override
+    public void goBackTo_Details() {
+        onBackPressed();
+        onBackPressed();
     }
+
+    @Override
+    public void goBackTo_Address() {
+        onBackPressed();
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -320,4 +344,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         mProperty.setUnitNumber(property.getUnitNumber());
         mProperty.setAddress(property.getAddress());
     }
+
+
+
 }

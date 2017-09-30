@@ -3,7 +3,6 @@ package sit374_team17.propertyinspector.Note;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,15 +26,18 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Property.Property;
 import sit374_team17.propertyinspector.R;
 
-public class Activity_Note_Edit extends AppCompatActivity {
+public class Activity_Note_Edit extends AppCompatActivity implements Listener_Note_Edit {
 
     Property mProperty;
     Note mNote;
     private MenuItem mCameraItem;
     public static String mCurrentPhotoPath;
+    Listener mListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +112,20 @@ public class Activity_Note_Edit extends AppCompatActivity {
         } catch (Exception e) {
             Log.d(tag, e.toString());
         }
-
     }
+//
+//    @Override
+//    public void onBackPressed() {
+//       // super.onBackPressed();
+//        //mListener.refreshNotes();
+//    //    if(mNote.getCommentID() != null) {
+//            setResult(RESULT_OK);
+//     //   }
+//      //  super.onBackPressed();
+//        finish();
+//
+//    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -252,4 +265,10 @@ public class Activity_Note_Edit extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    @Override
+    public void onSave() {
+        setResult(RESULT_OK);
+        finish();
+    }
 }

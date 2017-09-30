@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,13 +18,19 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.R;
 
 import static android.support.v7.content.res.AppCompatResources.getDrawable;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.ViewHolder> {
     private List<Property> mPropertyList;
@@ -35,6 +42,7 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
     String picDetails="";
     InputStream objectData;
     Bitmap bitmap1;
+    private boolean deleteVisable;
 
     public Adapter_Properties(Listener listener, Context context, CognitoCachingCredentialsProvider credentialsProvider, List<Photo> result) {
         mPropertyList = new ArrayList<>();
@@ -113,16 +121,61 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
 
     @Override
     public void onBindViewHolder(final Adapter_Properties.ViewHolder holder, final int position) {
-        holder.mDescription.setText(String.valueOf(mPropertyList.get(position).getDescription()));
-        holder.mAddress.setText(String.valueOf(mPropertyList.get(position).getAddress()));
-        holder.mCity.setText(String.valueOf(mPropertyList.get(position).getCity()));
-        holder.mState.setText(String.valueOf(mPropertyList.get(position).getState().get(0)));
-        holder.mPostCode.setText(String.valueOf(mPropertyList.get(position).getPostCode()));
-        holder.mBedrooms.setText(String.valueOf(mPropertyList.get(position).getBedrooms().get(0)));
-        holder.mBathrooms.setText(String.valueOf(mPropertyList.get(position).getBathrooms().get(0)));
-        if (!mPropertyList.get(position).getCars().isEmpty())
-        holder.mCars.setText(String.valueOf(mPropertyList.get(position).getCars().get(0)));
-        holder.mPrice.setText("$".concat(String.valueOf(mPropertyList.get(position).getPrice().get(0))));
+        deleteVisable = false;
+
+//        holder.mDescription.setText(String.valueOf(mPropertyList.get(position).getDescription()));
+//        holder.mBedrooms.setText(String.valueOf(mPropertyList.get(position).getBedrooms().get(0)));
+//        holder.mBathrooms.setText(String.valueOf(mPropertyList.get(position).getBathrooms().get(0)));
+//        if (!mPropertyList.get(position).getCars().isEmpty())
+//            holder.mCars.setText(String.valueOf(mPropertyList.get(position).getCars().get(0)));
+//        holder.mAddress.setText(String.valueOf(mPropertyList.get(position).getAddress()) + ",");
+//        holder.mCity.setText(String.valueOf(mPropertyList.get(position).getCity()) + ",");
+//        holder.mState.setText(String.valueOf(mPropertyList.get(position).getState().get(0)) + ",");
+//        holder.mPostCode.setText(String.valueOf(mPropertyList.get(position).getPostCode()));
+//
+
+        if (mPropertyList.get(position).getDescription() != null && !Objects.equals(mPropertyList.get(position).getDescription(), "None"))
+            holder.mDescription.setText(String.valueOf(mPropertyList.get(position).getDescription()));
+
+        if (mPropertyList.get(position).getPrice() != null && mPropertyList.get(position).getPrice().get(0) != 0) {
+            NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+            DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
+            decimalFormatSymbols.setCurrencySymbol("");
+            numberFormat.setMaximumFractionDigits(0);
+            ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
+            holder.mPrice.setText(numberFormat.format(mPropertyList.get(position).getPrice().get(0)));
+        }
+
+        if (mPropertyList.get(position).getBedrooms() != null && mPropertyList.get(0).getBedrooms().size() > 0 && !mPropertyList.get(position).getBedrooms().isEmpty())
+            holder.mBedrooms.setText(String.valueOf(mPropertyList.get(position).getBedrooms().get(0)));
+
+        if (mPropertyList.get(position).getBathrooms() != null && mPropertyList.get(0).getBathrooms().size() > 0 && !mPropertyList.get(position).getBathrooms().isEmpty())
+            holder.mBathrooms.setText(String.valueOf(mPropertyList.get(position).getBathrooms().get(0)));
+
+        if (mPropertyList.get(position).getCars() != null && mPropertyList.get(position).getCars().size() > 0 && !mPropertyList.get(position).getCars().isEmpty())
+            holder.mCars.setText(String.valueOf(mPropertyList.get(position).getCars().get(0)));
+
+        if (mPropertyList.get(position).getAddress() != null && !Objects.equals(mPropertyList.get(position).getAddress(), "None"))
+            holder.mAddress.setText(String.valueOf(mPropertyList.get(position).getAddress()) + ",");
+
+        if (mPropertyList.get(position).getCity() != null && !Objects.equals(mPropertyList.get(position).getCity(), "None"))
+            holder.mCity.setText(String.valueOf(mPropertyList.get(position).getCity()) + ",");
+
+        if (mPropertyList.get(position).getState().size() > 0 && !Objects.equals(mPropertyList.get(position).getState().get(0), "None"))
+            holder.mState.setText(String.valueOf(mPropertyList.get(position).getState().get(0)) + ",");
+
+        if (mPropertyList.get(position).getPostCode() != null && mPropertyList.get(position).getPostCode() > 0)
+            holder.mPostCode.setText(String.valueOf(mPropertyList.get(position).getPostCode()));
+
+
+
+
+
+//
+//        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+//        numberFormat.setMaximumFractionDigits(0);
+//        holder.mPrice.setText(numberFormat.format(mPropertyList.get(position).getPrice().get(0)));
+
         picDetails="";
         for (int k=0;k<result.size();k++)
         {
@@ -147,18 +200,54 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
             holder.mPhoto.setImageDrawable( getDrawable(mContext, R.drawable.house));
         }
 
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Property property = mPropertyList.get(holder.getAdapterPosition());
-                mListener.onPropertyClicked(property);
+                if (deleteVisable){
+                    deleteVisable = false;
+                    notifyDataSetChanged();
+                } else {
+                    Property property = mPropertyList.get(holder.getAdapterPosition());
+                    mListener.onPropertyClicked(property);
+                }
             }
         });
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View view) {
+                if(!deleteVisable) {
+                    deleteVisable = true;
+                }
+                holder.mDelete.setVisibility(VISIBLE);
+                return true;
+            }
+
+        });
+
+        if(deleteVisable){
+            holder.mDelete.setVisibility(VISIBLE);
+        } else {
+            holder.mDelete.setVisibility(GONE);
+        }
+
+        holder.mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeItem(holder.getAdapterPosition());
+            }
+        });
+
+
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mDescription, mAddress, mCity, mState, mPostCode, mBedrooms, mBathrooms, mCars, mPrice;
         private ImageView mPhoto;
+        private ImageButton mDelete;
         private View mView;
 
         public ViewHolder(View itemView) {
@@ -173,8 +262,11 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
             mBathrooms = (TextView) itemView.findViewById(R.id.textView_bathrooms);
             mCars = (TextView) itemView.findViewById(R.id.textView_cars);
             mPrice = (TextView) itemView.findViewById(R.id.textView_price);
-
             mPhoto = (ImageView) itemView.findViewById(R.id.imageView_property);
+
+            mDelete = itemView.findViewById(R.id.button_delete);
+
+
         }
     }
 }

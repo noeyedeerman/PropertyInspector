@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.SystemClock;
@@ -31,10 +32,11 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.io.File;
 
-import sit374_team17.propertyinspector.Main.Fragment_Home;
 import sit374_team17.propertyinspector.Property.Property;
 import sit374_team17.propertyinspector.R;
 import sit374_team17.propertyinspector.User.Activity_Login;
@@ -60,7 +62,7 @@ public class Fragment_Note_Edit extends Fragment {
     protected static String PROPERTY_ID="";
 
     private Property mProperty;
-
+Listener_Note_Edit mListener;
     private Button button_save;
     private EditText mEditText_title, mEditText_note;
 private ImageView imageView;
@@ -70,6 +72,24 @@ private ImageView imageView;
     public Fragment_Note_Edit() {
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Listener_Note_Edit) {
+            mListener = (Listener_Note_Edit) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement Listener_Note_Edit");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessages);
+    }
 
     public static Fragment_Note_Edit newInstance(Note note) {
         Fragment_Note_Edit fragment = new Fragment_Note_Edit();
@@ -104,7 +124,17 @@ private ImageView imageView;
               mView = inflater.inflate(R.layout.fragment_note_text_edit, container, false);
         } else  if ("photo".equals(mNote.getCommentType())) {
             mView = inflater.inflate(R.layout.fragment_note_photo_edit, container, false);
-                 imageView = (ImageView) mView.findViewById(R.id.imageView);
+                 imageView = (ImageView) mView.findViewById(R.id.imageView_image);
+              Glide.with(getContext())
+                      .load(MY_BUCKET.concat(mNote.getPhoto()))
+                      .asBitmap()
+                      .into(new SimpleTarget<Bitmap>(200,200) {
+                          @Override
+                          public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                              imageView.setImageBitmap(resource); // Possibly runOnUiThread()
+                          }
+                      });
+
         }
 
         if (mView != null) {
@@ -112,7 +142,7 @@ private ImageView imageView;
             mEditText_title = (EditText) mView.findViewById(R.id.editText_title);
             mEditText_note = (EditText) mView.findViewById(R.id.editText_note);
 
-           // mEditText_title.setText(mNote.getCommentTitle());
+            mEditText_title.setText(mNote.getCommentTitle());
             mEditText_note.setText(mNote.getDescription());
 
             button_save.setOnClickListener(new View.OnClickListener() {
@@ -147,11 +177,6 @@ private ImageView imageView;
         }
     };
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessages);
-    }
 
     private void saveComment() {
         String note = mEditText_note.getText().toString();
@@ -174,12 +199,14 @@ private ImageView imageView;
                         public void run() {
                             Toast.makeText(getActivity(),"Note submitted successfully",Toast.LENGTH_SHORT).show();
                             getActivity().finish();
+                            mListener.onSave();
                         }
                     });
                 }
             };
             Thread mythread = new Thread(runnable);
             mythread.start();
+
         }
         else
             Toast.makeText(getActivity(),"Empty post are not allowed",Toast.LENGTH_LONG).show();

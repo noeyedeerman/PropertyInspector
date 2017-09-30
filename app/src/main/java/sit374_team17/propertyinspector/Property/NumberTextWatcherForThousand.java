@@ -35,7 +35,6 @@ public class NumberTextWatcherForThousand implements TextWatcher {
             editText.removeTextChangedListener(this);
             String value = editText.getText().toString();
 
-
             if (value != null && !value.equals(""))
             {
 
@@ -46,7 +45,6 @@ public class NumberTextWatcherForThousand implements TextWatcher {
                     editText.setText("");
 
                 }
-
 
                 String str = editText.getText().toString().replaceAll(",", "");
                 if (!value.equals(""))

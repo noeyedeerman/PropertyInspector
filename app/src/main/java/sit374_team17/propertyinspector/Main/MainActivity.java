@@ -38,15 +38,16 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.Calendar;
 
-import sit374_team17.propertyinspector.Note.Note;
-import sit374_team17.propertyinspector.SavedPreference;
-import sit374_team17.propertyinspector.User.Activity_Login;
 import sit374_team17.propertyinspector.Activity_Settings;
 import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
+import sit374_team17.propertyinspector.Note.Fragment_Note_List;
+import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.Property.Activity_Property_Edit;
 import sit374_team17.propertyinspector.Property.Fragment_Property;
 import sit374_team17.propertyinspector.Property.Property;
 import sit374_team17.propertyinspector.R;
+import sit374_team17.propertyinspector.SavedPreference;
+import sit374_team17.propertyinspector.User.Activity_Login;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Listener {
@@ -294,13 +295,29 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("property", mProperty);
         intent.putExtra("note", note);
         intent.putExtra("methodName", openCamera);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
         mFabMenu_Note.close(true);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                FragmentManager manager = getSupportFragmentManager();
+                Fragment_Note_List fragment_note_list = (Fragment_Note_List) manager.findFragmentById(R.id.content_main);
+                fragment_note_list.refreshNotes();
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
 
+                // Do something with the contact here (bigger example below)
+            }
+        }
 
-//    public void goTo_NoteEditActivity() {
+    }
+
+    //    public void goTo_NoteEditActivity() {
 //
 //        Intent intent = new Intent(MainActivity.this, Activity_Note_Edit.class);
 //        intent.putExtra("property", mProperty);
@@ -349,6 +366,8 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+    
+    
 
 
     @Override
@@ -452,11 +471,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSaveComment() {
-//        FragmentManager manager = getSupportFragmentManager();
-//        Fragment toggleFragment = (ToggleFragment) manager.findFragmentById(R.id.content_main);
-//        toggleFragment.deleteToggle(id);
+     //   FragmentManager manager = getSupportFragmentManager();
+      //  Fragment toggleFragment = (ToggleFragment) manager.findFragmentById(R.id.content_main);
+     //   toggleFragment.deleteToggle(id);
     }
 
+    @Override
+    public void refreshNotes() {
+
+    }
 
     @Override
     public void onHomeInteraction() {
