@@ -76,6 +76,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
     private Property mProperty;
     protected DynamoDBMapper mapper;
     protected List<Note> mNoteList;
+    protected List<Note> mTempList;
     Adapter_Notes mCommentsAdapter;
     View mView;
     ViewPager mViewPager_property;
@@ -110,6 +111,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
     protected static String PROPERTY_ID = "";
     private String string_address;
 
+
     public Fragment_Property_Description() {
     }
 
@@ -135,7 +137,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         Fragment_Property_Description fragment = new Fragment_Property_Description();
         Bundle args = new Bundle();
         args.putParcelable(ARG_PROPERTY, property);
-      //  args.putParcelable(ARG_NOTELIST, (Parcelable) noteList);
+        //  args.putParcelable(ARG_NOTELIST, (Parcelable) noteList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -145,7 +147,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mProperty = getArguments().getParcelable(ARG_PROPERTY);
-           // mNoteList = getArguments().getParcelable(ARG_NOTELIST);
+            // mNoteList = getArguments().getParcelable(ARG_NOTELIST);
         }
 
     }
@@ -160,7 +162,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         mViewPager_property = (ViewPager) mView.findViewById(R.id.viewPager_property);
         // button_camera = (ImageButton) mView.findViewById(R.id.button_camera);
         //  button_post = (Button) mView.findViewById(R.id.button_post);
-      mFab_walktrhough= (FloatingActionButton) mView.findViewById(R.id.fab_walkthrough);
+        mFab_walktrhough = (FloatingActionButton) mView.findViewById(R.id.fab_walkthrough);
 
         //   if(googleServicesAvailable()){
         //      Toast.makeText(getContext(), "Google services available", Toast.LENGTH_SHORT).show();
@@ -179,7 +181,6 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         mNoteList = new ArrayList<>();
         PROPERTY_ID = mProperty.getId();
         initViews();
-
 
 
         mFab_walktrhough.setOnClickListener(new View.OnClickListener() {
@@ -219,9 +220,8 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         //  mRecyclerView.setAdapter(mAdapter_note);
 
 
-
-      //  mAdapter_slideShow.setPhotoList(mPhotoList);
-      //  mViewPager_property.setAdapter(mAdapter_slideShow);
+        //  mAdapter_slideShow.setPhotoList(mPhotoList);
+        //  mViewPager_property.setAdapter(mAdapter_slideShow);
 
 
         // mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
@@ -230,9 +230,9 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         mTextView_price = mView.findViewById(R.id.textView_price);
         mTextView_address = (TextView) mView.findViewById(R.id.textView_address);
         mTextView_city = mView.findViewById(R.id.textView_city);
-        mTextView_state =  mView.findViewById(R.id.textView_state);
+        mTextView_state = mView.findViewById(R.id.textView_state);
         mTextView_postCode = mView.findViewById(R.id.textView_postCode);
-        mTextView_bedrooms =  mView.findViewById(R.id.textView_bedrooms);
+        mTextView_bedrooms = mView.findViewById(R.id.textView_bedrooms);
         mTextView_bathrooms = mView.findViewById(R.id.textView_bathrooms);
         mTextView_cars = mView.findViewById(R.id.textView_cars);
 
@@ -318,7 +318,6 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         //googleMap.addMarker(new MarkerOptions().position(new LatLng(40.689247, -74.044502)).title("Statue of Liberty").snippet("I hope to go there someday"));
 
 
-
         //String location = "41 Cathcart Street Maidstone";
         String location = mProperty.getAddress() + ", " + mProperty.getCity();
 
@@ -354,14 +353,12 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
             }
 
 
-
-
-googleMap.setBuildingsEnabled(true);
+            googleMap.setBuildingsEnabled(true);
             googleMap.setContentDescription("cool description?");
             googleMap.getUiSettings().setMapToolbarEnabled(true);
             googleMap.getUiSettings().setTiltGesturesEnabled(false);
 
-     //       CameraPosition myHouse = CameraPosition.builder().target(new LatLng(address.getLatitude(), address.getLongitude())).zoom(16).bearing(0).tilt(45).build();
+            //       CameraPosition myHouse = CameraPosition.builder().target(new LatLng(address.getLatitude(), address.getLongitude())).zoom(16).bearing(0).tilt(45).build();
 
 //googleMap.getUiSettings().isZoomControlsEnabled();
             googleMap.getUiSettings().setScrollGesturesEnabled(false);
@@ -433,8 +430,9 @@ googleMap.setBuildingsEnabled(true);
 
         mListener.onSaveComment();
     }
-//
-   private void initViews() {
+
+    //
+    private void initViews() {
 //        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView_commentPrivate);
 //        mRecyclerView.setHasFixedSize(true);
 //        RecyclerView.LayoutManager layoutManager;
@@ -459,8 +457,6 @@ googleMap.setBuildingsEnabled(true);
 //       mNoteList.add(note3);
 
 
-
-
 //       mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
 //       mAdapter_slideShow.setNoteList(mNoteList);
 //       //   mAdapter_slideShow.setPhotoList(mPhotoList);
@@ -468,8 +464,8 @@ googleMap.setBuildingsEnabled(true);
 //
 
 
-       // mCommentsList = mDB_comments.getAllComments();
-       //  mAdapter = new Adapter_PropertySwipe(getContext());
+        // mCommentsList = mDB_comments.getAllComments();
+        //  mAdapter = new Adapter_PropertySwipe(getContext());
 
 
         AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
@@ -486,12 +482,18 @@ googleMap.setBuildingsEnabled(true);
                         new Condition()
                                 .withComparisonOperator(ComparisonOperator.EQ)
                                 .withAttributeValueList(new AttributeValue().withS(Activity_Login.mUser)));
-                mNoteList = mapper.scan(Note.class, scanExpression);
+                mTempList = mapper.scan(Note.class, scanExpression);
+                //  mNoteList = mapper.scan(Note.class, scanExpression);
                 if (mNoteList.size() >= 0) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
+                            for (Note note : mTempList) {
+                                if (!"text".equals(note.getCommentType())) {
+                                    mNoteList.add(note);
+                                }
+                            }
                             mAdapter_slideShow.setNoteList(mNoteList);
                             mViewPager_property.setAdapter(mAdapter_slideShow);
 
@@ -505,8 +507,8 @@ googleMap.setBuildingsEnabled(true);
         mythread.start();
 
 
-      // mAdapter_slideShow.setNoteList(mNoteList);
-     //  mViewPager_property.setAdapter(mAdapter_slideShow);
+        // mAdapter_slideShow.setNoteList(mNoteList);
+        //  mViewPager_property.setAdapter(mAdapter_slideShow);
 
     }
 
