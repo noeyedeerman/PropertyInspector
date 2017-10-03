@@ -22,7 +22,7 @@ import com.amazonaws.regions.Regions;
 
 import sit374_team17.propertyinspector.R;
 
-public class Activity_User_Edit extends AppCompatActivity implements Listener_User_Edit, SignUpHandler {
+public class Activity_User_Edit_old extends AppCompatActivity implements Listener_User_Edit, SignUpHandler {
 
     Spinner date_of_birth, month_of_birth, year_of_birth;
     ArrayAdapter dateAdapter, monthAdapter, yearAdapter;
@@ -106,7 +106,7 @@ public class Activity_User_Edit extends AppCompatActivity implements Listener_Us
         /**
          * This represents a user-pool in a Cognito identity provider account.
          */
-        userPool = new CognitoUserPool(Activity_User_Edit.this, userPoolId, clientId, clientSecret, clientConfiguration, Regions.AP_SOUTHEAST_2);
+        userPool = new CognitoUserPool(Activity_User_Edit_old.this, userPoolId, clientId, clientSecret, clientConfiguration, Regions.AP_SOUTHEAST_2);
         // Create a CognitoUserAttributes object and add user attributes
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         // Add the user attributes. Attributes are added as key-value pairs
@@ -122,10 +122,10 @@ public class Activity_User_Edit extends AppCompatActivity implements Listener_Us
         // Adding user's address
         userAttributes.addAttribute("address", "None");
 
-        userPool.signUpInBackground(mUser.getEmail(), mUser.getPassword(), userAttributes, null, Activity_User_Edit.this);
+        userPool.signUpInBackground(mUser.getEmail(), mUser.getPassword(), userAttributes, null, Activity_User_Edit_old.this);
 
         // finish();
-        //  Intent intent = new Intent(Activity_User_Edit.this, MainActivity.class);
+        //  Intent intent = new Intent(Activity_User_Edit_old.this, MainActivity.class);
         //  intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         // startActivity(intent);
 

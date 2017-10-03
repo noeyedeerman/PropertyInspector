@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         // mFabProperty = (FloatingActionButton) findViewById(R.id.fab_addProperty);
-        mFabMenu_CreateProperty = (FloatingActionMenu) findViewById(R.id.property_fab_menu);
+       // mFabMenu_CreateProperty = (FloatingActionMenu) findViewById(R.id.property_fab_menu);
         viewPagerCount = -1;
 
 //        mFabMenu_CreateProperty.setOnClickListener(new View.OnClickListener() {
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        mFabMenu_CreateProperty.setClosedOnTouchOutside(true);
+      //  mFabMenu_CreateProperty.setClosedOnTouchOutside(true);
         mFabMenu_Note.setClosedOnTouchOutside(true);
 
 
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, Activity_Property_Edit.class);
         intent.putExtra("tokens",getIntent().getStringExtra("tokens"));
         startActivity(intent);
-        mFabMenu_CreateProperty.close(true);
+      //  mFabMenu_CreateProperty.close(true);
     }
 
     public void goTo_PropertyFragment(Property property) {
@@ -286,7 +286,9 @@ public class MainActivity extends AppCompatActivity
         mSelectedFragment = fragment;
         viewPagerCount = 0;
         //  mFab_AddNote.show();
-        mFabMenu_CreateProperty.hideMenu(false);
+       // mFabMenu_CreateProperty.hideMenu(false);
+       // mFab_CreateProperty.hide();
+        mFab_CreateProperty.hide(false);
         mFabMenu_Note.showMenu(false);
     }
 
@@ -385,7 +387,9 @@ public class MainActivity extends AppCompatActivity
         //  popBackStack = bool;
         fm.popBackStack();
         mFabMenu_Note.hideMenu(false);
-        mFabMenu_CreateProperty.showMenu(false);
+     //   mFabMenu_CreateProperty.showMenu(false);
+   //     mFab_CreateProperty.show();
+        mFab_CreateProperty.show(false);
     }
 
 

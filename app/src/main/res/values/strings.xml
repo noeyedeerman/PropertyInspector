@@ -310,6 +310,8 @@
     <string name="addressComma">Address,</string>
     <string name="cityComma">City,</string>
     <string name="stateComma">State,</string>
+    <string name="no_email">No email</string>
+    <string name="no_phone">No phone</string>
 
 
 </resources>

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +21,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 import sit374_team17.propertyinspector.Property.Photo;
 import sit374_team17.propertyinspector.Property.Property;
@@ -51,15 +51,15 @@ public class Fragment_User_Edit_2 extends Fragment {
     int SELECT_IMAGE = 103;
 
     Listener_User_Edit mListener;
+    private String firstName, lastName, phone;
 
     public Fragment_User_Edit_2() {
     }
 
     public boolean getDetails_2() {
-        String firstName = mEditText_firstName.getText().toString();
-
-        String lastName = mEditText_lastName.getText().toString();
-        String phone = mEditText_phone.getText().toString();
+        firstName = mEditText_firstName.getText().toString();
+        lastName = mEditText_lastName.getText().toString();
+        phone = mEditText_phone.getText().toString();
 
         if (firstName.isEmpty() || firstName == "") {
             Toast.makeText(getActivity(),"First Name cannot be empty",Toast.LENGTH_LONG).show();
@@ -83,11 +83,25 @@ public class Fragment_User_Edit_2 extends Fragment {
         mUser.setLastName(lastName);
         mUser.setPhone(phone);
 
+
         mListener.setDetails_2(mUser);
 
         return true;
     }
 
+    public void saveDetailsTemp(){
+        firstName = mEditText_firstName.getText().toString();
+        lastName = mEditText_lastName.getText().toString();
+        phone = mEditText_phone.getText().toString();
+
+
+        mUser = new User();
+        mUser.setFirstName(firstName);
+        mUser.setLastName(lastName);
+        mUser.setPhone(phone);
+
+        mListener.setDetails_2(mUser);
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -136,13 +150,25 @@ public class Fragment_User_Edit_2 extends Fragment {
         mEditText_lastName = (EditText) mView.findViewById(R.id.editText_lastName);
         mEditText_phone = (EditText) mView.findViewById(R.id.editText_phone);
 
-        try{
-            mEditText_firstName.setText(mUser.getFirstName());
-            mEditText_lastName.setText(mUser.getLastName());
-            mEditText_phone.setText(mUser.getPhone());
-        }catch(NullPointerException e){Log.e("","");};
+//        try{
+//            mEditText_firstName.setText(mUser.getFirstName());
+//            mEditText_lastName.setText(mUser.getLastName());
+//            mEditText_phone.setText(mUser.getPhone());
+//        }catch(NullPointerException e){Log.e("","");};
 
-        return mView;
+        if (mUser != null) {
+
+            if (mUser.getFirstName() != null && !Objects.equals(mUser.getFirstName(), ""))
+                mEditText_firstName.setText(mUser.getFirstName());
+
+            if (mUser.getLastName() != null && !Objects.equals(mUser.getLastName(), ""))
+                mEditText_lastName.setText(mUser.getLastName());
+
+            if (mUser.getPhone() != null && !Objects.equals(mUser.getPhone(), ""))
+                mEditText_phone.setText(mUser.getPhone());
+
+        }
+            return mView;
     }
 
 //    private void onRadioButtonClicked(RadioButton button) {
@@ -231,6 +257,12 @@ public class Fragment_User_Edit_2 extends Fragment {
 //    }
 
 
+    @Override
+    public void onDestroyView() {
+        //getDetails_2();
+        saveDetailsTemp();
+        super.onDestroyView();
+    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);

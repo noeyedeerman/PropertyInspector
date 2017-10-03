@@ -25,6 +25,7 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 
 import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Property.Photo;
@@ -93,10 +94,21 @@ public class Fragment_User_Edit_3 extends Fragment {
         mTextView_email= (TextView) mView.findViewById(R.id.textView_email);
         mTextView_phone= (TextView) mView.findViewById(R.id.textView_phone);
 
-        mTextView_firstName.setText(mUser.getFirstName());
-        mTextView_lastName.setText(mUser.getLastName());
-        mTextView_email.setText(mUser.getEmail());
-        mTextView_phone.setText(mUser.getPhone());
+        if (mUser != null) {
+
+            if (mUser.getFirstName() != null && !Objects.equals(mUser.getFirstName(), ""))
+                mTextView_firstName.setText(mUser.getFirstName());
+
+            if (mUser.getLastName() != null && !Objects.equals(mUser.getLastName(), ""))
+                mTextView_lastName.setText(mUser.getLastName());
+
+            if (mUser.getEmail() != null && !Objects.equals(mUser.getEmail(), ""))
+                mTextView_email.setText(mUser.getEmail());
+
+            if (mUser.getPhone() != null && !Objects.equals(mUser.getPhone(), ""))
+                mTextView_phone.setText(mUser.getPhone());
+
+        }
 
         return mView;
     }

@@ -22,7 +22,7 @@
 
     <item android:id="@+id/action_criteria"
         android:title="@string/action_criteria"
-        android:icon="@drawable/flag"
+        android:icon="@drawable/ic_action_flag"
         app:showAsAction="ifRoom|collapseActionView"
         />
 

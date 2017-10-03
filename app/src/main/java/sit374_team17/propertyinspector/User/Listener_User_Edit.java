@@ -9,4 +9,10 @@ public interface Listener_User_Edit {
     void save();
     void setDetails_1(User user);
     void setDetails_2(User user);
+
+   // void saveDetailsTemp(User user);
+   // void setDetails_2(User user);
+
+    //void goBackTo_Email();
+   // void goBackTo_Details();
 }

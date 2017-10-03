@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="20dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="sit374_team17.propertyinspector.User.Activity_User_Edit"
+    tools:context="sit374_team17.propertyinspector.User.Activity_User_Edit_old"
     tools:showIn="@layout/activity_create">
     <!-- android:background="@color/cardview_shadow_start_color"> -->
 

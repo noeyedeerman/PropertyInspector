@@ -90,7 +90,7 @@ public class Activity_Login extends AppCompatActivity implements AuthenticationH
             }
 
         });
-        //Instance of the "Create user" labeled TextView created and on click method opens the Activity_User_Edit activity
+        //Instance of the "Create user" labeled TextView created and on click method opens the Activity_User_Edit_old activity
         final TextView text_goToCreateActivity = (TextView) findViewById(R.id.text_goToCreateActivity);
         text_goToCreateActivity.setOnClickListener(new View.OnClickListener() {
 

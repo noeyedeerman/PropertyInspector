@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sit374_team17.propertyinspector.User.Activity_Login;
 import sit374_team17.propertyinspector.Property.Adapter_Properties;
 import sit374_team17.propertyinspector.Property.Photo;
 import sit374_team17.propertyinspector.Property.Property;
@@ -133,7 +132,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 //        Drawable progress = mRatingBar.getProgressDrawable();
 //        DrawableCompat.setTint(progress, Color.WHITE);
 
-        Log.d(Activity_Login.LOG_TAG,getActivity().getIntent().getStringExtra("tokens"));
+      //  Log.d(Activity_Login.LOG_TAG,getActivity().getIntent().getStringExtra("tokens"));
         // Create a credentials provider, or use the existing provider.
         credentialsProvider = new CognitoCachingCredentialsProvider(getActivity(), IDENTITY_POOL_ID, Regions.AP_SOUTHEAST_2);
         // Set up as a credentials provider.
