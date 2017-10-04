@@ -26,6 +26,7 @@ import com.amazonaws.services.dynamodbv2.model.Condition;
 import java.util.ArrayList;
 import java.util.List;
 
+import sit374_team17.propertyinspector.Fragment_Criteria;
 import sit374_team17.propertyinspector.Main.Fragment_Home;
 import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Note.Fragment_Note_List;
@@ -40,7 +41,7 @@ public class Fragment_Property extends Fragment {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 2;
+    private static final int NUM_PAGES = 3;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -142,8 +143,8 @@ mNoteList = new ArrayList<>();
                     return Fragment_Property_Description.newInstance(mProperty);
                 case 1:
                    return Fragment_Note_List.newInstance(mProperty);
-               // case 2:
-               //     return Fragment_Criteria.newInstance(mProperty);
+                case 2:
+                    return Fragment_Criteria.newInstance(mProperty);
                 default:
                     return null;
             }

@@ -123,17 +123,6 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
     public void onBindViewHolder(final Adapter_Properties.ViewHolder holder, final int position) {
         deleteVisable = false;
 
-//        holder.mDescription.setText(String.valueOf(mPropertyList.get(position).getDescription()));
-//        holder.mBedrooms.setText(String.valueOf(mPropertyList.get(position).getBedrooms().get(0)));
-//        holder.mBathrooms.setText(String.valueOf(mPropertyList.get(position).getBathrooms().get(0)));
-//        if (!mPropertyList.get(position).getCars().isEmpty())
-//            holder.mCars.setText(String.valueOf(mPropertyList.get(position).getCars().get(0)));
-//        holder.mAddress.setText(String.valueOf(mPropertyList.get(position).getAddress()) + ",");
-//        holder.mCity.setText(String.valueOf(mPropertyList.get(position).getCity()) + ",");
-//        holder.mState.setText(String.valueOf(mPropertyList.get(position).getState().get(0)) + ",");
-//        holder.mPostCode.setText(String.valueOf(mPropertyList.get(position).getPostCode()));
-//
-
         if (mPropertyList.get(position).getDescription() != null && !Objects.equals(mPropertyList.get(position).getDescription(), "None"))
             holder.mDescription.setText(String.valueOf(mPropertyList.get(position).getDescription()));
 
@@ -167,15 +156,6 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
         if (mPropertyList.get(position).getPostCode() != null && mPropertyList.get(position).getPostCode() > 0)
             holder.mPostCode.setText(String.valueOf(mPropertyList.get(position).getPostCode()));
 
-
-
-
-
-//
-//        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
-//        numberFormat.setMaximumFractionDigits(0);
-//        holder.mPrice.setText(numberFormat.format(mPropertyList.get(position).getPrice().get(0)));
-
         picDetails="";
         for (int k=0;k<result.size();k++)
         {
@@ -187,6 +167,7 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
             }
         }
         if (!picDetails.equals("")) {
+
             Glide.with(mContext)
                     .load(MY_BUCKET.concat(picDetails))
                     .asBitmap()
@@ -194,9 +175,11 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
                             holder.mPhoto.setImageBitmap(resource); // Possibly runOnUiThread()
+                            holder.mPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
                         }
                     });
         } else {
+            holder.mPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
             holder.mPhoto.setImageDrawable( getDrawable(mContext, R.drawable.house));
         }
 
@@ -239,9 +222,6 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
                 removeItem(holder.getAdapterPosition());
             }
         });
-
-
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -263,10 +243,7 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
             mCars = (TextView) itemView.findViewById(R.id.textView_cars);
             mPrice = (TextView) itemView.findViewById(R.id.textView_price);
             mPhoto = (ImageView) itemView.findViewById(R.id.imageView_property);
-
             mDelete = itemView.findViewById(R.id.button_delete);
-
-
         }
     }
 }

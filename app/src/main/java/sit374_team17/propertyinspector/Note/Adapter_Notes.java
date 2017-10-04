@@ -26,17 +26,16 @@ import sit374_team17.propertyinspector.R;
 import static android.support.v7.widget.RecyclerView.GONE;
 import static android.support.v7.widget.RecyclerView.VISIBLE;
 
-public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Note> mNotesList;
     private Adapter_Note_Stack mNoteStack;
     private String MY_BUCKET = "https://s3-ap-southeast-2.amazonaws.com/propertyinspector-userfiles-mobilehub-4404653/";
     AmazonS3 s3Client;
     private Listener mListener;
-  //  private Listener_Note_List mListener_notes;
+    //  private Listener_Note_List mListener_notes;
     Context mContext;
     boolean deleteVisable;
     RecyclerView mRecyclerView;
-
 
 
 //
@@ -48,12 +47,11 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     Adapter_Notes(Context context, Listener listener, CognitoCachingCredentialsProvider credentialsProvider) {
         mNotesList = new ArrayList<>();
         mContext = context;
-         mListener = listener;
-      //  mListener_notes = listener_notes;
+        mListener = listener;
+        //  mListener_notes = listener_notes;
         s3Client = new AmazonS3Client(credentialsProvider);
         // mContext = context;
     }
-
 
 
 //    Adapter_Notes(Context context, Listener_Note_List listener, CognitoCachingCredentialsProvider credentialsProvider) {
@@ -142,16 +140,13 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         View view;
 
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note, parent, false);
 
 
-                return new ViewHolder(view);
-            // case 2:
-            //    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note_stack, parent, false);
-            //   return new ViewHolder_stack(view);
-
-
-
+        return new ViewHolder(view);
+        // case 2:
+        //    view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note_stack, parent, false);
+        //   return new ViewHolder_stack(view);
 
 
         //  View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_note, parent, false);
@@ -161,7 +156,7 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         String note_title;
-    deleteVisable = false;
+        deleteVisable = false;
         if (mNotesList.get(position).getCommentTitle() == null || mNotesList.get(position).getCommentTitle() == "") {
             note_title = "Note Title";
         } else {
@@ -169,29 +164,29 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
 
-                final ViewHolder viewHolder = (ViewHolder) holder;
+        final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.mTitle.setText(note_title);
         viewHolder.mNote.setText(mNotesList.get(position).getDescription());
 
-                if ("text".equals(mNotesList.get(position).getCommentType())) {
-                    viewHolder.mPhoto.setVisibility(GONE);
-                } else {
-                    viewHolder.mPhoto.setVisibility(VISIBLE);
-                    Glide.with(mContext)
-                            .load(MY_BUCKET.concat(mNotesList.get(position).getPhoto()))
-                            .asBitmap()
-                            .into(new SimpleTarget<Bitmap>(200, 200) {
-                                @Override
-                                public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                                    viewHolder.mPhoto.setImageBitmap(resource); // Possibly runOnUiThread()
-                                }
-                            });
-                }
+        if ("text".equals(mNotesList.get(position).getCommentType())) {
+            viewHolder.mPhoto.setVisibility(GONE);
+        } else {
+            viewHolder.mPhoto.setVisibility(VISIBLE);
+            Glide.with(mContext)
+                    .load(MY_BUCKET.concat(mNotesList.get(position).getPhoto()))
+                    .asBitmap()
+                    .into(new SimpleTarget<Bitmap>(200, 200) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                            viewHolder.mPhoto.setImageBitmap(resource); // Possibly runOnUiThread()
+                        }
+                    });
+        }
 
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (deleteVisable){
+                if (deleteVisable) {
                     deleteVisable = false;
                     notifyDataSetChanged();
                 } else {
@@ -205,7 +200,7 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             @Override
             public boolean onLongClick(View view) {
-                if(!deleteVisable) {
+                if (!deleteVisable) {
                     deleteVisable = true;
                 }
                 viewHolder.mDelete.setVisibility(VISIBLE);
@@ -214,7 +209,7 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         });
 
-        if(deleteVisable){
+        if (deleteVisable) {
             viewHolder.mDelete.setVisibility(VISIBLE);
         } else {
             viewHolder.mDelete.setVisibility(GONE);
@@ -227,8 +222,8 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         });
 
-                //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
-                //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
+        //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
+        //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
 
 //            case 2:
 //                ViewHolder_stack viewHolder_stack = (ViewHolder_stack)holder;
@@ -237,7 +232,6 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //                //viewHolder_photo.mImage.setImageDrawable(mContext.getDrawable(mContext, R.drawable.clarke));
 //                //viewHolder_photo.mImage.setImageResource(mContext.getDrawable(mContext, R.drawable.clarke));
 //                break;
-
 
 
     }
@@ -278,7 +272,7 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //        }
 //    }
 
-    private class ViewHolder extends RecyclerView.ViewHolder  {
+    private class ViewHolder extends RecyclerView.ViewHolder {
         private View mView;
         private TextView mTitle;
         private TextView mNote;
@@ -291,8 +285,8 @@ public class Adapter_Notes extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             mTitle = (TextView) itemView.findViewById(R.id.textView_title);
             mNote = (TextView) itemView.findViewById(R.id.textView_note);
             mPhoto = (ImageView) itemView.findViewById(R.id.imageView_photo);
-            mDelete =  itemView.findViewById(R.id.button_delete);
-          //  itemView.setOnClickListener((OnClickListener) this);
+            mDelete = itemView.findViewById(R.id.button_delete);
+            //  itemView.setOnClickListener((OnClickListener) this);
         }
 
 

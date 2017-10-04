@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorDarkGrey"
+    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical">
 
 
@@ -14,8 +15,9 @@
         android:layout_height="240dp"
         android:layout_marginBottom="0dp"
         android:adjustViewBounds="true"
-        android:background="@color/com_facebook_blue"
-        android:scaleType="centerCrop"
+        android:background="@color/colorDarkGrey"
+        android:src="@drawable/ic_camera_plus"
+        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout3"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

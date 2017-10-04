@@ -280,14 +280,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void goTo_PropertyFragment(Property property) {
-
         Fragment_Property fragment = Fragment_Property.newInstance(property);
         replaceFragment(fragment, "Fragment_Property");
         mSelectedFragment = fragment;
         viewPagerCount = 0;
-        //  mFab_AddNote.show();
-       // mFabMenu_CreateProperty.hideMenu(false);
-       // mFab_CreateProperty.hide();
         mFab_CreateProperty.hide(false);
         mFabMenu_Note.showMenu(false);
     }
@@ -299,6 +295,22 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra("methodName", openCamera);
         startActivityForResult(intent, 1);
         mFabMenu_Note.close(true);
+    }
+
+    private void replaceFragment(Fragment fragment, String tag) {
+        try {
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            if (tag == "Fragment_Property") {
+                fragmentTransaction.setCustomAnimations(R.anim.enter_left, R.anim.exit_right, R.anim.exit_left, R.anim.enter_right);
+                fragmentTransaction.addToBackStack(null);
+            }
+            fragmentTransaction.replace(R.id.content_main, fragment, tag);
+            fragmentTransaction.commit();
+        } catch (Exception e) {
+            Log.d(tag, e.toString());
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
     }
 
     @Override
@@ -334,25 +346,6 @@ public class MainActivity extends AppCompatActivity
 //    }
 
 
-    private void replaceFragment(Fragment fragment, String tag) {
-        try {
-            fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-            if (tag == "Fragment_Property") {
-                fragmentTransaction.setCustomAnimations(R.anim.enter_left, R.anim.exit_right, R.anim.exit_left, R.anim.enter_right);
-                fragmentTransaction.addToBackStack(null);
-            }
-
-            fragmentTransaction.replace(R.id.content_main, fragment, tag);
-            fragmentTransaction.commit();
-
-        } catch (Exception e) {
-            Log.d(tag, e.toString());
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-    }
 
     @Override
     public void onBackPressed() {

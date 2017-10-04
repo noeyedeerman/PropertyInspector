@@ -110,6 +110,7 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
 
     protected static String PROPERTY_ID = "";
     private String string_address;
+    private ImageView imageView;
 
 
     public Fragment_Property_Description() {
@@ -163,11 +164,18 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
         // button_camera = (ImageButton) mView.findViewById(R.id.button_camera);
         //  button_post = (Button) mView.findViewById(R.id.button_post);
         mFab_walktrhough = (FloatingActionButton) mView.findViewById(R.id.fab_walkthrough);
-
+imageView = mView.findViewById(R.id.imageView);
         //   if(googleServicesAvailable()){
         //      Toast.makeText(getContext(), "Google services available", Toast.LENGTH_SHORT).show();
 //initMap();
         // }
+imageView.setOnLongClickListener(new View.OnLongClickListener() {
+    @Override
+    public boolean onLongClick(View view) {
+        mListener.goTo_NoteEditActivity(new Note(), "do");
+        return true;
+    }
+});
 
 
         //  editText_comment = (EditText) mView.findViewById(R.id.editText_comment);
@@ -484,16 +492,17 @@ public class Fragment_Property_Description extends Fragment implements OnMapRead
                                 .withAttributeValueList(new AttributeValue().withS(Activity_Login.mUser)));
                 mTempList = mapper.scan(Note.class, scanExpression);
                 //  mNoteList = mapper.scan(Note.class, scanExpression);
-                if (mNoteList.size() >= 0) {
+                if (mTempList.size() > 0) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mAdapter_slideShow = new Adapter_PropertySwipe(getContext());
+                            mAdapter_slideShow = new Adapter_PropertySwipe(getContext(), mListener);
                             for (Note note : mTempList) {
                                 if (!"text".equals(note.getCommentType())) {
                                     mNoteList.add(note);
                                 }
                             }
+imageView.setVisibility(View.GONE);
                             mAdapter_slideShow.setNoteList(mNoteList);
                             mViewPager_property.setAdapter(mAdapter_slideShow);
 
