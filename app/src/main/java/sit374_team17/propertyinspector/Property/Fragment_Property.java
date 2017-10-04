@@ -15,19 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
-import com.amazonaws.services.dynamodbv2.model.Condition;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import sit374_team17.propertyinspector.Fragment_Criteria;
-import sit374_team17.propertyinspector.Main.Fragment_Home;
 import sit374_team17.propertyinspector.Main.Listener;
 import sit374_team17.propertyinspector.Note.Fragment_Note_List;
 import sit374_team17.propertyinspector.Note.Note;
@@ -48,7 +40,7 @@ public class Fragment_Property extends Fragment {
      * and next wizard steps.
      */
     public ViewPager mPager;
-private View mView;
+    private View mView;
     private Property mProperty;
 
     /**
@@ -60,6 +52,7 @@ private View mView;
     private Listener mListener;
 
     protected List<Note> mNoteList;
+
     protected DynamoDBMapper mapper;
 
     public Fragment_Property() {
@@ -105,8 +98,8 @@ private View mView;
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_property_holder, container, false);
         setHasOptionsMenu(true);
-mNoteList = new ArrayList<>();
-      //  loadNotes();
+        mNoteList = new ArrayList<>();
+        //  loadNotes();
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) mView.findViewById(R.id.viewPager_property);
 
@@ -125,9 +118,14 @@ mNoteList = new ArrayList<>();
             mNotesItem.setVisible(true);
             mCriteriaItem.setVisible(true);
         } else {
-       mListener.popBackStack(true);
+            mListener.popBackStack(true);
 
         }
+    }
+
+    public interface DeletePropertyListener
+    {
+        public void mDelete(Property property);
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -142,7 +140,7 @@ mNoteList = new ArrayList<>();
                 case 0:
                     return Fragment_Property_Description.newInstance(mProperty);
                 case 1:
-                   return Fragment_Note_List.newInstance(mProperty);
+                    return Fragment_Note_List.newInstance(mProperty);
                 case 2:
                     return Fragment_Criteria.newInstance(mProperty);
                 default:
@@ -157,37 +155,6 @@ mNoteList = new ArrayList<>();
     }
 
 
-    void loadNotes(){
-        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
-        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
-        mapper = new DynamoDBMapper(ddbClient);
-        Runnable runnable = new Runnable() {
-            public void run() {
-                //DynamoDB calls go here
-                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-                scanExpression.addFilterCondition("PropertyID", new Condition()
-                        .withComparisonOperator(ComparisonOperator.EQ)
-                        .withAttributeValueList(new AttributeValue().withS(Fragment_Note_List.PROPERTY_ID)));
-                scanExpression.addFilterCondition("CommentType",
-                        new Condition()
-                                .withComparisonOperator(ComparisonOperator.EQ)
-                                .withAttributeValueList(new AttributeValue().withS("private")));
-                mNoteList = mapper.scan(Note.class, scanExpression);
-//                if (mNoteList.size() >= 0) {
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                          //  mCommentsAdapter = new Adapter_Notes(mListener);
-//                            mCommentsAdapter.setNoteList(mNoteList);
-//                            mRecyclerView.setAdapter(mCommentsAdapter);
-//                        }
-//                    });
-//                }
-            }
-        };
-        Thread mythread = new Thread(runnable);
-        mythread.start();
-    }
 
 //    private void saveComment(boolean isPublic) {
 //        String description = editText_comment.getText().toString();
@@ -279,10 +246,10 @@ mNoteList = new ArrayList<>();
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                    mPager.setCurrentItem(1);
-                    mNotesItem.setVisible(false);
+                mPager.setCurrentItem(1);
+                mNotesItem.setVisible(false);
                 mCriteriaItem.setVisible(true);
-                    mPropertyItem.setVisible(true);
+                mPropertyItem.setVisible(true);
 
                 return true;
             }
@@ -293,10 +260,10 @@ mNoteList = new ArrayList<>();
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                    mPager.setCurrentItem(2);
-                    mCriteriaItem.setVisible(false);
+                mPager.setCurrentItem(2);
+                mCriteriaItem.setVisible(false);
                 mNotesItem.setVisible(true);
-                    mPropertyItem.setVisible(true);
+                mPropertyItem.setVisible(true);
                 return true;
             }
         });

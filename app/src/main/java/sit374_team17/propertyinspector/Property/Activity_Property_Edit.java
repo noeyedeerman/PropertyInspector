@@ -16,15 +16,23 @@ import android.widget.Toast;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBScanExpression;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
+import com.amazonaws.services.dynamodbv2.model.Condition;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import sit374_team17.propertyinspector.Main.Fragment_Home;
 import sit374_team17.propertyinspector.Note.Activity_Note_Edit;
+import sit374_team17.propertyinspector.Note.Fragment_Note_List;
 import sit374_team17.propertyinspector.Note.Note;
 import sit374_team17.propertyinspector.R;
 
@@ -75,7 +83,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         button_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveProperty();
+                loadPropertyCheck(mProperty.getAddress());
             }
         });
 
@@ -107,11 +115,27 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         Log.e("Property Inspector","Property Saved"+mProperty.getCategory()+mProperty.getAddress());
         if (propertyId.equals("")) {
             if (mProperty.getCity().equals("") || mProperty.getState().isEmpty() || mProperty.getPostCode() == 0)
-                Toast.makeText(getApplicationContext(), "Enter proper address", Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Enter proper address", Toast.LENGTH_LONG).show();
+                    }
+                });
             else if (mProperty.getPrice().get(0) == 0)
-                Toast.makeText(getApplicationContext(), "Enter proper price", Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Enter proper price", Toast.LENGTH_LONG).show();
+                    }
+                });
             else {
-                Toast.makeText(getApplicationContext(), "Saving property please wait", Toast.LENGTH_LONG).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Saving property please wait", Toast.LENGTH_LONG).show();
+                    }
+                });
+
                 Runnable runnable = new Runnable() {
                     public void run() {
                         //DynamoDB calls go here
@@ -125,7 +149,13 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
                                 }
                             });
                         } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Failed to create property", Toast.LENGTH_LONG).show();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "Failed to create property", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
                             e.printStackTrace();
                         }
                     }
@@ -136,6 +166,45 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         }
     }
 
+
+
+    protected List<Property> mPropertyList=new ArrayList<>();
+    void loadPropertyCheck(final String address){
+        propertyId="";
+        Toast.makeText(getApplicationContext(), "Checking property please wait", Toast.LENGTH_LONG).show();
+        AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(Fragment_Home.credentialsProvider);
+        ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+        mapper = new DynamoDBMapper(ddbClient);
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+                scanExpression.addFilterCondition("Address", new Condition()
+                        .withComparisonOperator(ComparisonOperator.EQ)
+                        .withAttributeValueList(new AttributeValue().withS(address)));
+                mPropertyList = mapper.scan(Property.class, scanExpression);
+                if (mPropertyList.size() >= 0) {
+                    for (Property property:mPropertyList)
+                        propertyId=property.getId();
+
+                    if (propertyId.equals(""))
+                        saveProperty();
+                    else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                showPropertyAlert();
+                            }
+                        });
+                        Fragment_Note_List.PROPERTY_ID=propertyId;
+                    }
+                }
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+    }
+
     public void showAlert()
     {
         AlertDialog.Builder alertDialog=new AlertDialog.Builder(this);
@@ -144,7 +213,28 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                dialog.dismiss();
+            }
+        });
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        alertDialog.show();
+    }
+
+    // Passes "CreateGroupFragment" fragment to the "replaceFragment" method.
+    public void showPropertyAlert()
+    {
+        AlertDialog.Builder alertDialog=new AlertDialog.Builder(this);
+        alertDialog.setTitle("Message");
+        alertDialog.setMessage("Property already created. Do you want to create notes ?");
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
         alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {

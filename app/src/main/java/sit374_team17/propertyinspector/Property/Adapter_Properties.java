@@ -43,12 +43,13 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
     InputStream objectData;
     Bitmap bitmap1;
     private boolean deleteVisable;
-
-    public Adapter_Properties(Listener listener, Context context, CognitoCachingCredentialsProvider credentialsProvider, List<Photo> result) {
+    Fragment_Property.DeletePropertyListener delete_listener;
+    public Adapter_Properties(Listener listener, Context context, CognitoCachingCredentialsProvider credentialsProvider, List<Photo> result, Fragment_Property.DeletePropertyListener delete_listener) {
         mPropertyList = new ArrayList<>();
         mListener = listener;
         mContext = context;
         this.result = result;
+        this.delete_listener = delete_listener;
         s3Client = new AmazonS3Client(credentialsProvider);
     }
 
@@ -219,6 +220,7 @@ public class Adapter_Properties extends RecyclerView.Adapter<Adapter_Properties.
         holder.mDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                delete_listener.mDelete(mPropertyList.get(holder.getAdapterPosition()));
                 removeItem(holder.getAdapterPosition());
             }
         });

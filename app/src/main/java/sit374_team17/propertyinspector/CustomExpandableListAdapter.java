@@ -76,11 +76,11 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                             }
                         })
                         .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        dialog.cancel();
+                                    }
+                                });
                 AlertDialog alert = builder.create();
                 final EditText input = new EditText(context);
                 alert.setView(input);
@@ -100,7 +100,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
             }
         });
-       ImageButton img_dislike= (ImageButton) convertView.findViewById(R.id.img_dislike);
+        ImageButton img_dislike= (ImageButton) convertView.findViewById(R.id.img_dislike);
         img_dislike.setTag(listPosition);
         img_dislike.setOnClickListener(new OnClickListener() {
             @Override
@@ -144,13 +144,15 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView listTitleTextView = (TextView) convertView
                 .findViewById(R.id.listTitle);
-       TextView likeNo = (TextView) convertView
+        TextView likeNo = (TextView) convertView
                 .findViewById(R.id.likeNo);
-       TextView dislikeNo = (TextView) convertView
+        TextView dislikeNo = (TextView) convertView
                 .findViewById(R.id.dislikeNo);
-        if (!inspectionList.isEmpty()) {
-            likeNo.setText(inspectionList.get(listTitle).get(2));
-            dislikeNo.setText(inspectionList.get(listTitle).get(3));
+        if (!inspectionList.isEmpty()){
+            if (!inspectionList.get(listTitle).isEmpty()) {
+                likeNo.setText(inspectionList.get(listTitle).get(2));
+                dislikeNo.setText(inspectionList.get(listTitle).get(3));
+            }
         }
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);

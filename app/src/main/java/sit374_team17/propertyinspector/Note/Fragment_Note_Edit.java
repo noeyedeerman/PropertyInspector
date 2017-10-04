@@ -62,10 +62,10 @@ public class Fragment_Note_Edit extends Fragment {
     protected static String PROPERTY_ID="";
 
     private Property mProperty;
-Listener_Note_Edit mListener;
+    Listener_Note_Edit mListener;
     private Button button_save;
     private EditText mEditText_title, mEditText_note;
-private ImageView imageView;
+    private ImageView imageView;
     private String mCurrentPhotoPath;
     private Parcelable mImageBitmap;
 
@@ -120,20 +120,21 @@ private ImageView imageView;
 
         //  if (mNote.getCommentType() == "private") {
 
-          if ("text".equals(mNote.getCommentType())) {
-              mView = inflater.inflate(R.layout.fragment_note_text_edit, container, false);
+        if ("text".equals(mNote.getCommentType())) {
+            mView = inflater.inflate(R.layout.fragment_note_text_edit, container, false);
         } else  if ("photo".equals(mNote.getCommentType())) {
             mView = inflater.inflate(R.layout.fragment_note_photo_edit, container, false);
-                 imageView = (ImageView) mView.findViewById(R.id.imageView_image);
-              Glide.with(getContext())
-                      .load(MY_BUCKET.concat(mNote.getPhoto()))
-                      .asBitmap()
-                      .into(new SimpleTarget<Bitmap>(200,200) {
-                          @Override
-                          public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                              imageView.setImageBitmap(resource); // Possibly runOnUiThread()
-                          }
-                      });
+            imageView = (ImageView) mView.findViewById(R.id.imageView_image);
+            if (mNote.getPhoto()!=null)
+                Glide.with(getContext())
+                        .load(MY_BUCKET.concat(mNote.getPhoto()))
+                        .asBitmap()
+                        .into(new SimpleTarget<Bitmap>(200,200) {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                imageView.setImageBitmap(resource); // Possibly runOnUiThread()
+                            }
+                        });
 
         }
 
@@ -150,8 +151,8 @@ private ImageView imageView;
                 public void onClick(View v) {
                     if (!filePath.equals(""))
                         savePhotoComment();
-                        else
-                         saveComment();
+                    else
+                        saveComment();
                 }
             });
 
@@ -210,7 +211,7 @@ private ImageView imageView;
         }
         else
             Toast.makeText(getActivity(),"Empty post are not allowed",Toast.LENGTH_LONG).show();
-      //  mListener.onSaveComment();
+        //  mListener.onSaveComment();
     }
 
     private String MY_BUCKET="propertyinspector-userfiles-mobilehub-4404653";
@@ -294,6 +295,6 @@ private ImageView imageView;
         });
 
 
-      //  mListener.onSaveComment();
+        //  mListener.onSaveComment();
     }
 }

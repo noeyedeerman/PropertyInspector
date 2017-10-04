@@ -33,12 +33,13 @@ import java.util.List;
 import java.util.Map;
 
 import sit374_team17.propertyinspector.Property.Adapter_Properties;
+import sit374_team17.propertyinspector.Property.Fragment_Property;
 import sit374_team17.propertyinspector.Property.Photo;
 import sit374_team17.propertyinspector.Property.Property;
 import sit374_team17.propertyinspector.R;
 
 
-public class Fragment_Home extends Fragment implements SearchView.OnQueryTextListener {
+public class Fragment_Home extends Fragment implements SearchView.OnQueryTextListener,Fragment_Property.DeletePropertyListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -58,7 +59,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
     private SwipeRefreshLayout mySwipeRefreshLayout;
     Adapter_Properties mPropertyAdapter;
     FloatingActionButton mFab;
-   // DB_PropertyHandler mDB_properties;
+    // DB_PropertyHandler mDB_properties;
     List<Property> mPropertiesList;
 
     private Listener mListener;
@@ -67,6 +68,8 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 
     public Fragment_Home() {
     }
+
+
 
 
     public interface HomeListener {
@@ -132,7 +135,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 //        Drawable progress = mRatingBar.getProgressDrawable();
 //        DrawableCompat.setTint(progress, Color.WHITE);
 
-      //  Log.d(Activity_Login.LOG_TAG,getActivity().getIntent().getStringExtra("tokens"));
+        //  Log.d(Activity_Login.LOG_TAG,getActivity().getIntent().getStringExtra("tokens"));
         // Create a credentials provider, or use the existing provider.
         credentialsProvider = new CognitoCachingCredentialsProvider(getActivity(), IDENTITY_POOL_ID, Regions.AP_SOUTHEAST_2);
         // Set up as a credentials provider.
@@ -152,7 +155,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mPropertyAdapter = new Adapter_Properties(mListener, getContext(),credentialsProvider,results);
+                            mPropertyAdapter = new Adapter_Properties(mListener, getContext(),credentialsProvider,results,Fragment_Home.this);
                             mPropertyAdapter.setPropertyList(result);
                             mRecyclerView.setAdapter(mPropertyAdapter);
                         }
@@ -186,7 +189,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            mPropertyAdapter = new Adapter_Properties(mListener, getContext(),credentialsProvider,results);
+                                            mPropertyAdapter = new Adapter_Properties(mListener, getContext(),credentialsProvider,results,Fragment_Home.this);
                                             mPropertyAdapter.setPropertyList(result);
                                             mRecyclerView.setAdapter(mPropertyAdapter);
                                             mySwipeRefreshLayout.setRefreshing(false);
@@ -203,6 +206,22 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
                 }
         );
     }
+
+    @Override
+    public void mDelete(final Property property) {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                //DynamoDB calls go here
+                AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
+                ddbClient.setRegion(Region.getRegion(Regions.AP_SOUTHEAST_2));
+                mapper = new DynamoDBMapper(ddbClient);
+                mapper.delete(property);
+            }
+        };
+        Thread mythread = new Thread(runnable);
+        mythread.start();
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -241,8 +260,8 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
                 filteredModelList.add(property);
             }
         }
-      // mPropertyAdapter.animateTo(filteredModelList);
-         mPropertyAdapter.setPropertyList(filteredModelList);
+        // mPropertyAdapter.animateTo(filteredModelList);
+        mPropertyAdapter.setPropertyList(filteredModelList);
         mRecyclerView.scrollToPosition(0);
         return true;
     }
@@ -255,7 +274,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-       initViews();
+        initViews();
         super.onViewStateRestored(savedInstanceState);
     }
 }
