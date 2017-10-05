@@ -40,7 +40,7 @@ public class Fragment_Property extends Fragment {
      * and next wizard steps.
      */
     public ViewPager mPager;
-    private View mView;
+private View mView;
     private Property mProperty;
 
     /**
@@ -98,8 +98,8 @@ public class Fragment_Property extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_property_holder, container, false);
         setHasOptionsMenu(true);
-        mNoteList = new ArrayList<>();
-        //  loadNotes();
+mNoteList = new ArrayList<>();
+      //  loadNotes();
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) mView.findViewById(R.id.viewPager_property);
 
@@ -118,7 +118,7 @@ public class Fragment_Property extends Fragment {
             mNotesItem.setVisible(true);
             mCriteriaItem.setVisible(true);
         } else {
-            mListener.popBackStack(true);
+       mListener.popBackStack(true);
 
         }
     }
@@ -140,7 +140,7 @@ public class Fragment_Property extends Fragment {
                 case 0:
                     return Fragment_Property_Description.newInstance(mProperty);
                 case 1:
-                    return Fragment_Note_List.newInstance(mProperty);
+                   return Fragment_Note_List.newInstance(mProperty);
                 case 2:
                     return Fragment_Criteria.newInstance(mProperty);
                 default:
@@ -246,10 +246,10 @@ public class Fragment_Property extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                mPager.setCurrentItem(1);
-                mNotesItem.setVisible(false);
+                    mPager.setCurrentItem(1);
+                    mNotesItem.setVisible(false);
                 mCriteriaItem.setVisible(true);
-                mPropertyItem.setVisible(true);
+                    mPropertyItem.setVisible(true);
 
                 return true;
             }
@@ -260,10 +260,10 @@ public class Fragment_Property extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                mPager.setCurrentItem(2);
-                mCriteriaItem.setVisible(false);
+                    mPager.setCurrentItem(2);
+                    mCriteriaItem.setVisible(false);
                 mNotesItem.setVisible(true);
-                mPropertyItem.setVisible(true);
+                    mPropertyItem.setVisible(true);
                 return true;
             }
         });

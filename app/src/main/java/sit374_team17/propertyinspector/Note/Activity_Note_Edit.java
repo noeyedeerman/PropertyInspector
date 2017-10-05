@@ -85,17 +85,17 @@ public class Activity_Note_Edit extends AppCompatActivity implements Listener_No
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==101) {
-            if (grantResults.length > 0) {
-                boolean CameraPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                boolean WritePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                if (WritePermission && CameraPermission) {
-                    Toast.makeText(Activity_Note_Edit.this, "Permission Granted. Click again", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(Activity_Note_Edit.this, "Permission Denied", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
+       if (requestCode==101) {
+           if (grantResults.length > 0) {
+               boolean CameraPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+               boolean WritePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+               if (WritePermission && CameraPermission) {
+                   Toast.makeText(Activity_Note_Edit.this, "Permission Granted. Click again", Toast.LENGTH_LONG).show();
+               } else {
+                   Toast.makeText(Activity_Note_Edit.this, "Permission Denied", Toast.LENGTH_LONG).show();
+               }
+           }
+       }
     }
 
     public void goTo_EditNoteFragment(Note note) {
@@ -150,7 +150,7 @@ public class Activity_Note_Edit extends AppCompatActivity implements Listener_No
 
     }
 
-    //    @Override
+//    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        super.onCreateOptionsMenu(menu, inflater);
 //
@@ -174,11 +174,11 @@ public class Activity_Note_Edit extends AppCompatActivity implements Listener_No
 
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "sit374_team17.propertyinspector",
-                        photoFile);
+                       photoFile);
                 if (android.os.Build.VERSION.SDK_INT > 25)
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                 else
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivityForResult(takePictureIntent, 102);
             }
@@ -259,16 +259,16 @@ public class Activity_Note_Edit extends AppCompatActivity implements Listener_No
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode==RESULT_CANCELED)
-        {
-            File f=new File(mCurrentPhotoPath);
-            f.delete();
-            finish();
-        }else {
-            Intent intent=new Intent("images");
-            intent.putExtra("path",mCurrentPhotoPath);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-        }
+         if (resultCode==RESULT_CANCELED)
+         {
+             File f=new File(mCurrentPhotoPath);
+             f.delete();
+             finish();
+         }else {
+             Intent intent=new Intent("images");
+             intent.putExtra("path",mCurrentPhotoPath);
+             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 

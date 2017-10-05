@@ -213,7 +213,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                    dialog.dismiss();
             }
         });
         alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -226,7 +226,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
     }
 
     // Passes "CreateGroupFragment" fragment to the "replaceFragment" method.
-    public void showPropertyAlert()
+     public void showPropertyAlert()
     {
         AlertDialog.Builder alertDialog=new AlertDialog.Builder(this);
         alertDialog.setTitle("Message");
@@ -234,7 +234,7 @@ public class Activity_Property_Edit extends AppCompatActivity implements Listene
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                    dialog.dismiss();
             }
         });
         alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {

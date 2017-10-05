@@ -59,7 +59,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
     private SwipeRefreshLayout mySwipeRefreshLayout;
     Adapter_Properties mPropertyAdapter;
     FloatingActionButton mFab;
-    // DB_PropertyHandler mDB_properties;
+   // DB_PropertyHandler mDB_properties;
     List<Property> mPropertiesList;
 
     private Listener mListener;
@@ -135,7 +135,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 //        Drawable progress = mRatingBar.getProgressDrawable();
 //        DrawableCompat.setTint(progress, Color.WHITE);
 
-        //  Log.d(Activity_Login.LOG_TAG,getActivity().getIntent().getStringExtra("tokens"));
+      //  Log.d(Activity_Login.LOG_TAG,getActivity().getIntent().getStringExtra("tokens"));
         // Create a credentials provider, or use the existing provider.
         credentialsProvider = new CognitoCachingCredentialsProvider(getActivity(), IDENTITY_POOL_ID, Regions.AP_SOUTHEAST_2);
         // Set up as a credentials provider.
@@ -260,8 +260,8 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
                 filteredModelList.add(property);
             }
         }
-        // mPropertyAdapter.animateTo(filteredModelList);
-        mPropertyAdapter.setPropertyList(filteredModelList);
+      // mPropertyAdapter.animateTo(filteredModelList);
+         mPropertyAdapter.setPropertyList(filteredModelList);
         mRecyclerView.scrollToPosition(0);
         return true;
     }
@@ -274,7 +274,7 @@ public class Fragment_Home extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        initViews();
+       initViews();
         super.onViewStateRestored(savedInstanceState);
     }
 }
