@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,7 @@ public class Adapter_PropertySwipe extends PagerAdapter {
             Glide.with(context)
                     .load(MY_BUCKET.concat(mNoteList.get(position).getPhoto()))
                     .asBitmap()
+                    .placeholder(R.drawable.ic_camera_plus).centerCrop()
                     .into(new SimpleTarget<Bitmap>(200, 200) {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
